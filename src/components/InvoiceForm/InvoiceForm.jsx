@@ -18,8 +18,9 @@ const InvoiceForm = () => {
     };
 
     const calculateAmount = (rate, qty) => rate * qty;
-
-// data get tof form //
+    const subTotal = items.reduce((acc, item) => acc + item.rate, 0);
+    const tax = (subTotal * 0.15).toFixed(2); // 15% tax fixed
+    const grandTotal = (parseFloat(subTotal) + parseFloat(tax)).toFixed(2);
 
 
     // Handle form submission
@@ -36,25 +37,33 @@ const InvoiceForm = () => {
             zip: formData.get('zip'),
             phone: formData.get('phone'),
             number: formData.get('number'),
-            items, 
-            billName:formData.get('billName'),
-            billEmail:formData.get('billEmail'),
-            billStreet:formData.get('billStreet'),
-            billCity:formData.get('billCity'),
-            billZip:formData.get('billZip'),
-            billPhone:formData.get('billPhone'),
-            billMobile:formData.get('billMobile'),
-            billNumber:formData.get('billNumber'),
-            dateStart:formData.get('dateStart'),
-            dueDate:formData.get('dueDate')
-
-
-
-            // Include items array in the form data
+            items,
+            billName: formData.get('billName'),
+            billEmail: formData.get('billEmail'),
+            billStreet: formData.get('billStreet'),
+            billCity: formData.get('billCity'),
+            billZip: formData.get('billZip'),
+            billPhone: formData.get('billPhone'),
+            billMobile: formData.get('billMobile'),
+            billNumber: formData.get('billNumber'),
+            dateStart: formData.get('dateStart'),
+            dueDate: formData.get('dueDate'),
+            grandTotal,
         };
-
         // Log form data and items
         console.log('Form Data:', data);
+
+        fetch('http://localhost:5000/information', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
     };
 
 
@@ -79,7 +88,7 @@ const InvoiceForm = () => {
                             <h2 className="font-semibold mb-4">From</h2>
                             <div className="mb-4">
                                 <label className="block font-medium">Name</label>
-                                <input  type="text" name='name' className="input input-bordered w-full mt-2" placeholder="Business Name" />
+                                <input type="text" name='name' className="input input-bordered w-full mt-2" placeholder="Business Name" />
                             </div>
                             <div className="mb-4">
                                 <label className="block font-medium">Email</label>
@@ -126,6 +135,10 @@ const InvoiceForm = () => {
                                 <label className="block font-medium">Mobile</label>
                                 <input type="text" name='billMobile' className="input input-bordered w-full" placeholder="(123) 456 789" />
                             </div>
+                            {/* <div className="mb-4">
+                                <label className="block font-medium">Tax</label>
+                                <input type="text"  name='tax' className="input input-bordered w-full" placeholder="(123) 456 789" />
+                            </div> */}
 
                         </div>
                         <div className="p-10 bg-white shadow-lg rounded-md">
@@ -173,105 +186,108 @@ const InvoiceForm = () => {
                 </div>
                 {/*  */}
                 <>
-                {items.map((item, index) => (
-                    <div key={index} className="w-full border border-gray-300 p-4 rounded-lg">
-                        <div className="flex justify-between items-center">
-                            {/* Delete button */}
-                            <button
-                                className="text-red-500 border border-gray-300 rounded px-2 py-1"
-                                onClick={() =>
-                                    setItems(items.filter((_, i) => i !== index))
-                                }
-                            >
-                                X
-                            </button>
-
-                            {/* Description input */}
-                            <input
-                                type="text"
-                                value={item.description}
-                                onChange={(e) =>
-                                    handleInputChange(index, "description", e.target.value)
-                                }
-                                placeholder="Item Description"
-                                className="border border-gray-300 rounded px-4 py-2 w-1/2"
-                            />
-
-                            {/* Rate input */}
-                            <div>
-                                <span>Price</span>
-                                <input
-                                    type="number"
-                                    value={item.rate}
-                                    onChange={(e) =>
-                                        handleInputChange(index, "rate", Number(e.target.value))
+                    {items.map((item, index) => (
+                        <div key={index} className="w-full border border-gray-300 p-4 rounded-lg">
+                            <div className="flex justify-between items-center">
+                                {/* Delete button */}
+                                <button
+                                    className="text-red-500 border border-gray-300 rounded px-2 py-1"
+                                    onClick={() =>
+                                        setItems(items.filter((_, i) => i !== index))
                                     }
-                                    placeholder="0.00"
-                                    className="border border-gray-300 rounded px-4 py-2 w-24 text-right"
+                                >
+                                    X
+                                </button>
+
+                                {/* Description input */}
+                                <input
+                                    type="text"
+                                    value={item.description}
+                                    onChange={(e) =>
+                                        handleInputChange(index, "description", e.target.value)
+                                    }
+                                    placeholder="Item Description"
+                                    className="border border-gray-300 rounded px-4 py-2 w-1/2"
+                                />
+
+                                {/* Rate input */}
+                                <div>
+                                    <span>Price</span>
+                                    <input
+                                        type="number"
+                                        value={item.rate}
+                                        onChange={(e) =>
+                                            handleInputChange(index, "rate", Number(e.target.value))
+                                        }
+                                        placeholder="0.00"
+                                        className="border border-gray-300 rounded px-4 py-2 w-24 text-right"
+                                    />
+                                </div>
+
+                                {/* Quantity input */}
+                                <div>
+                                    <span>Qty</span>
+                                    <input
+                                        type="number"
+                                        value={item.qty}
+                                        onChange={(e) =>
+                                            handleInputChange(index, "qty", Number(e.target.value))
+                                        }
+                                        placeholder="1"
+                                        className="border border-gray-300 rounded px-4 py-2 w-16 text-right"
+                                    />
+                                </div>
+
+                                {/* Amount display */}
+                                <div className="w-24 text-right">
+                                    ${calculateAmount(item.rate, item.qty).toFixed(2)}
+                                </div>
+
+                                {/* Tax checkbox */}
+                                <input
+                                    type="checkbox"
+                                    checked={item.tax}
+                                    onChange={() =>
+                                        handleInputChange(index, "tax", !item.tax)
+                                    }
+                                    className="form-checkbox h-5 w-5 text-blue-600"
                                 />
                             </div>
 
-                            {/* Quantity input */}
-                            <div>
-                                <span>Qty</span>
-                                <input
-                                    type="number"
-                                    value={item.qty}
-                                    onChange={(e) =>
-                                        handleInputChange(index, "qty", Number(e.target.value))
-                                    }
-                                    placeholder="1"
-                                    className="border border-gray-300 rounded px-4 py-2 w-16 text-right"
-                                />
-                            </div>
-
-                            {/* Amount display */}
-                            <div className="w-24 text-right">
-                                ${calculateAmount(item.rate, item.qty).toFixed(2)}
-                            </div>
-
-                            {/* Tax checkbox */}
-                            <input
-                                type="checkbox"
-                                checked={item.tax}
-                                onChange={() =>
-                                    handleInputChange(index, "tax", !item.tax)
-                                }
-                                className="form-checkbox h-5 w-5 text-blue-600"
-                            />
+                            {/* Additional details input */}
+                            <textarea
+                                placeholder="Additional details"
+                                className="mt-2 border border-gray-300 rounded px-4 py-2 w-full"
+                            ></textarea>
                         </div>
+                    ))}
 
-                        {/* Additional details input */}
-                        <textarea
-                            placeholder="Additional details"
-                            className="mt-2 border border-gray-300 rounded px-4 py-2 w-full"
-                        ></textarea>
+                    <div className="mt-4">
+                        <button type='button'
+                            onClick={handleAddItem}
+                            className="text-white bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg"
+                        >
+                            +
+                        </button>
                     </div>
-                ))}
+                    <div className="mt-4 flex justify-between">
+                        <button
+                            className="text-white bg-blue-600 hover:bg-blue-500 px-8 py-2 rounded-lg"
+                        >
+                            Submit
+                        </button>
+                        <div>
 
-                <div className="mt-4">
-                    <button
-                        onClick={handleAddItem}
-                        className="text-white bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg"
-                    >
-                        +
-                    </button>
-                </div>
-                <div className="mt-4">
-                    <button
-                       
-                        className="text-white bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg"
-                    >
-                        Submit
-                    </button>
-                </div>
-            </>
+                            <h2>Tax : 15%</h2>
+                            <h2>SubTotal : {subTotal} </h2>
+                            <h3>GrandTotal : {grandTotal}</h3>
 
+                        </div>
+                    </div>
+
+                </>
             </form>
-            {/*  */}
-            {/* <InvoiceItem></InvoiceItem> */}
 
-           
         </div>
     );
 };
