@@ -3,6 +3,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import InvoiceGenerator from '../../InvoiceGenerator';
 
 const InvoiceForm = () => {
     const [items, setItems] = useState([
@@ -69,7 +70,7 @@ const InvoiceForm = () => {
                 return res.json();
             })
             .then(data => {
-              navigate('/list')
+                navigate('/list')
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
@@ -153,6 +154,7 @@ const InvoiceForm = () => {
                                     className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     placeholder="INV000"
                                 />
+
                             </div>
                             <div className="mb-4">
                                 <label className="block text-gray-700 font-medium mb-1">Date</label>

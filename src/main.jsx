@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Home from './Page/Home/Home.jsx';
 import ListInvoice from './Page/ListInvoice/ListInvoice.jsx';
+import InvoiceDetails from './Page/InvoiceDetails/InvoiceDetails.jsx';
 
 
 const router = createBrowserRouter([
@@ -16,7 +17,13 @@ const router = createBrowserRouter([
   },
   {
     path:'/list',
-    element:<ListInvoice/>
+    element:<ListInvoice/>,
+    loader: () => fetch('http://localhost:5000/information')
+  },
+  {
+    path:'/details/:id',
+    element:<InvoiceDetails/>,
+    loader: ({params}) => fetch(`http://localhost:5173/details/${params.id}`)
   }
 ]);
 
