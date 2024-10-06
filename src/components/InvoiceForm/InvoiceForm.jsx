@@ -1,116 +1,281 @@
-import React from 'react';
-import InvoiceItem from '../InvoiceItem/InvoiceItem';
+import React, { useState } from 'react';
+// import InvoiceItem from '../InvoiceItem/InvoiceItem';
 
 const InvoiceForm = () => {
+    const [items, setItems] = useState([
+        { description: "", rate: 0, qty: 1, tax: true },
+    ]);
+
+    const handleAddItem = () => {
+        setItems([...items, { description: "", rate: 0, qty: 1, tax: true }]);
+    };
+
+    const handleInputChange = (index, field, value) => {
+        const newItems = items.map((item, i) =>
+            i === index ? { ...item, [field]: value } : item
+        );
+        setItems(newItems);
+    };
+
+    const calculateAmount = (rate, qty) => rate * qty;
+
+// data get tof form //
+
+
+    // Handle form submission
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+
+        // Access the form data using FormData
+        const formData = new FormData(e.target);
+        const data = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            street: formData.get('street'),
+            city: formData.get('city'),
+            zip: formData.get('zip'),
+            phone: formData.get('phone'),
+            number: formData.get('number'),
+            items, 
+            billName:formData.get('billName'),
+            billEmail:formData.get('billEmail'),
+            billStreet:formData.get('billStreet'),
+            billCity:formData.get('billCity'),
+            billZip:formData.get('billZip'),
+            billPhone:formData.get('billPhone'),
+            billMobile:formData.get('billMobile'),
+            billNumber:formData.get('billNumber'),
+            dateStart:formData.get('dateStart'),
+            dueDate:formData.get('dueDate')
+
+
+
+            // Include items array in the form data
+        };
+
+        // Log form data and items
+        console.log('Form Data:', data);
+    };
+
+
+
+
+
+
     return (
         <div className="p-10 bg-gray-100 min-h-screen">
-            <div className="max-w-4xl mx-auto bg-white p-8 rounded shadow">
-                <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-3xl font-bold">Invoice</h1>
-                    <div className="w-32 h-32 border flex items-center justify-center">
-                        <span>+ Logo</span>
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-8">
-                    <div>
-                        <h2 className="font-semibold mb-4">From</h2>
-                        <div className="mb-4">
-                            <label className="block font-medium">Name</label>
-                            <input type="text" className="input input-bordered w-full mt-2" placeholder="Business Name" />
+            <form onSubmit={handleFormSubmit}>
+                <div className="max-w-4xl mx-auto bg-white p-8 rounded shadow">
+                    <div className="flex justify-between items-center mb-6">
+                        <h1 className="text-3xl font-bold">Invoice</h1>
+                        <div className=" border flex items-center justify-center">
+                            <input placeholder='LOgo' type="file" className="file-input file-input-bordered w-full" />
+                            {/* <span>+ Logo</span> */}
                         </div>
-                        <div className="mb-4">
-                            <label className="block font-medium">Email</label>
-                            <input type="email" className="input input-bordered w-full mt-2" placeholder="name@business.com" />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block font-medium">Address</label>
-                            <input type="text" className="input input-bordered w-full mt-2" placeholder="Street" />
-                            <input type="text" className="input input-bordered w-full mt-2" placeholder="City, State" />
-                            <input type="text" className="input input-bordered w-full mt-2" placeholder="Zip code" />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block font-medium">Phone</label>
-                            <input type="text" className="input input-bordered w-full mt-2" placeholder="(123) 456 789" />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block font-medium">Business Number</label>
-                            <input type="text" className="input input-bordered w-full" placeholder="123-45-6789" />
-                        </div>
-
                     </div>
 
-                    <div>
-                        <h2 className="font-semibold mb-4">Bill To</h2>
-                        <div className="mb-4">
-                            <label className="block font-medium">Name</label>
-                            <input type="text" className="input input-bordered w-full" placeholder="Client Name" />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block font-medium">Email</label>
-                            <input type="email" className="input input-bordered w-full" placeholder="name@client.com" />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block font-medium">Address</label>
-                            <input type="text" className="input input-bordered w-full" placeholder="Street" />
-                            <input type="text" className="input input-bordered w-full mt-2" placeholder="City, State" />
-                            <input type="text" className="input input-bordered w-full mt-2" placeholder="Zip code" />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block font-medium">Phone</label>
-                            <input type="text" className="input input-bordered w-full" placeholder="(123) 456 789" />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block font-medium">Mobile</label>
-                            <input type="text" className="input input-bordered w-full" placeholder="(123) 456 789" />
+                    <div className="grid lg:grid-cols-2 grid-cols-1 gap-8">
+                        <div>
+                            <h2 className="font-semibold mb-4">From</h2>
+                            <div className="mb-4">
+                                <label className="block font-medium">Name</label>
+                                <input  type="text" name='name' className="input input-bordered w-full mt-2" placeholder="Business Name" />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block font-medium">Email</label>
+                                <input name='email' type="email" className="input input-bordered w-full mt-2" placeholder="name@business.com" />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block font-medium">Address</label>
+                                <input type="text" name='street' className="input input-bordered w-full mt-2" placeholder="Street" />
+                                <input type="text" name='city' className="input input-bordered w-full mt-2" placeholder="City, State" />
+                                <input type="text" name='zip' className="input input-bordered w-full mt-2" placeholder="Zip code" />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block font-medium">Phone</label>
+                                <input type="text" name='phone' className="input input-bordered w-full mt-2" placeholder="(123) 456 789" />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block font-medium">Business Number</label>
+                                <input type="text" name='number' className="input input-bordered w-full" placeholder="123-45-6789" />
+                            </div>
+
                         </div>
 
-                    </div>
-                </div>
-            </div>
-            {/*  */}
-            <div className="max-w-md  p-4 bg-white shadow-lg rounded-md">
-                <div className="mb-4">
-                    <label className="block text-gray-700 font-medium mb-1">Number</label>
-                    <input
-                        type="text"
+                        <div>
+                            <h2 className="font-semibold mb-4">Bill To</h2>
+                            <div className="mb-4">
+                                <label className="block font-medium">Name</label>
+                                <input type="text" name='billName' className="input input-bordered w-full" placeholder="Client Name" />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block font-medium">Email</label>
+                                <input type="email" name='billEmail' className="input input-bordered w-full" placeholder="name@client.com" />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block font-medium">Address</label>
+                                <input type="text" name='billStreet' className="input input-bordered w-full" placeholder="Street" />
+                                <input type="text" name='billCity' className="input input-bordered w-full mt-2" placeholder="City, State" />
+                                <input type="text" name='billZip' className="input input-bordered w-full mt-2" placeholder="Zip code" />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block font-medium">Phone</label>
+                                <input type="text" name='billPhone' className="input input-bordered w-full" placeholder="(123) 456 789" />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block font-medium">Mobile</label>
+                                <input type="text" name='billMobile' className="input input-bordered w-full" placeholder="(123) 456 789" />
+                            </div>
 
-                        className={`w-full px-3 py-2 border 
+                        </div>
+                        <div className="p-10 bg-white shadow-lg rounded-md">
+                            <div className="mb-4">
+                                <label className="block text-gray-700 font-medium mb-1">Bill Number</label>
+                                <input
+                                    type="text"
+                                    name='billNumber'
+
+                                    className={`w-full px-3 py-2 border 
                              rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                        placeholder="INV000"
-                    />
+                                    placeholder="INV000"
+                                />
 
-                </div>
+                            </div>
 
-                <div className="mb-4">
-                    <label className="block text-gray-700 font-medium mb-1">Date</label>
-                    <input
-                        type="date"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
+                            <div className="mb-4">
+                                <label className="block text-gray-700 font-medium mb-1">Date</label>
+                                <input
+                                    type="date"
+                                    name='dateStart'
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700 font-medium mb-1">Terms</label>
+                                <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option >Days</option>
+                                    <option>Weeks</option>
+                                    <option>Months</option>
+                                </select>
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700 font-medium mb-1">Due</label>
+                                <input
+                                    type="date"
+                                    name='dueDate'
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+
+
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700 font-medium mb-1">Terms</label>
-                    <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option>Days</option>
-                        <option>Weeks</option>
-                        <option>Months</option>
-                    </select>
+                {/*  */}
+                <>
+                {items.map((item, index) => (
+                    <div key={index} className="w-full border border-gray-300 p-4 rounded-lg">
+                        <div className="flex justify-between items-center">
+                            {/* Delete button */}
+                            <button
+                                className="text-red-500 border border-gray-300 rounded px-2 py-1"
+                                onClick={() =>
+                                    setItems(items.filter((_, i) => i !== index))
+                                }
+                            >
+                                X
+                            </button>
+
+                            {/* Description input */}
+                            <input
+                                type="text"
+                                value={item.description}
+                                onChange={(e) =>
+                                    handleInputChange(index, "description", e.target.value)
+                                }
+                                placeholder="Item Description"
+                                className="border border-gray-300 rounded px-4 py-2 w-1/2"
+                            />
+
+                            {/* Rate input */}
+                            <div>
+                                <span>Price</span>
+                                <input
+                                    type="number"
+                                    value={item.rate}
+                                    onChange={(e) =>
+                                        handleInputChange(index, "rate", Number(e.target.value))
+                                    }
+                                    placeholder="0.00"
+                                    className="border border-gray-300 rounded px-4 py-2 w-24 text-right"
+                                />
+                            </div>
+
+                            {/* Quantity input */}
+                            <div>
+                                <span>Qty</span>
+                                <input
+                                    type="number"
+                                    value={item.qty}
+                                    onChange={(e) =>
+                                        handleInputChange(index, "qty", Number(e.target.value))
+                                    }
+                                    placeholder="1"
+                                    className="border border-gray-300 rounded px-4 py-2 w-16 text-right"
+                                />
+                            </div>
+
+                            {/* Amount display */}
+                            <div className="w-24 text-right">
+                                ${calculateAmount(item.rate, item.qty).toFixed(2)}
+                            </div>
+
+                            {/* Tax checkbox */}
+                            <input
+                                type="checkbox"
+                                checked={item.tax}
+                                onChange={() =>
+                                    handleInputChange(index, "tax", !item.tax)
+                                }
+                                className="form-checkbox h-5 w-5 text-blue-600"
+                            />
+                        </div>
+
+                        {/* Additional details input */}
+                        <textarea
+                            placeholder="Additional details"
+                            className="mt-2 border border-gray-300 rounded px-4 py-2 w-full"
+                        ></textarea>
+                    </div>
+                ))}
+
+                <div className="mt-4">
+                    <button
+                        onClick={handleAddItem}
+                        className="text-white bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg"
+                    >
+                        +
+                    </button>
                 </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700 font-medium mb-1">Due</label>
-                    <input
-                        type="date"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        
-               
-                    />
+                <div className="mt-4">
+                    <button
+                       
+                        className="text-white bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg"
+                    >
+                        Submit
+                    </button>
                 </div>
-            </div>
+            </>
+
+            </form>
             {/*  */}
-            <InvoiceItem></InvoiceItem>
+            {/* <InvoiceItem></InvoiceItem> */}
+
+           
         </div>
     );
 };
 
 export default InvoiceForm;
+
+
