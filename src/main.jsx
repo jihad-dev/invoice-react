@@ -10,6 +10,7 @@ import ListInvoice from './Page/ListInvoice/ListInvoice.jsx';
 import InvoiceDetails from './Page/InvoiceDetails/InvoiceDetails.jsx';
 
 
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -22,9 +23,10 @@ const router = createBrowserRouter([
   },
   {
     path:'/details/:id',
-    element:<InvoiceDetails/>,
-    loader: ({params}) => fetch(`http://localhost:5173/details/${params.id}`)
+    element:<InvoiceDetails></InvoiceDetails>,
+    loader: ({params}) => fetch(`http://localhost:5000/information/${params.id}`)
   }
+  
 ]);
 
 createRoot(document.getElementById('root')).render(

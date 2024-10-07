@@ -3,11 +3,10 @@ import { Link, useLoaderData } from 'react-router-dom';
 
 const ListInvoice = () => {
     const informations = useLoaderData();
-    console.log(informations)
     return (
-        <>
+        <div>
             {
-                informations?.map(information => <Link to={`/details/${information?.billNumber}`}><div className="flex justify-center items-center lg:p-4 p-3">
+                informations?.map((information,idx) => <Link key={idx} to={`/details/${information?._id}`}><div className="flex justify-center items-center lg:p-4 p-3">
                     <div className="w-full max-w-[800px] mx-auto bg-white rounded-lg shadow-md p-6 flex justify-between items-center">
                         <div>
                             <span className="text-blue-500 lg:p-2 p-1 font-medium">#{information?.billNumber}</span>
@@ -25,7 +24,7 @@ const ListInvoice = () => {
 
 
 
-        </>
+        </div>
     );
 };
 
