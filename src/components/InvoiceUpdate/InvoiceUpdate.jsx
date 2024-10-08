@@ -5,11 +5,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
-const InvoiceForm = () => {
+const InvoiceUpdate = ({ update }) => {
 
-    const [items, setItems] = useState([
-        { description: "", rate: 0, qty: 1, tax: true },
-    ]);
+
+    // const [items, setItems] = useState([
+    //     { description: "", rate: 0, qty: 1, tax: true },
+    // ]);
+
+    const [items, setItems] = useState(update?.items || [{ description: "", rate: 0, qty: 1, tax: true }]);
+
 
     const handleAddItem = () => {
         setItems([...items, { description: "", rate: 0, qty: 1, tax: true }]);
@@ -31,7 +35,7 @@ const InvoiceForm = () => {
     // Handle form submission
     const handleFormSubmit = (e) => {
         e.preventDefault();
-      
+
 
         const formData = new FormData(e.target);
         const data = {
@@ -58,29 +62,18 @@ const InvoiceForm = () => {
         // Log form data and items
         console.log('Form Data:', data);
 
-        fetch('http://localhost:5000/information', {
-            method: 'POST',
+        fetch(`http://localhost:5000/information/${update?._id}`, {
+            method: 'PUT',
             headers: {
                 'content-type': 'application/json'
             },
             body: JSON.stringify(data)
         })
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return res.json();
-            })
-            .then(data => {
-                navigate('/list')
-            
-
-            })
-            .catch(error => {
-              
-                console.error('There was a problem with the fetch operation:', error);
-            })
-
+        .then(res =>res.json())
+        .then(data =>{
+            console.log(data)
+        })
+          
 
     };
 
@@ -101,25 +94,25 @@ const InvoiceForm = () => {
                             {/* Business Information */}
                             <div className="mb-4">
                                 <label className="block font-medium">Name</label>
-                                <input type="text" name='name' className="input input-bordered w-full mt-2" placeholder="Business Name" />
+                                <input type="text" defaultValue={update?.name} name='name' className="input input-bordered w-full mt-2" placeholder="Business Name" />
                             </div>
                             <div className="mb-4">
                                 <label className="block font-medium">Email</label>
-                                <input name='email' type="email" className="input input-bordered w-full mt-2" placeholder="name@business.com" />
+                                <input name='email' defaultValue={update?.email} type="email" className="input input-bordered w-full mt-2" placeholder="name@business.com" />
                             </div>
                             <div className="mb-4">
                                 <label className="block font-medium">Address</label>
-                                <input type="text" name='street' className="input input-bordered w-full mt-2" placeholder="Street" />
-                                <input type="text" name='city' className="input input-bordered w-full mt-2" placeholder="City, State" />
-                                <input type="text" name='zip' className="input input-bordered w-full mt-2" placeholder="Zip code" />
+                                <input type="text" defaultValue={update?.street} name='street' className="input input-bordered w-full mt-2" placeholder="Street" />
+                                <input type="text" defaultValue={update?.city} name='city' className="input input-bordered w-full mt-2" placeholder="City, State" />
+                                <input type="text" defaultValue={update?.zip} name='zip' className="input input-bordered w-full mt-2" placeholder="Zip code" />
                             </div>
                             <div className="mb-4">
                                 <label className="block font-medium">Phone</label>
-                                <input type="text" name='phone' className="input input-bordered w-full mt-2" placeholder="(123) 456 789" />
+                                <input type="text" defaultValue={update?.phone} name='phone' className="input input-bordered w-full mt-2" placeholder="(123) 456 789" />
                             </div>
                             <div className="mb-4">
                                 <label className="block font-medium">Business Number</label>
-                                <input type="text" name='number' className="input input-bordered w-full" placeholder="123-45-6789" />
+                                <input type="text" defaultValue={update?.number} name='number' className="input input-bordered w-full" placeholder="123-45-6789" />
                             </div>
                         </div>
 
@@ -128,32 +121,32 @@ const InvoiceForm = () => {
                             {/* Client Information */}
                             <div className="mb-4">
                                 <label className="block font-medium">Name</label>
-                                <input type="text" name='billName' className="input input-bordered w-full" placeholder="Client Name" />
+                                <input type="text" defaultValue={update?.billName} name='billName' className="input input-bordered w-full" placeholder="Client Name" />
                             </div>
                             <div className="mb-4">
                                 <label className="block font-medium">Email</label>
-                                <input type="email" name='billEmail' className="input input-bordered w-full" placeholder="name@client.com" />
+                                <input type="email" defaultValue={update?.billEmail} name='billEmail' className="input input-bordered w-full" placeholder="name@client.com" />
                             </div>
                             <div className="mb-4">
                                 <label className="block font-medium">Address</label>
-                                <input type="text" name='billStreet' className="input input-bordered w-full" placeholder="Street" />
-                                <input type="text" name='billCity' className="input input-bordered w-full mt-2" placeholder="City, State" />
-                                <input type="text" name='billZip' className="input input-bordered w-full mt-2" placeholder="Zip code" />
+                                <input type="text" defaultValue={update?.billStreet} name='billStreet' className="input input-bordered w-full" placeholder="Street" />
+                                <input type="text" defaultValue={update?.billCity} name='billCity' className="input input-bordered w-full mt-2" placeholder="City, State" />
+                                <input type="text" defaultValue={update?.billZip} name='billZip' className="input input-bordered w-full mt-2" placeholder="Zip code" />
                             </div>
                             <div className="mb-4">
                                 <label className="block font-medium">Phone</label>
-                                <input type="text" name='billPhone' className="input input-bordered w-full" placeholder="(123) 456 789" />
+                                <input type="text" defaultValue={update?.billPhone} name='billPhone' className="input input-bordered w-full" placeholder="(123) 456 789" />
                             </div>
                             <div className="mb-4">
                                 <label className="block font-medium">Mobile</label>
-                                <input type="text" name='billMobile' className="input input-bordered w-full" placeholder="(123) 456 789" />
+                                <input type="text" defaultValue={update?.billMobile} name='billMobile' className="input input-bordered w-full" placeholder="(123) 456 789" />
                             </div>
                         </div>
 
                         <div className="p-10 bg-white shadow-lg rounded-md">
                             <div className="mb-4">
                                 <label className="block text-gray-700 font-medium mb-1">Bill Number</label>
-                                <input
+                                <input defaultValue={update?.billNumber}
                                     type="text"
                                     name='billNumber'
                                     className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -166,6 +159,7 @@ const InvoiceForm = () => {
                                 <input
                                     type="date"
                                     name='dateStart'
+                                    defaultValue={update?.dateStart}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
                             </div>
@@ -181,6 +175,7 @@ const InvoiceForm = () => {
                                 <label className="block text-gray-700 font-medium mb-1">Due</label>
                                 <input
                                     type="date"
+                                    defaultValue={update?.dueDate}
                                     name='dueDate'
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
@@ -273,7 +268,7 @@ const InvoiceForm = () => {
                             className="text-white bg-blue-600 hover:bg-blue-500 px-8 py-2 rounded-lg"
                             type="submit" // Added type="submit" for the button
                         >
-                            Submit
+                            Update
                         </button>
                         <div>
                             <h2>Tax: 15%</h2>
@@ -287,4 +282,4 @@ const InvoiceForm = () => {
     );
 };
 
-export default InvoiceForm;
+export default InvoiceUpdate;

@@ -11,6 +11,7 @@ import InvoiceDetails from './Page/InvoiceDetails/InvoiceDetails.jsx';
 
 
 
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,7 +26,12 @@ const router = createBrowserRouter([
     path:'/details/:id',
     element:<InvoiceDetails></InvoiceDetails>,
     loader: ({params}) => fetch(`http://localhost:5000/information/${params.id}`)
-  }
+  },
+  // {
+  //   path:'/update/:id',
+  //   element:<Update></Update>,
+  //   loader: ({params}) => fetch(`http://localhost:5000/information/${params.id}`)
+  // }
   
 ]);
 

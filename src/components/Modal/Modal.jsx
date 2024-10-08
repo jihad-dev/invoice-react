@@ -4,6 +4,8 @@ import InvoiceForm from '../InvoiceForm/InvoiceForm';
 
 const Modal = () => {
     const [isOpen, setIsOpen] = useState(false);
+ 
+
 
     const toggleModal = () => {
         setIsOpen(!isOpen);
@@ -49,7 +51,7 @@ const Modal = () => {
                                     <span className="sr-only">Close modal</span>
                                 </button>
                             </div>
-                            <InvoiceForm />
+                            <InvoiceForm/>
 
 
                         </div>

@@ -1,13 +1,55 @@
-import React from 'react';
-import { useLoaderData } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLoaderData, useNavigate } from 'react-router-dom';
+import InvoiceUpdate from '../../components/InvoiceUpdate/InvoiceUpdate';
+
+
 
 const InvoiceDetails = () => {
-    const {billName,billNumber,grandTotal,items,dateStart} = useLoaderData();
-    
-    
+    const [isOpen, setIsOpen] = useState(false);
+    const [update, setUpdate] = useState([]);
+    useEffect(() => {
+        fetch(`http://localhost:5000/information/${_id}`, {
+            cache: "reload",
+           
+        })
+            .then(res => res.json())
+            .then(data => setUpdate(data))
+    }, [])
+
+
+
+    const toggleModal = () => {
+        setIsOpen(!isOpen);
+    };
+    const { _id, billName, billNumber, grandTotal, items, dateStart, dueDate, billStreet, billZip, billCity, billEmail } = useLoaderData();
+    const navigate = useNavigate()
+    // Calculate total amount
+    const totalAmount = items.reduce((acc, item) => acc + (item.qty * item.rate), 0);
+    // Calculate VAT (15%)
+    const vat = totalAmount * 0.15;
+
+    // Total amount due with VAT
+    const totalAmountDue = totalAmount + vat;
+
+    // delete item 
+    const handleDeleteItem = _id => {
+        console.log('delete', _id)
+        fetch(`http://localhost:5000/information/${_id}`, {
+            method: 'DELETE'
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.deletedCount > 0) {
+                    alert('delete data ')
+                    navigate('/list')
+
+                }
+            })
+    }
+
     return (
         <div>
-           
+
             <div className="bg-gray-50 p-6 max-w-lg mx-auto my-10 rounded-lg shadow-md">
                 {/* Status */}
                 <div className="flex justify-between items-center mb-4">
@@ -16,8 +58,58 @@ const InvoiceDetails = () => {
                         <span className="text-sm text-gray-600">paid</span>
                     </div>
                     <div className="space-x-2">
-                        <button className="px-4 py-1 text-sm bg-gray-100 text-gray-700 rounded">Edit</button>
-                        <button className="px-4 py-1 text-sm bg-red-100 text-red-700 rounded">Delete</button>
+
+                        <>
+                            {/* Modal toggle button */}
+
+                            <Link><button onClick={toggleModal} className="px-4 py-1 text-sm bg-gray-100 text-gray-700 rounded">Edit</button>
+
+
+                            </Link>
+                            {/* Main modal */}
+                            {isOpen && (
+                                <div
+                                    id="default-modal"
+                                    tabIndex="-1"
+                                    aria-hidden="true"
+                                    className="fixed inset-0 z-50 flex justify-center items-center w-full h-[calc(100%-1rem)] max-h-full overflow-y-auto overflow-x-hidden"
+                                >
+                                    <div className="relative p-4 w-full max-w-2xl max-h-full">
+                                        {/* Modal content */}
+                                        <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                                <button
+                                                    type="button"
+                                                    onClick={toggleModal}
+                                                    className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                >
+                                                    <svg
+                                                        className="w-3 h-3"
+                                                        aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none"
+                                                        viewBox="0 0 14 14"
+                                                    >
+                                                        <path
+                                                            stroke="currentColor"
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth="2"
+                                                            d="M1 1l6 6m0 0l6 6M7 7l6-6M7 7L1 13"
+                                                        />
+                                                    </svg>
+                                                    <span className="sr-only">Close modal</span>
+                                                </button>
+                                            </div>
+                                            {/* Modal body */}
+
+                                            <InvoiceUpdate update={update}></InvoiceUpdate>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </>
+                        <button onClick={() => handleDeleteItem(_id)} className="px-4 py-1 text-sm bg-red-100 text-red-700 rounded">Delete</button>
                     </div>
                 </div>
 
@@ -36,43 +128,55 @@ const InvoiceDetails = () => {
                     </div>
                     <div>
                         <p className="font-bold">Payment Due</p>
-                        <p>Aug 19, 2021</p>
+                        <p>{dueDate}</p>
                     </div>
                     <div>
                         <p className="font-bold">Bill to</p>
                         <p>{billName}</p>
-                        <p>106 Kendell Street</p>
-                        <p>Sharrington, NR24 5WQ</p>
-                        <p>United Kingdom</p>
+                        <p>{billStreet}</p>
+                        <p>{billZip}</p>
+                        <p>{billCity}</p>
                     </div>
                     <div>
                         <p className="font-bold">Sent to</p>
-                        <p>jensenh@mail.com</p>
+                        <p>{billEmail}</p>
                     </div>
                 </div>
 
                 {/* Item Info */}
-                <div className="bg-gray-100 p-4 mt-4 rounded-lg">
-                    <div className="flex justify-between mb-2">
-                        <span className="font-bold text-gray-800">Item name</span>
-                        <span className="font-bold text-gray-800">Total</span>
-                    </div>
-                    <div className="flex justify-between mb-2">
-                        <span className="text-gray-700">Brand Guidelines</span>
-                        <span className="text-gray-700">${grandTotal
-                        }</span>
-                    </div>
-                    <div className="flex justify-between mb-2">
-                        <span className="text-gray-700">Qty</span>
-                        {/* {items.map(item =><>{item.qty}</>)} */}
-                        <span className="text-gray-700">1</span>
-                    </div>
+
+                <div className="w-full p-4 bg-gray-100">
+                    <table className="min-w-full bg-white">
+                        <thead>
+                            <tr className="w-full bg-gray-200 text-left text-sm text-gray-600 uppercase tracking-wide">
+                                <th className="py-3 px-5">Item name</th>
+                                <th className="py-3 px-5">Qty.</th>
+                                <th className="py-3 px-5">Item price</th>
+                                <th className="py-3 px-5">Total</th>
+                            </tr>
+                        </thead>
+                        {
+                            items.map((item, idx) => <tbody key={idx}>
+                                <tr className="border-b">
+                                    <td className="py-3 px-5">{item?.description}</td>
+                                    <td className="py-3 px-5">{item?.qty}</td>
+                                    <td className="py-3 px-5">{item?.rate}</td>
+                                    <td className="py-3 px-5">{item?.rate * item?.qty}</td>
+
+                                </tr>
+
+                            </tbody>)
+                        }
+
+                    </table>
                 </div>
+
+
 
                 {/* Amount Due */}
                 <div className="bg-gray-800 text-white text-center p-4 mt-4 rounded-lg">
                     <span className="text-lg font-bold">Amount Due</span>
-                    <p className="text-2xl">£1800.9</p>
+                    <p className="text-2xl">{totalAmountDue}</p>
                 </div>
             </div>
         </div>
