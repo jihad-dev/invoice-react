@@ -3,9 +3,18 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+// import { FileUploadWithPreview } from 'file-upload-with-preview';
+// import 'file-upload-with-preview/dist/style.css';
+
 
 
 const InvoiceForm = () => {
+    // const upload = new FileUploadWithPreview('my-unique-id');
+    const [file, setFile] = useState();
+    function handleChange(e) {
+        console.log(e.target.files);
+        setFile(URL.createObjectURL(e.target.files[0]));
+    }
 
     const [items, setItems] = useState([
         { description: "", rate: 0, qty: 1, tax: true },
@@ -31,7 +40,7 @@ const InvoiceForm = () => {
     // Handle form submission
     const handleFormSubmit = (e) => {
         e.preventDefault();
-      
+
 
         const formData = new FormData(e.target);
         const data = {
@@ -73,11 +82,11 @@ const InvoiceForm = () => {
             })
             .then(data => {
                 navigate('/list')
-            
+
 
             })
             .catch(error => {
-              
+
                 console.error('There was a problem with the fetch operation:', error);
             })
 
@@ -91,7 +100,11 @@ const InvoiceForm = () => {
                     <div className="flex justify-between items-center mb-6">
                         <h1 className="text-3xl font-bold">Invoice</h1>
                         <div className="border flex items-center justify-center">
-                            <input placeholder='Logo' type="file" className="file-input file-input-bordered w-full" />
+                        {/* <div class="custom-file-container" data-upload-id="my-unique-id"></div> */}
+                            {/* <input placeholder='Logo' type="file"  /> */}
+                            {/* <img className='w-25 border border-dashed' src={file} />
+                            <input onChange={handleChange} placeholder='Logo' type="file" className="file-input file-input-bordered w-full" /> */}
+                            
                         </div>
                     </div>
 

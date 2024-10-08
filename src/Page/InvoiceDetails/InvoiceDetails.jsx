@@ -8,10 +8,7 @@ const InvoiceDetails = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [update, setUpdate] = useState([]);
     useEffect(() => {
-        fetch(`http://localhost:5000/information/${_id}`, {
-            cache: "reload",
-           
-        })
+        fetch(`http://localhost:5000/information/${_id}`)
             .then(res => res.json())
             .then(data => setUpdate(data))
     }, [])

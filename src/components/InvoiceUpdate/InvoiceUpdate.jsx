@@ -71,6 +71,7 @@ const InvoiceUpdate = ({ update }) => {
         })
         .then(res =>res.json())
         .then(data =>{
+            navigate('/list')
             console.log(data)
         })
           
