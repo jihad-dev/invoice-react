@@ -17,11 +17,11 @@ const InvoiceForm = () => {
     }
 
     const [items, setItems] = useState([
-        { description: "", rate: 0, qty: 1, tax: true },
+        { title: "", description:"", rate: 0, qty: 1, tax: true },
     ]);
 
     const handleAddItem = () => {
-        setItems([...items, { description: "", rate: 0, qty: 1, tax: true }]);
+        setItems([...items, { title: "", description:"", rate: 0, qty: 1, tax: true }]);
     };
 
     const handleInputChange = (index, field, value) => {
@@ -100,11 +100,11 @@ const InvoiceForm = () => {
                     <div className="flex justify-between items-center mb-6">
                         <h1 className="text-3xl font-bold">Invoice</h1>
                         <div className="border flex items-center justify-center">
-                        {/* <div class="custom-file-container" data-upload-id="my-unique-id"></div> */}
+                            {/* <div class="custom-file-container" data-upload-id="my-unique-id"></div> */}
                             {/* <input placeholder='Logo' type="file"  /> */}
                             {/* <img className='w-25 border border-dashed' src={file} />
                             <input onChange={handleChange} placeholder='Logo' type="file" className="file-input file-input-bordered w-full" /> */}
-                            
+
                         </div>
                     </div>
 
@@ -218,11 +218,11 @@ const InvoiceForm = () => {
 
                                 <input
                                     type="text"
-                                    value={item.description}
+                                    value={item.title}
                                     onChange={(e) =>
-                                        handleInputChange(index, "description", e.target.value)
+                                        handleInputChange(index, "title", e.target.value)
                                     }
-                                    placeholder="Item Description"
+                                    placeholder="Item title"
                                     className="border border-gray-300 rounded px-4 py-2 w-1/2"
                                 />
 
@@ -267,6 +267,12 @@ const InvoiceForm = () => {
                             </div>
 
                             <textarea
+                                type="text"
+                                value={item.description}
+                                onChange={(e) =>
+                                    handleInputChange(index, "description", e.target.value)
+                                }
+                                
                                 placeholder="Additional details"
                                 className="mt-2 border border-gray-300 rounded px-4 py-2 w-full"
                             ></textarea>

@@ -9,14 +9,14 @@ const InvoiceUpdate = ({ update }) => {
 
 
     // const [items, setItems] = useState([
-    //     { description: "", rate: 0, qty: 1, tax: true },
+    //     { title: "", rate: 0, qty: 1, tax: true },
     // ]);
 
-    const [items, setItems] = useState(update?.items || [{ description: "", rate: 0, qty: 1, tax: true }]);
+    const [items, setItems] = useState(update?.items || [{ title: "", description:"", rate: 0, qty: 1, tax: true }]);
 
 
     const handleAddItem = () => {
-        setItems([...items, { description: "", rate: 0, qty: 1, tax: true }]);
+        setItems([...items, { title: "", description:"", rate: 0, qty: 1, tax: true }]);
     };
 
     const handleInputChange = (index, field, value) => {
@@ -201,11 +201,11 @@ const InvoiceUpdate = ({ update }) => {
 
                                 <input
                                     type="text"
-                                    value={item.description}
+                                    value={item.title}
                                     onChange={(e) =>
-                                        handleInputChange(index, "description", e.target.value)
+                                        handleInputChange(index, "title", e.target.value)
                                     }
-                                    placeholder="Item Description"
+                                    placeholder="Item title"
                                     className="border border-gray-300 rounded px-4 py-2 w-1/2"
                                 />
 
@@ -250,6 +250,12 @@ const InvoiceUpdate = ({ update }) => {
                             </div>
 
                             <textarea
+                                type="text"
+                                value={item.description}
+                                onChange={(e) =>
+                                    handleInputChange(index, "description", e.target.value)
+                                }
+                                
                                 placeholder="Additional details"
                                 className="mt-2 border border-gray-300 rounded px-4 py-2 w-full"
                             ></textarea>
