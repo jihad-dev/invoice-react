@@ -7,7 +7,9 @@ import html2canvas from 'html2canvas-pro';
 import { useLoaderData } from "react-router-dom";
 
 const Preview = () => {
-    const {name,billName} = useLoaderData();
+    const {name,billName,billNumber,dateStart,street ,items,city,number,billStreet,billPhone,grandTotal} = useLoaderData();
+    const data = useLoaderData()
+    console.log(data)
     
   const invoiceRef = useRef();
 
@@ -59,29 +61,31 @@ const Preview = () => {
             <h2 className="text-xl font-bold">Marketing Meta</h2>
           </div>
           <div className="text-right">
-            <h3 className="text-2xl font-bold text-blue-600">INVOICE</h3>
+            <h3 className="text-2xl font-bold text-blue-600">
+              <img className="w-[200px]" src="https://webproais.com/wp-content/uploads/2024/05/Logo-1.png" alt="" />
+            </h3>
           </div>
         </div>
         <div className="mt-4">
           <p>
-            Invoice Number: <span className="font-bold">962</span>
+            Invoice Number: <span className="font-bold">{billNumber}</span>
           </p>
           <p>
-            Date: <span className="font-bold">02/02/2022</span>
+            Date: <span className="font-bold">{dateStart}</span>
           </p>
         </div>
         <div className="grid grid-cols-2 gap-4 mt-4">
           <div>
             <h4 className="font-bold">Bill from:</h4>
-            <p>Company Name</p>
-            <p>Street Address, Zip Code</p>
-            <p>Phone Number</p>
+            <p>{name}</p>
+            <p>{street}</p>
+            <p>{number}</p>
           </div>
           <div>
             <h4 className="font-bold">Bill to:</h4>
             <p>{billName}</p>
-            <p>Street Address, Zip Code</p>
-            <p>Phone Number</p>
+            <p>{billStreet}</p>
+            <p>{billPhone}</p>
           </div>
         </div>
 
@@ -92,32 +96,24 @@ const Preview = () => {
               <th className="text-left py-2">Quantity</th>
               <th className="text-left py-2">Rate</th>
               <th className="text-left py-2">Tax</th>
-              <th className="text-left py-2">Amount</th>
+              <th className="text-left py-2">Total</th>
             </tr>
           </thead>
-          <tbody>
+         {
+
+          items.map((item,idx) => <tbody key={idx}>
             <tr className="border-b border-gray-200">
-              <td className="py-2">Digital Marketing</td>
-              <td className="py-2">30 days</td>
-              <td className="py-2">$3000.00</td>
+              <td className="py-2">{item?.title}</td>
+              <td className="py-2">{item?.qty}</td>
+              <td className="py-2">${item?.rate}</td>
               <td className="py-2">$0.00</td>
-              <td className="py-2">$3000.00</td>
+              <td className="py-2">${item?.qty * item?.rate}</td>
             </tr>
-            <tr className="border-b border-gray-200">
-              <td className="py-2">Media Template</td>
-              <td className="py-2">30 days</td>
-              <td className="py-2">$50.00</td>
-              <td className="py-2">$0.00</td>
-              <td className="py-2">$50.00</td>
-            </tr>
-            <tr className="border-b border-gray-200">
-              <td className="py-2">Public Relations</td>
-              <td className="py-2">01 month</td>
-              <td className="py-2">$2500.00</td>
-              <td className="py-2">$0.00</td>
-              <td className="py-2">$2500.00</td>
-            </tr>
-          </tbody>
+          
+          </tbody>)
+         }
+         
+
         </table>
 
         <div className="mt-6">
@@ -132,23 +128,23 @@ const Preview = () => {
           <div>
             <div className="flex justify-between">
               <p>Subtotal:</p>
-              <p className="font-bold">$5500.00</p>
+              <p className="font-bold">${grandTotal}</p>
             </div>
-            <div className="flex justify-between">
+            {/* <div className="flex justify-between">
               <p>Discount:</p>
               <p className="font-bold">$0.00</p>
             </div>
             <div className="flex justify-between">
               <p>Tax:</p>
               <p className="font-bold">$0.00</p>
-            </div>
+            </div> */}
             <div className="flex justify-between">
               <p>Paid:</p>
               <p className="font-bold">$0.00</p>
             </div>
             <div className="flex justify-between mt-4">
               <h3 className="text-2xl font-bold">Total:</h3>
-              <h3 className="text-2xl font-bold text-blue-600">$5500.00</h3>
+              <h3 className="text-2xl font-bold text-blue-600">${grandTotal}</h3>
             </div>
           </div>
         </div>

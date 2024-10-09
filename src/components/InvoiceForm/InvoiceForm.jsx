@@ -113,8 +113,8 @@ const InvoiceForm = () => {
                             <h2 className="font-semibold mb-4">From</h2>
                             {/* Business Information */}
                             <div className="mb-4">
-                                <label className="block font-medium">Name</label>
-                                <input type="text" name='name' className="input input-bordered w-full mt-2" placeholder="Business Name" />
+                                <label className="block font-medium">Company Name</label>
+                                <input type="text" name='name' className="input input-bordered w-full mt-2" placeholder="Company Name" />
                             </div>
                             <div className="mb-4">
                                 <label className="block font-medium">Email</label>
