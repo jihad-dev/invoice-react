@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import InvoiceForm from "../InvoiceForm/InvoiceForm";
 
+
 const Modal = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -30,6 +31,7 @@ const Modal = () => {
           </p>
         </button>
       </div>
+   
 
       {/* Main modal */}
       {isOpen && (
