@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 const InvoiceForm = () => {
-    const [data, setData] = useState([]);
-    // Fetch data from the server to calculate invoice number based on existing invoices
-    useEffect(() => {
-      fetch("http://localhost:5000/information")
-        .then((res) => res.json())
-        .then((data) => {
-          setData(data);
-        });
-    }, []);
-  
-    // Generate a new invoice number
-    const generateInvoiceNumber = () => {
-      return `INV-${data.length + 1}`;
-    };
-    const invoiceNumber = generateInvoiceNumber();
+  const [data, setData] = useState([]);
+  // Fetch data from the server to calculate invoice number based on existing invoices
+  useEffect(() => {
+    fetch("http://localhost:5000/information")
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data);
+      });
+  }, []);
+
+  // Generate a new invoice number
+  const generateInvoiceNumber = () => {
+    return `INV-${data.length + 1}`;
+  };
+  const invoiceNumber = generateInvoiceNumber();
 
   const [items, setItems] = useState([
     { title: "", description: "", rate: 0, qty: 1, tax: true },
@@ -302,12 +301,6 @@ const InvoiceForm = () => {
               className="w-full border border-gray-300 p-4 rounded-lg"
             >
               <div className="flex justify-between items-center">
-                {/* <button
-                  className="text-red-500 border border-gray-300 rounded px-2 py-1"
-                  onClick={() => setItems(items.filter((_, i) => i !== index))}
-                >
-                  X
-                </button> */}
                 <button
                   onClick={() => setItems(items.filter((_, i) => i !== index))}
                 >
@@ -416,5 +409,3 @@ const InvoiceForm = () => {
 };
 
 export default InvoiceForm;
-
-
