@@ -84,9 +84,9 @@ const InvoiceUpdate = ({ update }) => {
                 <div className="max-w-4xl mx-auto bg-white p-8 rounded shadow">
                     <div className="flex justify-between items-center mb-6">
                         <h1 className="text-3xl font-bold">Invoice</h1>
-                        <div className="border flex items-center justify-center">
+                        {/* <div className="border flex items-center justify-center">
                             <input placeholder='Logo' type="file" className="file-input file-input-bordered w-full" />
-                        </div>
+                        </div> */}
                     </div>
 
                     <div className="grid lg:grid-cols-2 grid-cols-1 gap-8">

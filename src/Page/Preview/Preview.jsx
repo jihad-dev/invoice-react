@@ -58,7 +58,7 @@ const Preview = () => {
       >
         <div className="flex justify-between items-center">
           <div>
-            <h2 className="text-xl font-bold">Marketing Meta</h2>
+            <h2 className="text-xl font-bold">WEBPRO AI</h2>
           </div>
           <div className="text-right">
             <h3 className="text-2xl font-bold text-blue-600">
@@ -100,8 +100,8 @@ const Preview = () => {
             </tr>
           </thead>
          {
-
-          items.map((item,idx) => <tbody key={idx}>
+          items &&
+          items?.map((item,idx) => <tbody key={idx}>
             <tr className="border-b border-gray-200">
               <td className="py-2">{item?.title}</td>
               <td className="py-2">{item?.qty}</td>
@@ -143,7 +143,7 @@ const Preview = () => {
               <p className="font-bold">$0.00</p>
             </div>
             <div className="flex justify-between mt-4">
-              <h3 className="text-2xl font-bold">Total:</h3>
+              <h3 className="text-2xl font-bold">Total Amount:</h3>
               <h3 className="text-2xl font-bold text-blue-600">${grandTotal}</h3>
             </div>
           </div>

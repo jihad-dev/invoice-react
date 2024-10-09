@@ -55,18 +55,14 @@ const InvoiceDetails = () => {
   };
 
   return (
-    <div>
-      <div className="bg-gray-50 p-6 max-w-lg mx-auto my-10 rounded-lg shadow-md">
+    <div className="">
+      <div className="bg-gray-50 p-6 max-w-[40rem] h-[670px] mx-auto my-10 rounded-lg shadow-md">
         {/* Status */}
-        <div className="flex justify-between items-center mb-4">
-          <div className="flex items-center">
-            <div className="w-3 h-3 bg-green-400 rounded-full mr-2"></div>
-            <span className="text-sm text-gray-600">paid</span>
-          </div>
+        <div className="flex justify-end items-center mb-4">
+
           <div className="space-x-2">
             <>
               {/* Modal toggle button */}
-
               <Link>
                 <button
                   onClick={toggleModal}
@@ -77,7 +73,7 @@ const InvoiceDetails = () => {
               </Link>
               <Link to={`/preview/${_id}`}>
                 <button className="px-4 py-1 text-sm bg-gray-100 text-gray-700 rounded">
-                Preview
+                  Preview
                 </button>
               </Link>
               {/* Main modal */}
@@ -149,7 +145,7 @@ const InvoiceDetails = () => {
             <p>{dueDate}</p>
           </div>
           <div>
-            <p className="font-bold">Bill to</p>
+            <p className="font-bold text-sm">Bill to</p>
             <p>{billName}</p>
             <p>{billStreet}</p>
             <p>{billZip}</p>
@@ -163,8 +159,8 @@ const InvoiceDetails = () => {
 
         {/* Item Info */}
 
-        <div className="w-full p-4 bg-gray-100">
-          <table className="min-w-full bg-white">
+        <div className="w-full my-4">
+          <table className="min-w-full">
             <thead>
               <tr className="w-full bg-gray-200 text-left text-sm text-gray-600 uppercase tracking-wide">
                 <th className="py-3 px-5">Item name</th>
@@ -177,7 +173,6 @@ const InvoiceDetails = () => {
               <tbody key={idx}>
                 <tr className="border-b">
                   <td className="py-3 px-5">{item?.title}</td>
-                  <td className="py-3 px-5">{item?.description}</td>
                   <td className="py-3 px-5">{item?.qty}</td>
                   <td className="py-3 px-5">{item?.rate}</td>
                   <td className="py-3 px-5">{item?.rate * item?.qty}</td>
@@ -189,8 +184,8 @@ const InvoiceDetails = () => {
 
         {/* Amount Due */}
         <div className="bg-gray-800 text-white text-center p-4 mt-4 rounded-lg">
-          <span className="text-lg font-bold">Amount Due</span>
-          <p className="text-2xl">{totalAmountDue}</p>
+          <span className="text-lg font-bold">Total Amount </span>
+          <p className="text-2xl">${totalAmountDue}</p>
         </div>
       </div>
     </div>
