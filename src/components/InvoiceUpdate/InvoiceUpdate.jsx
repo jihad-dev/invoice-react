@@ -28,7 +28,7 @@ const InvoiceUpdate = ({ update }) => {
     (acc, item) => acc + calculateAmount(item.rate, item.qty),
     0
   );
-  const tax = (subTotal * 0.15).toFixed(2); // 15% tax fixed
+  const tax = (subTotal * 0.05).toFixed(2); // 5% tax fixed
   const grandTotal = (parseFloat(subTotal) + parseFloat(tax)).toFixed(2);
   const navigate = useNavigate();
   // Handle form submission
@@ -365,7 +365,7 @@ const InvoiceUpdate = ({ update }) => {
               Update
             </button>
             <div>
-              <h2>Tax: 15%</h2>
+              <h2>Tax: 5%</h2>
               <h2>SubTotal: ${subTotal.toFixed(2)}</h2>{" "}
               {/* Formatting to fixed 2 decimals */}
               <h3>GrandTotal: ${grandTotal}</h3>

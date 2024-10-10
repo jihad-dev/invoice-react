@@ -35,7 +35,7 @@ const InvoiceDetails = () => {
     0
   );
   // Calculate VAT (15%)
-  const vat = totalAmount * 0.15;
+  const vat = totalAmount * 0.05;
 
   // Total amount due with VAT
   const totalAmountDue = totalAmount + vat;

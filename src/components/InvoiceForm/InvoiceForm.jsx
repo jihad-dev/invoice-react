@@ -42,7 +42,7 @@ const InvoiceForm = () => {
     (acc, item) => acc + calculateAmount(item.rate, item.qty),
     0
   );
-  const tax = (subTotal * 0.15).toFixed(2); // 15% tax fixed
+  const tax = (subTotal * 0.05).toFixed(2); // 5% tax fixed
   const grandTotal = (parseFloat(subTotal) + parseFloat(tax)).toFixed(2);
   const navigate = useNavigate();
   // Handle form submission
@@ -300,7 +300,7 @@ const InvoiceForm = () => {
               key={index}
               className="w-full border border-gray-300 p-4 rounded-lg"
             >
-              <div className="flex justify-between items-center">
+              <div className="lg:flex ">
                 <button
                   onClick={() => setItems(items.filter((_, i) => i !== index))}
                 >
@@ -318,7 +318,6 @@ const InvoiceForm = () => {
                     ></path>
                   </svg>
                 </button>
-
                 <input
                   type="text"
                   value={item.title}
@@ -326,7 +325,7 @@ const InvoiceForm = () => {
                     handleInputChange(index, "title", e.target.value)
                   }
                   placeholder="Item title"
-                  className="border border-gray-300 rounded px-4 py-2 w-1/2"
+                  className="border border-gray-300 rounded px-4 py-2 "
                 />
 
                 <div>
@@ -338,10 +337,12 @@ const InvoiceForm = () => {
                       handleInputChange(index, "rate", Number(e.target.value))
                     }
                     placeholder="0.00"
-                    className="border border-gray-300 rounded px-4 py-2 w-24 text-right"
+                    className="border border-gray-300 rounded px-4 py-2 lg:w-[14rem] text-right"
                   />
                 </div>
+              </div>
 
+              <div className="flex">
                 <div>
                   <span>Qty</span>
                   <input
@@ -351,20 +352,13 @@ const InvoiceForm = () => {
                       handleInputChange(index, "qty", Number(e.target.value))
                     }
                     placeholder="1"
-                    className="border border-gray-300 rounded px-4 py-2 w-16 text-right"
+                    className="border border-gray-300 rounded px-4 my-3 py-2 lg:w-[14rem] w-44 text-right "
                   />
                 </div>
 
-                <div className="w-24 text-right">
+                <div className="lg:w-44 my-7 text-right">
                   ${calculateAmount(item.rate, item.qty).toFixed(2)}
                 </div>
-
-                <input
-                  type="checkbox"
-                  checked={item.tax}
-                  onChange={() => handleInputChange(index, "tax", !item.tax)}
-                  className="form-checkbox h-5 w-5 text-blue-600"
-                />
               </div>
 
               <textarea
@@ -388,6 +382,7 @@ const InvoiceForm = () => {
               +
             </button>
           </div>
+
           <div className="mt-4 flex justify-between">
             <button
               className="text-white bg-blue-600 hover:bg-blue-500 px-8 py-2 rounded-lg"
@@ -396,7 +391,7 @@ const InvoiceForm = () => {
               Submit
             </button>
             <div>
-              <h2>Tax: 15%</h2>
+              <h2>Tax: 5%</h2>
               <h2>SubTotal: ${subTotal.toFixed(2)}</h2>{" "}
               {/* Formatting to fixed 2 decimals */}
               <h3>GrandTotal: ${grandTotal}</h3>

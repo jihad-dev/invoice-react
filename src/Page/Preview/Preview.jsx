@@ -1,9 +1,8 @@
 import React, { useRef } from "react";
 import jsPDF from "jspdf";
-// import html2canvas from "html2canvas";
 import html2canvas from "html2canvas-pro";
-import { useLoaderData } from "react-router-dom";
-
+import { Link, useLoaderData } from "react-router-dom";
+import logo from '../../assets/logo-inv.png'
 const Preview = () => {
   const {
     name,
@@ -67,19 +66,30 @@ const Preview = () => {
         className="max-w-3xl mx-auto bg-white shadow-lg p-6 rounded-lg mt-10"
       >
         <div className="flex justify-between items-center">
-          <div>
-            <h2 className="text-xl font-bold">WEBPRO AI</h2>
-          </div>
           <div className="text-right">
             <img
-              className="w-[150px] cursor-pointer"
-              src="https://webproais.com/wp-content/uploads/2024/05/Logo-1.png"
-              alt=""
+              className="w-[180px] cursor-pointer"
+              src={logo}
+              alt="logo"
             />
-            <h3 className="text-sm font-bold text-blue-600">info@webproais.com</h3>
-            <h3 className="text-sm font-bold text-blue-600">webproais.com</h3>
+          </div>
+          <div>
+            <h3 className="text-sm font-bold text-blue-600">
+              Email : info@webproais.com
+            </h3>
+            <h3 className="text-sm font-bold text-blue-600">
+              Location : Banasree, Rampura,Dhaka
+            </h3>
+            <Link
+              target="_blank"
+              to="https://webproais.com/"
+              className="text-sm font-bold text-blue-600"
+            >
+              Website : webproais.com
+            </Link>
           </div>
         </div>
+
         <div className="mt-4">
           <p>
             Invoice Number: <span className="font-bold">{billNumber}</span>
@@ -109,7 +119,7 @@ const Preview = () => {
               <th className="text-left py-2">Item</th>
               <th className="text-left py-2">Quantity</th>
               <th className="text-left py-2">Rate</th>
-              <th className="text-left py-2">Tax</th>
+              {/* <th className="text-left py-2">Tax</th> */}
               <th className="text-left py-2">Total</th>
             </tr>
           </thead>
@@ -120,7 +130,7 @@ const Preview = () => {
                   <td className="py-2">{item?.title}</td>
                   <td className="py-2">{item?.qty}</td>
                   <td className="py-2">${item?.rate}</td>
-                  <td className="py-2">$0.00</td>
+                  {/* <td className="py-2">${0.05}</td> */}
                   <td className="py-2">${item?.qty * item?.rate}</td>
                 </tr>
               </tbody>
@@ -141,14 +151,6 @@ const Preview = () => {
               <p>Subtotal:</p>
               <p className="font-bold">${grandTotal}</p>
             </div>
-            {/* <div className="flex justify-between">
-              <p>Discount:</p>
-              <p className="font-bold">$0.00</p>
-            </div>
-            <div className="flex justify-between">
-              <p>Tax:</p>
-              <p className="font-bold">$0.00</p>
-            </div> */}
             <div className="flex justify-between">
               <p>Paid:</p>
               <p className="font-bold">$0.00</p>
@@ -183,3 +185,4 @@ const Preview = () => {
 };
 
 export default Preview;
+
