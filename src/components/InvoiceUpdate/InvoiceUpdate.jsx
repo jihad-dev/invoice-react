@@ -2,10 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const InvoiceUpdate = ({ update }) => {
-  // const [items, setItems] = useState([
-  //     { title: "", rate: 0, qty: 1, tax: true },
-  // ]);
-
   const [items, setItems] = useState(
     update?.items || [
       { title: "", description: "", rate: 0, qty: 1, tax: true },
@@ -227,53 +223,52 @@ const InvoiceUpdate = ({ update }) => {
                 />
               </div>
             </div>
-
-            <div className="p-10 bg-white shadow-lg rounded-md">
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-1">
-                  Bill Number
-                </label>
-                <input
-                  defaultValue={update?.billNumber}
-                  readOnly
-                  type="text"
-                  name="billNumber"
-                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="INV000"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-1">
-                  Date
-                </label>
-                <input
-                  type="date"
-                  name="dateStart"
-                  defaultValue={update?.dateStart}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-1">
-                  Terms
-                </label>
-                <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option>Days</option>
-                  <option>Weeks</option>
-                  <option>Months</option>
-                </select>
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-1">
-                  Due
-                </label>
-                <input
-                  type="date"
-                  defaultValue={update?.dueDate}
-                  name="dueDate"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+          </div>
+          <div className="p-10 bg-white shadow-lg rounded-md">
+            <div className="mb-4">
+              <label className="block text-gray-700 font-medium mb-1">
+                Bill Number
+              </label>
+              <input
+                defaultValue={update?.billNumber}
+                readOnly
+                type="text"
+                name="billNumber"
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="INV000"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-medium mb-1">
+                Date
+              </label>
+              <input
+                type="date"
+                name="dateStart"
+                defaultValue={update?.dateStart}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-medium mb-1">
+                Terms
+              </label>
+              <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option>Days</option>
+                <option>Weeks</option>
+                <option>Months</option>
+              </select>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-medium mb-1">
+                Due
+              </label>
+              <input
+                type="date"
+                defaultValue={update?.dueDate}
+                name="dueDate"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
             </div>
           </div>
         </div>

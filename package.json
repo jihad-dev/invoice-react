@@ -19,6 +19,7 @@
     "react-router-dom": "^6.26.2",
     "react-to-print": "^3.0.1",
     "sweetalert": "^2.1.2",
+    "sweetalert2": "^11.14.2",
     "uuid": "^10.0.0"
   },
   "devDependencies": {

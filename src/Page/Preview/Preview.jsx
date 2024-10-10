@@ -1,16 +1,26 @@
-
-
 import React, { useRef } from "react";
 import jsPDF from "jspdf";
 // import html2canvas from "html2canvas";
-import html2canvas from 'html2canvas-pro';
+import html2canvas from "html2canvas-pro";
 import { useLoaderData } from "react-router-dom";
 
 const Preview = () => {
-    const {name,billName,billNumber,dateStart,street ,items,city,number,billStreet,billPhone,grandTotal} = useLoaderData();
-    const data = useLoaderData()
-    console.log(data)
-    
+  const {
+    name,
+    billName,
+    billNumber,
+    dateStart,
+    street,
+    items,
+    city,
+    number,
+    billStreet,
+    billPhone,
+    grandTotal,
+  } = useLoaderData();
+  const data = useLoaderData();
+  console.log(data);
+
   const invoiceRef = useRef();
 
   // Print functionality
@@ -61,9 +71,13 @@ const Preview = () => {
             <h2 className="text-xl font-bold">WEBPRO AI</h2>
           </div>
           <div className="text-right">
-            <h3 className="text-2xl font-bold text-blue-600">
-              <img className="w-[200px]" src="https://webproais.com/wp-content/uploads/2024/05/Logo-1.png" alt="" />
-            </h3>
+            <img
+              className="w-[150px] cursor-pointer"
+              src="https://webproais.com/wp-content/uploads/2024/05/Logo-1.png"
+              alt=""
+            />
+            <h3 className="text-sm font-bold text-blue-600">info@webproais.com</h3>
+            <h3 className="text-sm font-bold text-blue-600">webproais.com</h3>
           </div>
         </div>
         <div className="mt-4">
@@ -99,21 +113,18 @@ const Preview = () => {
               <th className="text-left py-2">Total</th>
             </tr>
           </thead>
-         {
-          items &&
-          items?.map((item,idx) => <tbody key={idx}>
-            <tr className="border-b border-gray-200">
-              <td className="py-2">{item?.title}</td>
-              <td className="py-2">{item?.qty}</td>
-              <td className="py-2">${item?.rate}</td>
-              <td className="py-2">$0.00</td>
-              <td className="py-2">${item?.qty * item?.rate}</td>
-            </tr>
-          
-          </tbody>)
-         }
-         
-
+          {items &&
+            items?.map((item, idx) => (
+              <tbody key={idx}>
+                <tr className="border-b border-gray-200">
+                  <td className="py-2">{item?.title}</td>
+                  <td className="py-2">{item?.qty}</td>
+                  <td className="py-2">${item?.rate}</td>
+                  <td className="py-2">$0.00</td>
+                  <td className="py-2">${item?.qty * item?.rate}</td>
+                </tr>
+              </tbody>
+            ))}
         </table>
 
         <div className="mt-6">
@@ -144,7 +155,9 @@ const Preview = () => {
             </div>
             <div className="flex justify-between mt-4">
               <h3 className="text-2xl font-bold">Total Amount:</h3>
-              <h3 className="text-2xl font-bold text-blue-600">${grandTotal}</h3>
+              <h3 className="text-2xl font-bold text-blue-600">
+                ${grandTotal}
+              </h3>
             </div>
           </div>
         </div>

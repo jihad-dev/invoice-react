@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import InvoiceUpdate from "../../components/InvoiceUpdate/InvoiceUpdate";
+import Swal from "sweetalert2";
 
 const InvoiceDetails = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,19 +40,49 @@ const InvoiceDetails = () => {
   // Total amount due with VAT
   const totalAmountDue = totalAmount + vat;
 
+
   // delete item
   const handleDeleteItem = (_id) => {
-    console.log("delete", _id);
-    fetch(`http://localhost:5000/information/${_id}`, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.deletedCount > 0) {
-          alert("delete data ");
-          navigate("/list");
-        }
-      });
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:5000/information/${_id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.deletedCount > 0) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success",
+              });
+              navigate("/list");
+            } else {
+              Swal.fire({
+                title: "Error",
+                text: "Failed to delete the item.",
+                icon: "error",
+              });
+            }
+          })
+          .catch((error) => {
+            Swal.fire({
+              title: "Error",
+              text: "An error occurred during deletion.",
+              icon: "error",
+            });
+            console.error("Delete error:", error);
+          });
+      }
+    });
   };
 
   return (
@@ -59,7 +90,6 @@ const InvoiceDetails = () => {
       <div className="bg-gray-50 p-6 max-w-[40rem] h-[670px] mx-auto my-10 rounded-lg shadow-md">
         {/* Status */}
         <div className="flex justify-end items-center mb-4">
-
           <div className="space-x-2">
             <>
               {/* Modal toggle button */}
