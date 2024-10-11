@@ -107,12 +107,12 @@ const Preview = () => {
           <p>Email: {email}</p>
           <p>Tel: {phone}</p>
         </div>
-        <div className="mt-5">
+        <div className="mt-5 mb-3">
           <p>
             Tax invoice for <span className="font-bold">{subject}</span>
           </p>
         </div>
-      
+
         <div className="max-w-full ">
           <div className="overflow-x-auto">
             <table className="min-w-full border border-black text-sm">
@@ -152,18 +152,18 @@ const Preview = () => {
                     >
                       Sub Total
                     </td>
-                    <td className="px-4 py-2 border border-black">
+                    <td className="px-4 py-2 border font-bold border-black">
                       ${subtotal.toFixed(2)}
                     </td>
                   </tr>
                   <tr>
                     <td
-                      className="px-4 py-2 border border-black font-bold"
+                      className="px-4 py-2 border  border-black font-bold"
                       colSpan={3}
                     >
                       5% VAT
                     </td>
-                    <td className="px-4 py-2 border border-black">
+                    <td className="px-4 py-2 border  font-bold border-black">
                       ${taxAmount.toFixed(2)}
                     </td>
                   </tr>
@@ -174,7 +174,7 @@ const Preview = () => {
                     >
                       Total Amount
                     </td>
-                    <td className="px-4 py-2 border border-black">
+                    <td className="px-4 py-2 border font-bold border-black">
                       ${grandTotal.toFixed(2)}
                     </td>
                   </tr>

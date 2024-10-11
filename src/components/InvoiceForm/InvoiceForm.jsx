@@ -192,7 +192,6 @@ const InvoiceForm = () => {
                 />
               </div>
 
-
               {/* <div className="mb-4">
                 <label className="block text-gray-700 font-medium mb-1">
                   Terms
@@ -214,8 +213,6 @@ const InvoiceForm = () => {
                   className="w-full  px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div> */}
-
-
             </div>
           </div>
         </div>
@@ -245,7 +242,8 @@ const InvoiceForm = () => {
                     ></path>
                   </svg>
                 </button>
-                <input
+
+                {/* <input
                   type="text"
                   value={item.title}
                   onChange={(e) =>
@@ -253,8 +251,16 @@ const InvoiceForm = () => {
                   }
                   placeholder="Item title"
                   className="border border-gray-300 rounded px-4 py-2 "
-                />
-
+                /> */}
+                <textarea
+                  type="text"
+                  value={item.description}
+                  onChange={(e) =>
+                    handleInputChange(index, "description", e.target.value)
+                  }
+                  placeholder="Additional details"
+                  className="mt-2 border border-gray-300 rounded px-4 py-2 w-full"
+                ></textarea>
                 <div>
                   <span>Price</span>
                   <input
@@ -288,7 +294,7 @@ const InvoiceForm = () => {
                 </div>
               </div>
 
-              <textarea
+              {/* <textarea
                 type="text"
                 value={item.description}
                 onChange={(e) =>
@@ -296,7 +302,7 @@ const InvoiceForm = () => {
                 }
                 placeholder="Additional details"
                 className="mt-2 border border-gray-300 rounded px-4 py-2 w-full"
-              ></textarea>
+              ></textarea> */}
             </div>
           ))}
 
