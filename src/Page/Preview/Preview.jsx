@@ -16,7 +16,7 @@ const Preview = () => {
     subject,
     email,
   } = useLoaderData();
-
+console.log(items)
   const invoiceRef = useRef();
 
   // Calculate the subtotal
@@ -128,13 +128,88 @@ const Preview = () => {
           </p>
         </div>
 
-        <table className="w-full mt-6 table-auto">
+        <div className="max-w-full p-4">
+          <div className="overflow-x-auto">
+            <table className="min-w-full border border-black text-sm">
+              <thead>
+                <tr>
+                  <th className="px-4 py-2 border border-black">
+                    Description of Work
+                  </th>
+                  <th className="px-4 py-2 border border-black">Qty & Unit</th>
+                  <th className="px-4 py-2 border border-black">Rate</th>
+                  <th className="px-4 py-2 border border-black">
+                    Amount (AED)
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {items?.map((item,idx) => (
+                  <tr key={idx}>
+                    <td className="px-4 py-2 border border-black">
+                      {item?.description}
+                    </td>
+                    <td className="px-4 py-2 border border-black" >
+                      {item?.qty}
+                    </td>
+                    <td className="px-4 py-2 border border-black">
+                      {item?.rate}
+                    </td>
+                    <td className="px-4 py-2 border border-black">
+                    ${(item?.qty * item?.rate).toFixed(2)}
+                    </td>
+                  </tr>
+                ))}
+
+                <>
+                  <tr>
+                    <td
+                      className="px-4 py-2 border border-black font-bold"
+                      colSpan={3}
+                    >
+                      Sub Total
+                    </td>
+                    <td className="px-4 py-2 border border-black">${subtotal.toFixed(2)}</td>
+                  </tr>
+                  <tr>
+                    <td
+                      className="px-4 py-2 border border-black font-bold"
+                      colSpan={3}
+                    >
+                      5% VAT
+                    </td>
+                    <td className="px-4 py-2 border border-black">${taxAmount.toFixed(2)}</td>
+                  </tr>
+                  <tr>
+                    <td
+                      className="px-4 py-2 border border-black font-bold"
+                      colSpan={3}
+                    >
+                      Total Amount
+                    </td>
+                    <td className="px-4 py-2 border border-black">  ${grandTotal.toFixed(2)}</td>
+                  </tr>
+                </>
+              </tbody>
+            </table>
+          </div>
+          <p className="text-sm mt-2 font-bold">
+            Total in words:
+            <span className="uppercase">
+              Forty-two thousand dirhams and zero fills only
+            </span>
+          </p>
+          <p className="mt-1">
+            Purchase order – <span className="font-bold">PO-0</span>
+          </p>
+        </div>
+        {/* <table className="w-full mt-6 table-auto">
           <thead>
             <tr className="border-b-2 border-gray-200">
               <th className="text-left py-2">Item</th>
               <th className="text-left py-2">Quantity</th>
               <th className="text-left py-2">Rate</th>
-              {/* <th className="text-left py-2">Tax</th> */}
+             
               <th className="text-left py-2">Total</th>
             </tr>
           </thead>
@@ -145,14 +220,14 @@ const Preview = () => {
                   <td className="py-2">{item?.title}</td>
                   <td className="py-2">{item?.qty}</td>
                   <td className="py-2">${item?.rate}</td>
-                  {/* <td className="py-2">${(item?.rate * taxRate).toFixed(2)}</td> */}
+                
                   <td className="py-2">
                     ${(item?.qty * item?.rate).toFixed(2)}
                   </td>
                 </tr>
               </tbody>
             ))}
-        </table>
+        </table> */}
 
         <div className="mt-6">
           <h4 className="font-bold">Terms & Conditions:</h4>
