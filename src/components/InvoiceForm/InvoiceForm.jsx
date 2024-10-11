@@ -319,7 +319,7 @@ const InvoiceForm = () => {
             </button>
             <div>
               <h2>Tax: 5%</h2>
-              <h2>SubTotal: ${subTotal.toFixed(2)}</h2>{" "}
+              <h2>SubTotal: ${subTotal.toFixed(2)}</h2>
               {/* Formatting to fixed 2 decimals */}
               <h3>GrandTotal: ${grandTotal}</h3>
             </div>
