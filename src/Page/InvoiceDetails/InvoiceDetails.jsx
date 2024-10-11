@@ -17,6 +17,7 @@ const InvoiceDetails = () => {
   };
   const {
     _id,
+    name,
     billName,
     billNumber,
     grandTotal,
@@ -41,7 +42,6 @@ const InvoiceDetails = () => {
   // Total amount due with VAT
   const totalAmountDue = totalAmount;
   // const totalAmountDue = totalAmount + vat;
-
 
   // delete item
   const handleDeleteItem = (_id) => {
@@ -162,12 +162,13 @@ const InvoiceDetails = () => {
 
         {/* Invoice Details */}
         <div className="border-b border-gray-200 pb-4 mb-4">
-          <h3 className="text-gray-800 font-bold text-lg">#{billNumber}</h3>
-          <p className="text-gray-600">{billName}</p>
+          <h3 className="text-gray-800 font-bold text-lg">Invoice No :#{billNumber}</h3>
+          <p className="text-gray-600">Company Name : {name}</p>
+          <p className="text-gray-600">Date : {dateStart}</p>
         </div>
 
         {/* Invoice Info */}
-        <div className="grid grid-cols-2 gap-4 text-sm text-gray-600">
+        {/* <div className="grid grid-cols-2 gap-4 text-sm text-gray-600">
           <div>
             <p className="font-bold">Invoice Date</p>
             <p>{dateStart}</p>
@@ -187,7 +188,7 @@ const InvoiceDetails = () => {
             <p className="font-bold">Sent to</p>
             <p>{billEmail}</p>
           </div>
-        </div>
+        </div> */}
 
         {/* Item Info */}
 

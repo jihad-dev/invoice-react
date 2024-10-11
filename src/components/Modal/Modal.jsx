@@ -21,8 +21,6 @@ const Modal = () => {
             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGHSURBVHgBzZc/TsMwFMY/F9jLxka6sRFOEGam7kicgQugDByg9AQUJHY2VnoCysaWdIIt2RF6vJc4iisVYaep3Z/0Na7S+tnf818FS4hoyI8xK2HFrIg11K9LVs5asOasZ6VUiT7gwBFrwirIjXv5L7oiPdaBN2Wi3XPudUb9kZGtG/zDmPoNbjYi9t3zdY2IzJjKCC55ekM9urdJzjprZsnAeJF6CA4dI22+VA5oWzL4ZcQu5I0DKfxzLR9K576Af2QMjMSBMTqQfRBurr4rSbkD1dIuDUgQjkQaECMc8T4cpp5p9deyLX8uV1MwOlGwJJJBaJ1AybcNt48HsGWAwIgDMgWttkszBWL7y9NPVb643MPRcWu7QwpKGQM5LAfiXxVLcIegJtVK+I5wLKQBrwjHvFmKZSNyOzb1w+FA78sP8M9MYu/GdiwFfkzhj6mOGf5ItkKIQ+m6RoQ7lm/RiYxcr2lUX83uaHOkju5rDNVuzMiNQgeO/qvfegeh9np+zjpFT9fzXwRPrh24QcPgAAAAAElFTkSuQmCC"
             alt=""
           />
-
-
           <p className=" md:block hidden text-white font-semibold text-lg">
             New invoice
           </p>
@@ -31,7 +29,6 @@ const Modal = () => {
           </p>
         </button>
       </div>
-   
 
       {/* Main modal */}
       {isOpen && (

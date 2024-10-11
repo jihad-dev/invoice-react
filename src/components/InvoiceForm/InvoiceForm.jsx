@@ -42,9 +42,9 @@ const InvoiceForm = () => {
     (acc, item) => acc + calculateAmount(item.rate, item.qty),
     0
   );
-  const tax = (subTotal ).toFixed(2); // 5% tax fixed
+  const tax = subTotal.toFixed(2); // 5% tax fixed
   // const tax = (subTotal * 0.05).toFixed(2); // 5% tax fixed
-  const grandTotal = (parseFloat(subTotal)).toFixed(2);
+  const grandTotal = parseFloat(subTotal).toFixed(2);
   // const grandTotal = (parseFloat(subTotal) + parseFloat(tax)).toFixed(2);
   const navigate = useNavigate();
   // Handle form submission
@@ -55,22 +55,22 @@ const InvoiceForm = () => {
     const data = {
       name: formData.get("name"),
       email: formData.get("email"),
-      street: formData.get("street"),
-      city: formData.get("city"),
-      zip: formData.get("zip"),
+      street1: formData.get("street1"),
+      street2: formData.get("street2"),
+      // zip: formData.get("zip"),
       phone: formData.get("phone"),
-      number: formData.get("number"),
+      subject: formData.get("subject"),
       items,
-      billName: formData.get("billName"),
-      billEmail: formData.get("billEmail"),
-      billStreet: formData.get("billStreet"),
-      billCity: formData.get("billCity"),
-      billZip: formData.get("billZip"),
-      billPhone: formData.get("billPhone"),
-      billMobile: formData.get("billMobile"),
+      // billName: formData.get("billName"),
+      // billEmail: formData.get("billEmail"),
+      // billStreet: formData.get("billStreet"),
+      // billCity: formData.get("billCity"),
+      // billZip: formData.get("billZip"),
+      // billPhone: formData.get("billPhone"),
+      // billMobile: formData.get("billMobile"),
       billNumber: formData.get("billNumber"),
       dateStart: formData.get("dateStart"),
-      dueDate: formData.get("dueDate"),
+      // dueDate: formData.get("dueDate"),
       grandTotal,
     };
     // Log form data and items
@@ -103,18 +103,12 @@ const InvoiceForm = () => {
         <div className="max-w-4xl mx-auto bg-white p-8 rounded shadow">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold">Invoice</h1>
-            <div className="border flex items-center justify-center">
-              {/* <div class="custom-file-container" data-upload-id="my-unique-id"></div> */}
-              {/* <input placeholder='Logo' type="file"  /> */}
-              {/* <img className='w-25 border border-dashed' src={file} />
-                            <input onChange={handleChange} placeholder='Logo' type="file" className="file-input file-input-bordered w-full" /> */}
-            </div>
           </div>
 
-          <div className="grid lg:grid-cols-2 grid-cols-1 gap-8">
-            {/* Bill Form Information */}
+          <div>
+            {/* Bill To Information */}
             <div>
-              <h2 className="font-semibold mb-4">From</h2>
+              <h2 className="font-semibold mb-4">To</h2>
               {/* Business Information */}
               <div className="mb-4">
                 <label className="block font-medium">Company Name</label>
@@ -138,21 +132,15 @@ const InvoiceForm = () => {
                 <label className="block font-medium">Address</label>
                 <input
                   type="text"
-                  name="street"
+                  name="street1"
                   className="input input-bordered w-full mt-2"
-                  placeholder="Street"
+                  placeholder="Street1"
                 />
                 <input
                   type="text"
-                  name="city"
+                  name="street2"
                   className="input input-bordered w-full mt-2"
-                  placeholder="City, State"
-                />
-                <input
-                  type="text"
-                  name="zip"
-                  className="input input-bordered w-full mt-2"
-                  placeholder="Zip code"
+                  placeholder="State2"
                 />
               </div>
               <div className="mb-4">
@@ -165,85 +153,18 @@ const InvoiceForm = () => {
                 />
               </div>
               <div className="mb-4">
-                <label className="block font-medium">Business Number</label>
+                <label className="block font-medium">Subject</label>
                 <input
                   type="text"
-                  name="number"
+                  required
+                  name="subject"
                   className="input input-bordered w-full"
-                  placeholder="123-45-6789"
-                />
-              </div>
-            </div>
-
-            <div>
-              <h2 className="font-semibold mb-4">Bill To</h2>
-              {/* Client Information */}
-              <div className="mb-4">
-                <label className="block font-medium">Name</label>
-                <input
-                  type="text"
-                  required
-                  name="billName"
-                  className="input input-bordered w-full"
-                  placeholder="Client Name"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block font-medium">Email</label>
-                <input
-                  type="email"
-                  required
-                  name="billEmail"
-                  className="input input-bordered w-full"
-                  placeholder="name@client.com"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block font-medium">Address</label>
-                <input
-                  type="text"
-                  required
-                  name="billStreet"
-                  className="input input-bordered w-full"
-                  placeholder="Street"
-                />
-                <input
-                  type="text"
-                  required
-                  name="billCity"
-                  className="input input-bordered w-full mt-2"
-                  placeholder="City, State"
-                />
-                <input
-                  type="text"
-                  required
-                  name="billZip"
-                  className="input input-bordered w-full mt-2"
-                  placeholder="Zip code"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block font-medium">Phone</label>
-                <input
-                  type="text"
-                  required
-                  name="billPhone"
-                  className="input input-bordered w-full"
-                  placeholder="(123) 456 789"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block font-medium">Mobile</label>
-                <input
-                  type="text"
-                  required
-                  name="billMobile"
-                  className="input input-bordered w-full"
-                  placeholder="(123) 456 789"
+                  placeholder="Enter your subject"
                 />
               </div>
             </div>
           </div>
+
           <div>
             <div className="p-10 rounded-md  ">
               <div className="mb-4">
@@ -270,7 +191,9 @@ const InvoiceForm = () => {
                   className="w-full  px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-              <div className="mb-4">
+
+
+              {/* <div className="mb-4">
                 <label className="block text-gray-700 font-medium mb-1">
                   Terms
                 </label>
@@ -290,7 +213,9 @@ const InvoiceForm = () => {
                   name="dueDate"
                   className="w-full  px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-              </div>
+              </div> */}
+
+
             </div>
           </div>
         </div>

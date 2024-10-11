@@ -28,9 +28,9 @@ const InvoiceUpdate = ({ update }) => {
     (acc, item) => acc + calculateAmount(item.rate, item.qty),
     0
   );
-  const tax = (subTotal).toFixed(2); // 5% tax fixed
+  const tax = subTotal.toFixed(2); // 5% tax fixed
   // const tax = (subTotal * 0.05).toFixed(2); // 5% tax fixed
-  const grandTotal = (parseFloat(subTotal)).toFixed(2);
+  const grandTotal = parseFloat(subTotal).toFixed(2);
   // const grandTotal = (parseFloat(subTotal) + parseFloat(tax)).toFixed(2);
   const navigate = useNavigate();
   // Handle form submission
@@ -41,22 +41,22 @@ const InvoiceUpdate = ({ update }) => {
     const data = {
       name: formData.get("name"),
       email: formData.get("email"),
-      street: formData.get("street"),
-      city: formData.get("city"),
-      zip: formData.get("zip"),
+      street1: formData.get("street1"),
+      street2: formData.get("street2"),
+      // zip: formData.get("zip"),
       phone: formData.get("phone"),
-      number: formData.get("number"),
+      subject: formData.get("subject"),
       items,
-      billName: formData.get("billName"),
-      billEmail: formData.get("billEmail"),
-      billStreet: formData.get("billStreet"),
-      billCity: formData.get("billCity"),
-      billZip: formData.get("billZip"),
-      billPhone: formData.get("billPhone"),
-      billMobile: formData.get("billMobile"),
-      billNumber: formData.get("billNumber"),
+      // billName: formData.get("billName"),
+      // billEmail: formData.get("billEmail"),
+      // billStreet: formData.get("billStreet"),
+      // billCity: formData.get("billCity"),
+      // billZip: formData.get("billZip"),
+      // billPhone: formData.get("billPhone"),
+      // billMobile: formData.get("billMobile"),
+      // billNumber: formData.get("billNumber"),
       dateStart: formData.get("dateStart"),
-      dueDate: formData.get("dueDate"),
+      // dueDate: formData.get("dueDate"),
       grandTotal,
     };
     // Log form data and items
@@ -115,25 +115,19 @@ const InvoiceUpdate = ({ update }) => {
                 <label className="block font-medium">Address</label>
                 <input
                   type="text"
-                  defaultValue={update?.street}
-                  name="street"
+                  defaultValue={update?.street1}
+                  name="street1"
                   className="input input-bordered w-full mt-2"
-                  placeholder="Street"
+                  placeholder="Street1"
                 />
                 <input
                   type="text"
-                  defaultValue={update?.city}
-                  name="city"
+                  defaultValue={update?.street2}
+                  name="street2"
                   className="input input-bordered w-full mt-2"
-                  placeholder="City, State"
+                  placeholder=" Street2"
                 />
-                <input
-                  type="text"
-                  defaultValue={update?.zip}
-                  name="zip"
-                  className="input input-bordered w-full mt-2"
-                  placeholder="Zip code"
-                />
+                
               </div>
               <div className="mb-4">
                 <label className="block font-medium">Phone</label>
@@ -146,20 +140,20 @@ const InvoiceUpdate = ({ update }) => {
                 />
               </div>
               <div className="mb-4">
-                <label className="block font-medium">Business Number</label>
+                <label className="block font-medium">Subject</label>
                 <input
                   type="text"
-                  defaultValue={update?.number}
-                  name="number"
+                  defaultValue={update?.subject}
+                  name="subject"
                   className="input input-bordered w-full"
-                  placeholder="123-45-6789"
+                  placeholder="Enter Your Subject"
                 />
               </div>
             </div>
 
-            <div>
+            {/* <div>
               <h2 className="font-semibold mb-4">Bill To</h2>
-              {/* Client Information */}
+              
               <div className="mb-4">
                 <label className="block font-medium">Name</label>
                 <input
@@ -224,7 +218,7 @@ const InvoiceUpdate = ({ update }) => {
                   placeholder="(123) 456 789"
                 />
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="p-10 bg-white shadow-lg rounded-md">
             <div className="mb-4">
@@ -251,7 +245,7 @@ const InvoiceUpdate = ({ update }) => {
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label className="block text-gray-700 font-medium mb-1">
                 Terms
               </label>
@@ -271,7 +265,7 @@ const InvoiceUpdate = ({ update }) => {
                 name="dueDate"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -368,7 +362,7 @@ const InvoiceUpdate = ({ update }) => {
             </button>
             <div>
               <h2>Tax: 5%</h2>
-              <h2>SubTotal: ${subTotal.toFixed(2)}</h2>{" "}
+              <h2>SubTotal: ${subTotal.toFixed(2)}</h2>
               {/* Formatting to fixed 2 decimals */}
               <h3>GrandTotal: ${grandTotal}</h3>
             </div>

@@ -3,6 +3,7 @@ import { Link, useLoaderData } from "react-router-dom";
 
 const ListInvoice = () => {
   const informations = useLoaderData();
+  console.log(informations)
 
   return (
     <div>
@@ -21,16 +22,17 @@ const ListInvoice = () => {
                   <span className="text-blue-500 lg:p-2 p-1 font-medium">
                     #{information?.billNumber}
                   </span>
-                  <span className="text-gray-500 lg:p-2 p-1 text-sm">
-                    {information?.dueDate}
-                  </span>
+                  {/* <span className="text-gray-500 lg:p-2 p-1 text-sm">
+                    {information?.email}
+                  </span> */}
                   <span className="text-gray-900 lg:p-2 p-1 font-medium">
-                    {information?.billName}
+                    {information?.name}
                   </span>
                 </div>
                 <div>
                   <span className="text-gray-900 font-semibold">
                     ${information?.grandTotal}
+                    
                   </span>
                 </div>
               </div>
