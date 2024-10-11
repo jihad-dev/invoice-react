@@ -143,7 +143,6 @@ const InvoiceDetails = () => {
                           <span className="sr-only">Close modal</span>
                         </button>
                       </div>
-                      {/* Modal body */}
 
                       <InvoiceUpdate update={update}></InvoiceUpdate>
                     </div>
@@ -162,36 +161,12 @@ const InvoiceDetails = () => {
 
         {/* Invoice Details */}
         <div className="border-b border-gray-200 pb-4 mb-4">
-          <h3 className="text-gray-800 font-bold text-lg">Invoice No :#{billNumber}</h3>
+          <h3 className="text-gray-800 font-bold text-lg">
+            Invoice No :#{billNumber}
+          </h3>
           <p className="text-gray-600">Company Name : {name}</p>
           <p className="text-gray-600">Date : {dateStart}</p>
         </div>
-
-        {/* Invoice Info */}
-        {/* <div className="grid grid-cols-2 gap-4 text-sm text-gray-600">
-          <div>
-            <p className="font-bold">Invoice Date</p>
-            <p>{dateStart}</p>
-          </div>
-          <div>
-            <p className="font-bold">Payment Due</p>
-            <p>{dueDate}</p>
-          </div>
-          <div>
-            <p className="font-bold text-sm">Bill to</p>
-            <p>{billName}</p>
-            <p>{billStreet}</p>
-            <p>{billZip}</p>
-            <p>{billCity}</p>
-          </div>
-          <div>
-            <p className="font-bold">Sent to</p>
-            <p>{billEmail}</p>
-          </div>
-        </div> */}
-
-        {/* Item Info */}
-
         <div className="w-full my-4">
           <table className="min-w-full">
             <thead>
@@ -205,7 +180,7 @@ const InvoiceDetails = () => {
             {items.map((item, idx) => (
               <tbody key={idx}>
                 <tr className="border-b">
-                  <td className="py-3 px-5">{item?.title}</td>
+                  <td className="py-3 px-5">{item?.description}</td>
                   <td className="py-3 px-5">{item?.qty}</td>
                   <td className="py-3 px-5">{item?.rate}</td>
                   <td className="py-3 px-5">{item?.rate * item?.qty}</td>

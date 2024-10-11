@@ -1,4 +1,3 @@
-
 import React, { useRef, useState } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas-pro";
@@ -7,8 +6,6 @@ import logo from "../../assets/header-logo.png";
 import NumberToWords from "number-to-words";
 
 const Preview = () => {
-
-
   const {
     name,
     billNumber,
@@ -20,7 +17,7 @@ const Preview = () => {
     subject,
     email,
   } = useLoaderData();
-  
+
   const invoiceRef = useRef();
 
   // Calculate the subtotal
@@ -93,7 +90,6 @@ const Preview = () => {
             </p>
           </center>
         </div>
-
         <div className="mt-4">
           <p>
             Invoice Number: <span className="font-bold">{billNumber}</span>
@@ -105,7 +101,9 @@ const Preview = () => {
         <div>
           <h4>Bill To :</h4>
           <h2 className="text-xl font-bold font-serif">Company Name: {name}</h2>
-          <p>Address: {street1}, {street2}</p>
+          <p>
+            Address: {street1}, {street2}
+          </p>
           <p>Email: {email}</p>
           <p>Tel: {phone}</p>
         </div>
@@ -114,8 +112,8 @@ const Preview = () => {
             Tax invoice for <span className="font-bold">{subject}</span>
           </p>
         </div>
-
-        <div className="max-w-full p-4">
+      
+        <div className="max-w-full ">
           <div className="overflow-x-auto">
             <table className="min-w-full border border-black text-sm">
               <thead>
@@ -123,11 +121,9 @@ const Preview = () => {
                   <th className="px-4 py-2 border border-black">
                     Description of Work
                   </th>
-                  <th className="px-4 py-2 border border-black">Qty & Unit</th>
-                  <th className="px-4 py-2 border border-black">Rate</th>
-                  <th className="px-4 py-2 border border-black">
-                    Amount (AED)
-                  </th>
+                  <th className=" py-2 border border-black">Qty & Unit</th>
+                  <th className=" py-2 border border-black">Rate</th>
+                  <th className=" py-2 border border-black">Amount (AED)</th>
                 </tr>
               </thead>
               <tbody>
@@ -186,22 +182,48 @@ const Preview = () => {
               </tbody>
             </table>
           </div>
-          <p className="text-sm mt-2 font-bold">
-            Total in words: <span className="uppercase">{grandTotalInWords} dirhams only</span>
+          <p className="text-sm mt-4 mb-4 font-bold">
+            Total in words:
+            <span className="uppercase">{grandTotalInWords} dirhams only</span>
           </p>
           <p className="mt-1">
-            Purchase order – <span className="font-bold">PO-0</span>
+            Only bank transfers or cheques as payment methods available (No cash
+            payment accepted)
+            <p> Cheque should be sent to SPD TECHNICAL WORKS LLC</p>
+            <p>
+              Bank Transfer: Account Name: SPD TECHNICAL WORKS LLC, Account
+              no:11353811820001,
+            </p>
+            <p> IBAN: AE270030011353811820001, Bank: ADCB, Dubai, UAE</p>
           </p>
+          <p className="mt-3 font-semibold">Thanks & Regards</p>
+          <div className="mt-7">
+            <p>SPD Technical Works LLC </p>
+            <p>Md. Sazedur Rahman</p>
+            <p>+971-50-889 4701</p>
+            <p>E mail: info@spd-technical.com</p>
+            <p>https://spd-technical.com/</p>
+          </div>
         </div>
-
-        <div className="mt-6">
+        <footer className=" px-4 py-0.5 border border-black border-r-0 border-l-0">
+          <p>
+            Mob: +971 50 889 4701+971 55 479 7551, Jabel Ali lndustrial First,
+            P.O.Box: 112037, Dubai - U.A.E
+          </p>
+          <p className="text-center">
+            I E-mail: info@spd-technicaI.com,{" "}
+            <a target="_blank" href="https://www.spd-technical.com/">
+              https://www.spd-technical.com/
+            </a>
+          </p>
+        </footer>
+        {/* <div className="mt-6">
           <h4 className="font-bold">Terms & Conditions:</h4>
           <p className="text-gray-500">
             Please make the payment within 15 days.
           </p>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4 mt-6">
+        </div> */}
+        {/* <div className="grid grid-cols-2 gap-4 mt-6">
           <div></div>
           <div>
             <div className="flex justify-between">
@@ -219,7 +241,7 @@ const Preview = () => {
               </h3>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Action buttons */}
