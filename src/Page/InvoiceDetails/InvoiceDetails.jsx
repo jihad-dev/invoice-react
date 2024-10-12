@@ -35,13 +35,17 @@ const InvoiceDetails = () => {
     (acc, item) => acc + item.qty * item.rate,
     0
   );
-  // Calculate VAT (15%)
-  const vat = totalAmount;
+
+  // Define the tax rate (5%)
+  const taxRate = 0.05;
+  const taxAmount = totalAmount * taxRate;
   // const vat = totalAmount * 0.05;
 
   // Total amount due with VAT
   const totalAmountDue = totalAmount;
   // const totalAmountDue = totalAmount + vat;
+
+
 
   // delete item
   const handleDeleteItem = (_id) => {
@@ -192,8 +196,9 @@ const InvoiceDetails = () => {
 
         {/* Amount Due */}
         <div className="bg-gray-800 text-white text-center p-4 mt-4 rounded-lg">
-          <span className="text-lg font-bold">Total Amount </span>
-          <p className="text-2xl">${totalAmountDue}</p>
+          <span>tax: {taxAmount}</span>
+          <span className="text-lg font-bold">Total Amount : {totalAmountDue} </span>
+         
         </div>
       </div>
     </div>
