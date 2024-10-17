@@ -4,9 +4,9 @@ import React, { useRef, useState } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas-pro";
 import { Link, useLoaderData } from "react-router-dom";
-import logo from "../../assets/header-logo.png";
+// import logo from "../../assets/header-logo.png";
 import NumberToWords from "number-to-words";
-import { getHeaderInvoiceImage } from "../../helpers/getHeaderImage";
+import { getHeaderInvoiceImage } from "../../invoice-react-frontend/src/helpers/getHeaderImage";
 
 const Preview = () => {
   const {
@@ -25,7 +25,7 @@ const Preview = () => {
 
   // Calculate the subtotal
   const subtotal = items.reduce((acc, item) => acc + item.qty * item.rate, 0);
-
+  
   // Define the tax rate (5%)
   const taxRate = 0.05;
   const taxAmount = subtotal * taxRate;
@@ -42,35 +42,40 @@ const Preview = () => {
   };
 
 
-  const generatePdf = async () => {
-    const input = invoiceRef.current;
+  const generatePDF = () => {
+    const input = document.getElementById("pdf-content");
+    const header = document.getElementById("pdf-header");
+    if(header){
+      header.remove();
+    }
+    
+    html2canvas(input).then((canvas) => {
+      const imageBase64 = getHeaderInvoiceImage();
+      const imgData = canvas.toDataURL("image/png");
+      
+      const pdf = new jsPDF();
+      const imgWidth = 210; // A4 width in mm
+      const pageHeight = 297; // A4 height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight + 25;
 
-    const pdf = new jsPDF("p", "mm", "a4");
-    let pageHeight = pdf.internal.pageSize.height;
-    const paddingTop = 10; // Define the padding for new pages
+      let position = 25;
 
-    // Capture the page
-    const canvas = await html2canvas(input);
-    const imgData = canvas.toDataURL("image/png");
-    const imgWidth = 200; // A4 width in mm
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-    let heightLeft = imgHeight;
-    let position = 0;
-
-    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
-
-    // Loop over the remaining pages
-    while (heightLeft > 0) {
-      pdf.addPage();
-      position = heightLeft - imgHeight + paddingTop; // Add 30px padding at the top
+      pdf.addImage(imageBase64, 'PNG', 0, 0, imgWidth, 30); 
       pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
-    }
+      
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
 
-    pdf.save("page.pdf");
+      pdf.save("download.pdf");
+    });
   };
+
   return (
     <div>
       <Link to="/list">Back</Link>
@@ -81,7 +86,7 @@ const Preview = () => {
         >
           <div>
             <div id="pdf-header">
-              <img className="w-full cursor-pointer" src={logo} alt="logo" />
+              <img className="w-full cursor-pointer" src={logo} alt="logo"/>
             </div>
             <center>
               <h2 className="underline text-3xl font-bold text-black">
@@ -184,13 +189,11 @@ const Preview = () => {
             </div>
             <p className="text-sm mt-4 mb-4 font-bold">
               Total in words:
-              <span className="uppercase ">
-                {grandTotalInWords} dirhams only
-              </span>
+              <span className="uppercase ">{grandTotalInWords} dirhams only</span>
             </p>
             <p className="mt-1">
-              Only bank transfers or cheques as payment methods available (No
-              cash payment accepted)
+              Only bank transfers or cheques as payment methods available (No cash
+              payment accepted)
               <p> Cheque should be sent to SPD TECHNICAL WORKS LLC</p>
               <p>
                 Bank Transfer: Account Name: SPD TECHNICAL WORKS LLC, Account
@@ -222,20 +225,20 @@ const Preview = () => {
 
         {/* Action buttons */}
       </div>
-      <div className="flex justify-center mt-6 space-x-4">
-        <button
-          onClick={handlePrint}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Print
-        </button>
-        <button
-          onClick={generatePdf}
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-        >
-          Download PDF
-        </button>
-      </div>
+        <div className="flex justify-center mt-6 space-x-4">
+          <button
+            onClick={handlePrint}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Print
+          </button>
+          <button
+            onClick={generatePDF}
+            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          >
+            Download PDF
+          </button>
+        </div>
     </div>
   );
 };

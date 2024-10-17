@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^4.0.0",
+    "file-saver": "^2.0.5",
     "file-upload-with-preview": "^6.1.2",
     "html2canvas": "^1.4.1",
     "html2canvas-pro": "^1.5.8",
@@ -21,8 +23,7 @@
     "react-router-dom": "^6.26.2",
     "react-to-print": "^3.0.1",
     "sweetalert": "^2.1.2",
-    "sweetalert2": "^11.14.2",
-    
+    "sweetalert2": "^11.14.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
