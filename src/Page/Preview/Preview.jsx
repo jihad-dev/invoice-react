@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas-pro";
 import { Link, useLoaderData } from "react-router-dom";
@@ -38,43 +38,42 @@ const Preview = () => {
     window.print();
   };
 
+  // Generate PDF and center content on the page
   const generatePdf = async () => {
     const input = invoiceRef.current;
 
+    // Create a new jsPDF document in A4 format
     const pdf = new jsPDF("p", "mm", "a4");
-    console.log(pdf);
-    let pageHeight = pdf.internal.pageSize.height;
-    const paddingTop = 10; // Define the padding for new pages
 
-    // Capture the page
-    const canvas = await html2canvas(input);
+    // Get the page dimensions
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    // Capture the HTML content and generate the canvas
+    const canvas = await html2canvas(input, { scale: 3 });
     const imgData = canvas.toDataURL("image/png");
-    const imgWidth = 200; // A4 width in mm
+
+    // Calculate the image dimensions to fit the content in the center of the page
+    const imgWidth = pageWidth - 10; // Set width with margin
     const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-    let heightLeft = imgHeight;
-    let position = 0;
+    const marginLeft = (pageWidth - imgWidth) / 2; // Center the image horizontally
+    const marginTop = (pageHeight - imgHeight) / 2; // Center the image vertically if needed
 
-    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
+    // Add the image to the PDF at the calculated position
+    pdf.addImage(imgData, "PNG", marginLeft, marginTop, imgWidth, imgHeight);
 
-    // Loop over the remaining pages
-    while (heightLeft > 0) {
-      pdf.addPage();
-      position = heightLeft - imgHeight + paddingTop; // Add 30px padding at the top
-      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-    }
-
+    // Save the generated PDF
     pdf.save("invoice.pdf");
   };
+
   return (
     <div>
       <Link to="/list">Back</Link>
       <div id="pdf-content">
         <div
           ref={invoiceRef}
-          className="max-w-3xl mx-auto bg-white shadow-lg p-6 rounded-lg mt-10"
+          className="max-w-3xl mx-auto bg-white shadow-lg p-6 rounded-lg "
         >
           <div>
             <div id="pdf-header">
@@ -110,7 +109,7 @@ const Preview = () => {
             </p>
           </div>
 
-          <div className="max-w-full ">
+          <div className="max-w-full">
             <div className="overflow-x-auto">
               <table className="min-w-full border border-black text-sm">
                 <thead>
@@ -118,9 +117,9 @@ const Preview = () => {
                     <th className="px-4 py-2 border border-black">
                       Description of Work
                     </th>
-                    <th className=" py-2 border border-black">Qty & Unit</th>
-                    <th className=" py-2 border border-black">Rate</th>
-                    <th className=" py-2 border border-black">Amount (AED)</th>
+                    <th className="py-2 border border-black">Qty & Unit</th>
+                    <th className="py-2 border border-black">Rate</th>
+                    <th className="py-2 border border-black">Amount (AED)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -140,7 +139,6 @@ const Preview = () => {
                       </td>
                     </tr>
                   ))}
-
                   <>
                     <tr>
                       <td
@@ -155,12 +153,12 @@ const Preview = () => {
                     </tr>
                     <tr>
                       <td
-                        className="px-4 py-2 border  border-black font-bold"
+                        className="px-4 py-2 border border-black font-bold"
                         colSpan={3}
                       >
                         5% VAT
                       </td>
-                      <td className="px-4 py-2 border  font-bold border-black">
+                      <td className="px-4 py-2 border font-bold border-black">
                         {taxAmount.toFixed(2)}
                       </td>
                     </tr>
@@ -181,7 +179,7 @@ const Preview = () => {
             </div>
             <p className="text-sm mt-4 mb-4 font-bold">
               Total in words:
-              <span className="uppercase ">
+              <span className="uppercase">
                 {grandTotalInWords} dirhams only
               </span>
             </p>
@@ -203,21 +201,19 @@ const Preview = () => {
               <p>E mail: info@spd-technical.com</p>
             </div>
           </div>
-          <footer className=" px-4 py-0.5 border border-black border-r-0 border-l-0">
+          <footer className="px-4 py-0.5 border border-black border-r-0 border-l-0">
             <p>
               Mob: +971 50 889 4701+971 55 479 7551, Jabel Ali lndustrial First,
               P.O.Box: 112037, Dubai - U.A.E
             </p>
             <p className="text-center">
-              I E-mail: info@spd-technicaI.com,
+              E-mail: info@spd-technical.com,
               <a target="_blank" href="https://www.spd-technical.com/">
                 https://www.spd-technical.com/
               </a>
             </p>
           </footer>
         </div>
-
-        {/* Action buttons */}
       </div>
       <div className="flex justify-center mt-6 space-x-4">
         <button

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const InvoiceUpdate = ({ update }) => {
+  console.log(update);
   const [items, setItems] = useState(
     update?.items || [
       { title: "", description: "", rate: 0, qty: 1, tax: true },
@@ -47,20 +48,9 @@ const InvoiceUpdate = ({ update }) => {
       phone: formData.get("phone"),
       subject: formData.get("subject"),
       items,
-      // billName: formData.get("billName"),
-      // billEmail: formData.get("billEmail"),
-      // billStreet: formData.get("billStreet"),
-      // billCity: formData.get("billCity"),
-      // billZip: formData.get("billZip"),
-      // billPhone: formData.get("billPhone"),
-      // billMobile: formData.get("billMobile"),
-      // billNumber: formData.get("billNumber"),
       dateStart: formData.get("dateStart"),
-      // dueDate: formData.get("dueDate"),
       grandTotal,
     };
-    // Log form data and items
-    console.log("Form Data:", data);
 
     fetch(`http://localhost:5000/information/${update?._id}`, {
       method: "PUT",
@@ -82,31 +72,29 @@ const InvoiceUpdate = ({ update }) => {
         <div className="max-w-4xl mx-auto bg-white p-8 rounded shadow">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold">Invoice</h1>
-            {/* <div className="border flex items-center justify-center">
-                            <input placeholder='Logo' type="file" className="file-input file-input-bordered w-full" />
-                        </div> */}
           </div>
 
-          <div className="grid lg:grid-cols-2 grid-cols-1 gap-8">
+          <div>
+            {/* Bill To Information */}
             <div>
-              <h2 className="font-semibold mb-4">From</h2>
+              <h2 className="font-semibold mb-4">To</h2>
               {/* Business Information */}
               <div className="mb-4">
-                <label className="block font-medium">Name</label>
+                <label className="block font-medium">Company Name</label>
                 <input
                   type="text"
-                  defaultValue={update?.name}
                   name="name"
+                  defaultValue={update?.name}
                   className="input input-bordered w-full mt-2"
-                  placeholder="Business Name"
+                  placeholder="Company Name"
                 />
               </div>
               <div className="mb-4">
                 <label className="block font-medium">Email</label>
                 <input
                   name="email"
-                  defaultValue={update?.email}
                   type="email"
+                  defaultValue={update?.email}
                   className="input input-bordered w-full mt-2"
                   placeholder="name@business.com"
                 />
@@ -115,26 +103,25 @@ const InvoiceUpdate = ({ update }) => {
                 <label className="block font-medium">Address</label>
                 <input
                   type="text"
-                  defaultValue={update?.street1}
                   name="street1"
+                  defaultValue={update?.street1}
                   className="input input-bordered w-full mt-2"
                   placeholder="Street1"
                 />
                 <input
                   type="text"
-                  defaultValue={update?.street2}
                   name="street2"
+                  defaultValue={update?.street2}
                   className="input input-bordered w-full mt-2"
-                  placeholder=" Street2"
+                  placeholder="State2"
                 />
-                
               </div>
               <div className="mb-4">
                 <label className="block font-medium">Phone</label>
                 <input
                   type="text"
-                  defaultValue={update?.phone}
                   name="phone"
+                  defaultValue={update?.phone}
                   className="input input-bordered w-full mt-2"
                   placeholder="(123) 456 789"
                 />
@@ -143,129 +130,44 @@ const InvoiceUpdate = ({ update }) => {
                 <label className="block font-medium">Subject</label>
                 <input
                   type="text"
-                  defaultValue={update?.subject}
+                  required
                   name="subject"
+                  defaultValue={update?.subject}
                   className="input input-bordered w-full"
-                  placeholder="Enter Your Subject"
+                  placeholder="Enter your subject"
                 />
               </div>
             </div>
-
-            {/* <div>
-              <h2 className="font-semibold mb-4">Bill To</h2>
-              
-              <div className="mb-4">
-                <label className="block font-medium">Name</label>
-                <input
-                  type="text"
-                  defaultValue={update?.billName}
-                  name="billName"
-                  className="input input-bordered w-full"
-                  placeholder="Client Name"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block font-medium">Email</label>
-                <input
-                  type="email"
-                  defaultValue={update?.billEmail}
-                  name="billEmail"
-                  className="input input-bordered w-full"
-                  placeholder="name@client.com"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block font-medium">Address</label>
-                <input
-                  type="text"
-                  defaultValue={update?.billStreet}
-                  name="billStreet"
-                  className="input input-bordered w-full"
-                  placeholder="Street"
-                />
-                <input
-                  type="text"
-                  defaultValue={update?.billCity}
-                  name="billCity"
-                  className="input input-bordered w-full mt-2"
-                  placeholder="City, State"
-                />
-                <input
-                  type="text"
-                  defaultValue={update?.billZip}
-                  name="billZip"
-                  className="input input-bordered w-full mt-2"
-                  placeholder="Zip code"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block font-medium">Phone</label>
-                <input
-                  type="text"
-                  defaultValue={update?.billPhone}
-                  name="billPhone"
-                  className="input input-bordered w-full"
-                  placeholder="(123) 456 789"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block font-medium">Mobile</label>
-                <input
-                  type="text"
-                  defaultValue={update?.billMobile}
-                  name="billMobile"
-                  className="input input-bordered w-full"
-                  placeholder="(123) 456 789"
-                />
-              </div>
-            </div> */}
           </div>
-          <div className="p-10 bg-white shadow-lg rounded-md">
-            <div className="mb-4">
-              <label className="block text-gray-700 font-medium mb-1">
-                Bill Number
-              </label>
-              <input
-                defaultValue={update?.billNumber}
-                readOnly
-                type="text"
-                name="billNumber"
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="INV000"
-              />
+
+          <div>
+            <div className="p-10 rounded-md  ">
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium mb-1">
+                  Invoice Number
+                </label>
+                <input
+                  type="text"
+                  name="billNumber"
+                  readOnly
+                  value={update?.billNumber}
+                  className="w-full  px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="INV000"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium mb-1">
+                  Date
+                </label>
+                <input
+                  required
+                  type="date"
+                  defaultValue={update?.dateStart}
+                  name="dateStart"
+                  className="w-full  px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 font-medium mb-1">
-                Date
-              </label>
-              <input
-                type="date"
-                name="dateStart"
-                defaultValue={update?.dateStart}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            {/* <div className="mb-4">
-              <label className="block text-gray-700 font-medium mb-1">
-                Terms
-              </label>
-              <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option>Days</option>
-                <option>Weeks</option>
-                <option>Months</option>
-              </select>
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 font-medium mb-1">
-                Due
-              </label>
-              <input
-                type="date"
-                defaultValue={update?.dueDate}
-                name="dueDate"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div> */}
           </div>
         </div>
 
@@ -276,24 +178,34 @@ const InvoiceUpdate = ({ update }) => {
               key={index}
               className="w-full border border-gray-300 p-4 rounded-lg"
             >
-              <div className="flex justify-between items-center">
+              <div className="lg:flex ">
                 <button
-                  className="text-red-500 border border-gray-300 rounded px-2 py-1"
                   onClick={() => setItems(items.filter((_, i) => i !== index))}
                 >
-                  X
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    className="text-gray-500 hover:text-red-500 cursor-pointer mr-1 mt-0 h-7 w-7 "
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.256 1.478l-.209-.035-1.005 13.07a3 3 0 01-2.991 2.77H8.084a3 3 0 01-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 01-.256-1.478A48.567 48.567 0 017.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 013.369 0c1.603.051 2.815 1.387 2.815 2.951zm-6.136-1.452a51.196 51.196 0 013.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 00-6 0v-.113c0-.794.609-1.428 1.364-1.452zm-.355 5.945a.75.75 0 10-1.5.058l.347 9a.75.75 0 101.499-.058l-.346-9zm5.48.058a.75.75 0 10-1.498-.058l-.347 9a.75.75 0 001.5.058l.345-9z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
                 </button>
 
-                <input
+                <textarea
                   type="text"
-                  value={item.title}
+                  value={item.description}
                   onChange={(e) =>
-                    handleInputChange(index, "title", e.target.value)
+                    handleInputChange(index, "description", e.target.value)
                   }
-                  placeholder="Item title"
-                  className="border border-gray-300 rounded px-4 py-2 w-1/2"
-                />
-
+                  placeholder="Additional details"
+                  className="mt-2 border border-gray-300 rounded px-4 py-2 w-full"
+                ></textarea>
                 <div>
                   <span>Price</span>
                   <input
@@ -303,10 +215,12 @@ const InvoiceUpdate = ({ update }) => {
                       handleInputChange(index, "rate", Number(e.target.value))
                     }
                     placeholder="0.00"
-                    className="border border-gray-300 rounded px-4 py-2 w-24 text-right"
+                    className="border border-gray-300 rounded px-4 py-2 lg:w-[14rem] text-right"
                   />
                 </div>
+              </div>
 
+              <div className="flex">
                 <div>
                   <span>Qty</span>
                   <input
@@ -316,31 +230,14 @@ const InvoiceUpdate = ({ update }) => {
                       handleInputChange(index, "qty", Number(e.target.value))
                     }
                     placeholder="1"
-                    className="border border-gray-300 rounded px-4 py-2 w-16 text-right"
+                    className="border border-gray-300 rounded px-4 my-3 py-2 lg:w-[14rem] w-44 text-right "
                   />
                 </div>
 
-                <div className="w-24 text-right">
+                <div className="lg:w-44 my-7 text-right">
                   ${calculateAmount(item.rate, item.qty).toFixed(2)}
                 </div>
-
-                <input
-                  type="checkbox"
-                  checked={item.tax}
-                  onChange={() => handleInputChange(index, "tax", !item.tax)}
-                  className="form-checkbox h-5 w-5 text-blue-600"
-                />
               </div>
-
-              <textarea
-                type="text"
-                value={item.description}
-                onChange={(e) =>
-                  handleInputChange(index, "description", e.target.value)
-                }
-                placeholder="Additional details"
-                className="mt-2 border border-gray-300 rounded px-4 py-2 w-full"
-              ></textarea>
             </div>
           ))}
 
@@ -353,6 +250,7 @@ const InvoiceUpdate = ({ update }) => {
               +
             </button>
           </div>
+
           <div className="mt-4 flex justify-between">
             <button
               className="text-white bg-blue-600 hover:bg-blue-500 px-8 py-2 rounded-lg"
