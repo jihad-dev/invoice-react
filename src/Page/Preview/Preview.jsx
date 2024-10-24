@@ -228,10 +228,12 @@ const Preview = () => {
         >
           Download PDF
         </button>
+
       </div>
     </div>
   );
 };
 
 export default Preview;
+
 
