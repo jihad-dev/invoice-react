@@ -45,8 +45,6 @@ const InvoiceDetails = () => {
   const totalAmountDue = totalAmount;
   // const totalAmountDue = totalAmount + vat;
 
-
-
   // delete item
   const handleDeleteItem = (_id) => {
     Swal.fire({
@@ -92,7 +90,7 @@ const InvoiceDetails = () => {
   };
 
   return (
-    <div className="">
+    <div>
       <div className="bg-gray-50 p-6 max-w-[40rem] h-[670px] mx-auto my-10 rounded-lg shadow-md">
         {/* Status */}
         <div className="flex justify-end items-center mb-4">
@@ -171,8 +169,8 @@ const InvoiceDetails = () => {
           <p className="text-gray-600">Company Name : {name}</p>
           <p className="text-gray-600">Date : {dateStart}</p>
         </div>
-        <div className="w-full my-4">
-          <table className="min-w-full">
+        <div className="w-full my-4 h-[400px] overflow-x-auto ">
+          <table className="min-w-full ">
             <thead>
               <tr className="w-full bg-gray-200 text-left text-sm text-gray-600 uppercase tracking-wide">
                 <th className="py-3 px-5">Item name</th>
@@ -183,7 +181,7 @@ const InvoiceDetails = () => {
             </thead>
             {items.map((item, idx) => (
               <tbody key={idx}>
-                <tr className="border-b">
+                <tr className="border-b ">
                   <td className="py-3 px-5">{item?.description}</td>
                   <td className="py-3 px-5">{item?.qty}</td>
                   <td className="py-3 px-5">{item?.rate}</td>
@@ -197,8 +195,9 @@ const InvoiceDetails = () => {
         {/* Amount Due */}
         <div className="bg-gray-800 text-white text-center p-4 mt-4 rounded-lg">
           <span>tax: {taxAmount}</span>
-          <span className="text-lg font-bold">Total Amount : {totalAmountDue} </span>
-         
+          <span className="text-lg font-bold">
+            Total Amount : {totalAmountDue}
+          </span>
         </div>
       </div>
     </div>

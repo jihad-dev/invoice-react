@@ -17,6 +17,7 @@
     "html2canvas-pro": "^1.5.8",
     "html2pdf.js": "^0.10.2",
     "jspdf": "^2.5.2",
+    "jspdf-autotable": "^3.8.4",
     "number-to-words": "^1.2.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

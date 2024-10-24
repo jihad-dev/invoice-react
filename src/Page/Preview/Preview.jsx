@@ -54,7 +54,7 @@ const Preview = () => {
     const imgData = canvas.toDataURL("image/png");
 
     // Calculate the image dimensions to fit the content in the center of the page
-    const imgWidth = pageWidth - 10; // Set width with margin
+    const imgWidth = pageWidth - 60; // Set width with margin
     const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
     const marginLeft = (pageWidth - imgWidth) / 2; // Center the image horizontally
@@ -234,3 +234,6 @@ const Preview = () => {
 };
 
 export default Preview;
+
+
+
