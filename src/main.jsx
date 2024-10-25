@@ -6,6 +6,7 @@ import Home from "./Page/Home/Home.jsx";
 import ListInvoice from "./Page/ListInvoice/ListInvoice.jsx";
 import InvoiceDetails from "./Page/InvoiceDetails/InvoiceDetails.jsx";
 import Preview from "./Page/Preview/Preview.jsx";
+import Proforma from "./Page/Proforma/Proforma.jsx";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,11 @@ const router = createBrowserRouter([
     loader: ({ params }) =>
       fetch(`http://localhost:5000/information/${params.id}`),
   },
+  // proforma invoice //
+  {
+    path:'/proforma',
+    element:<Proforma/>
+  }
 ]);
 
 createRoot(document.getElementById("root")).render(
