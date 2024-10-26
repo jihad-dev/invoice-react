@@ -7,6 +7,7 @@ import ListInvoice from "./Page/ListInvoice/ListInvoice.jsx";
 import InvoiceDetails from "./Page/InvoiceDetails/InvoiceDetails.jsx";
 import Preview from "./Page/Preview/Preview.jsx";
 import Proforma from "./Page/Proforma/Proforma.jsx";
+import ProformaView from "./Page/ProformaView/ProformaView.jsx";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
   {
     path:'/proforma',
     element:<Proforma/>
+  },
+  {
+    path:'/proforma-view',
+    element:<ProformaView/>
   }
 ]);
 

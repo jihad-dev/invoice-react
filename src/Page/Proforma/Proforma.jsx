@@ -282,19 +282,37 @@
 
 // export default Proforma;
 
-
-
-
-
-
-
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Proforma = () => {
-  const [items, setItems] = useState([
-    { description: "", rate: 0, qty: 1 },
-  ]);
+  const navigate = useNavigate();
+
+    const [data, setData] = useState([]);
+    // Fetch data from the server to calculate invoice number based on existing invoices
+    useEffect(() => {
+      fetch("http://localhost:5000/proforma")
+        .then((res) => res.json())
+        .then((data) => {
+          setData(data);
+        });
+    }, []);
+
+    // Generate a new invoice number
+    const generateInvoiceNumber = () => {
+      return `INV-${data.length + 1}`;
+    };
+    const invoiceNumber = generateInvoiceNumber();
+    
+
+
+
+
+
+
+
+
+  const [items, setItems] = useState([{ description: "", rate: 0, qty: 1 }]);
 
   const handleAddItem = () => {
     setItems([...items, { description: "", rate: 0, qty: 1 }]);
@@ -325,10 +343,29 @@ const Proforma = () => {
       items,
       billNumber: formData.get("billNumber"),
       dateStart: formData.get("dateStart"),
-      subTotal,   
+      subTotal,
     };
 
     console.log("Form Data:", data);
+    fetch("http://localhost:5000/proforma", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        navigate("/proforma-view");
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+      });
   };
 
   return (
@@ -364,7 +401,7 @@ const Proforma = () => {
             </div>
           </div>
 
-          <div className="p-10 rounded-md">
+          <div className="rounded-md">
             <div className="mb-4">
               <label className="block text-gray-700 font-medium mb-1">
                 Invoice Number
@@ -372,11 +409,13 @@ const Proforma = () => {
               <input
                 type="text"
                 name="billNumber"
+                readOnly
+                value={invoiceNumber}
                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="INV000"
               />
             </div>
-            <div className="mb-4">
+            <div className="mb-4 ">
               <label className="block text-gray-700 font-medium mb-1">
                 Date
               </label>
@@ -391,9 +430,12 @@ const Proforma = () => {
         </div>
 
         {/* Invoice Items */}
-        <>
+        <div className="max-w-4xl mx-auto">
           {items.map((item, index) => (
-            <div key={index} className="w-full border border-gray-300 p-4 rounded-lg">
+            <div
+              key={index}
+              className="w-full border border-gray-300 p-4 rounded-lg"
+            >
               <div className="lg:flex">
                 <button
                   onClick={() => setItems(items.filter((_, i) => i !== index))}
@@ -417,7 +459,9 @@ const Proforma = () => {
                 <textarea
                   type="text"
                   value={item.description}
-                  onChange={(e) => handleInputChange(index, "description", e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange(index, "description", e.target.value)
+                  }
                   placeholder="Additional details"
                   className="mt-2 border border-gray-300 rounded px-4 py-2 w-full"
                 ></textarea>
@@ -426,7 +470,9 @@ const Proforma = () => {
                   <input
                     type="number"
                     value={item.rate}
-                    onChange={(e) => handleInputChange(index, "rate", Number(e.target.value))}
+                    onChange={(e) =>
+                      handleInputChange(index, "rate", Number(e.target.value))
+                    }
                     placeholder="0.00"
                     className="border border-gray-300 rounded px-4 py-2 lg:w-[14rem] text-right"
                   />
@@ -439,7 +485,9 @@ const Proforma = () => {
                   <input
                     type="number"
                     value={item.qty}
-                    onChange={(e) => handleInputChange(index, "qty", Number(e.target.value))}
+                    onChange={(e) =>
+                      handleInputChange(index, "qty", Number(e.target.value))
+                    }
                     placeholder="1"
                     className="border border-gray-300 rounded px-4 my-3 py-2 lg:w-[14rem] w-44 text-right"
                   />
@@ -473,7 +521,7 @@ const Proforma = () => {
               <h2>SubTotal: ${subTotal.toFixed(2)}</h2>
             </div>
           </div>
-        </>
+        </div>
       </form>
     </div>
   );
