@@ -218,6 +218,8 @@ const Preview = () => {
           </footer>
         </div>
       </div>
+
+      
       <div className="flex justify-center mt-6 space-x-4">
         <button
           onClick={handlePrint}

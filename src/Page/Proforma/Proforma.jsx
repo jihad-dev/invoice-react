@@ -359,7 +359,7 @@ const Proforma = () => {
         return res.json();
       })
       .then((data) => {
-        navigate("/proforma-view");
+        navigate("/listproforma");
       })
       .catch((error) => {
         console.error("There was a problem with the fetch operation:", error);

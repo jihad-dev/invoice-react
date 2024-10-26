@@ -8,6 +8,7 @@ import InvoiceDetails from "./Page/InvoiceDetails/InvoiceDetails.jsx";
 import Preview from "./Page/Preview/Preview.jsx";
 import Proforma from "./Page/Proforma/Proforma.jsx";
 import ProformaView from "./Page/ProformaView/ProformaView.jsx";
+import ListProforma from "./Page/ListProforma/ListProforma.jsx";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,8 @@ const router = createBrowserRouter([
   {
     path: "/details/:id",
     element: <InvoiceDetails></InvoiceDetails>,
-    loader: ({ params }) =>fetch(`http://localhost:5000/information/${params.id}`),
+    loader: ({ params }) =>
+      fetch(`http://localhost:5000/information/${params.id}`),
   },
   {
     path: "/preview/:id",
@@ -32,14 +34,19 @@ const router = createBrowserRouter([
   },
   // proforma invoice //
   {
-    path:'/proforma',
-    element:<Proforma/>
+    path: "/proforma",
+    element: <Proforma />,
   },
   {
-    path:'/proforma-view',
-    element:<ProformaView/>,
-    loader: () =>fetch(`http://localhost:5000/proforma`)
-  }
+    path: "/listproforma",
+    element: <ListProforma />,
+    loader: () => fetch("http://localhost:5000/proforma"),
+  },
+  {
+    path: "/view/:id",
+    element: <ProformaView />,
+    loader: ({params}) => fetch(`http://localhost:5000/proforma/${params.id}`),
+  },
 ]);
 
 createRoot(document.getElementById("root")).render(
