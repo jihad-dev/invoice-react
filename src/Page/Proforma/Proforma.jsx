@@ -345,8 +345,6 @@ const Proforma = () => {
       dateStart: formData.get("dateStart"),
       subTotal,
     };
-
-    console.log("Form Data:", data);
     fetch("http://localhost:5000/proforma", {
       method: "POST",
       headers: {

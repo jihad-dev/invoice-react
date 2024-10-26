@@ -17,6 +17,9 @@ const Preview = () => {
     subject,
     email,
   } = useLoaderData();
+  const data = useLoaderData()
+  console.log(data);
+  
 
   const invoiceRef = useRef();
 

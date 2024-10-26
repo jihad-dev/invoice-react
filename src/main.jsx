@@ -22,8 +22,7 @@ const router = createBrowserRouter([
   {
     path: "/details/:id",
     element: <InvoiceDetails></InvoiceDetails>,
-    loader: ({ params }) =>
-      fetch(`http://localhost:5000/information/${params.id}`),
+    loader: ({ params }) =>fetch(`http://localhost:5000/information/${params.id}`),
   },
   {
     path: "/preview/:id",
@@ -38,7 +37,8 @@ const router = createBrowserRouter([
   },
   {
     path:'/proforma-view',
-    element:<ProformaView/>
+    element:<ProformaView/>,
+    loader: () =>fetch(`http://localhost:5000/proforma`)
   }
 ]);
 
