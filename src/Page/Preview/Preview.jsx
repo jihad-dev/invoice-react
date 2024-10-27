@@ -17,9 +17,8 @@ const Preview = () => {
     subject,
     email,
   } = useLoaderData();
-  const data = useLoaderData()
+  const data = useLoaderData();
   console.log(data);
-  
 
   const invoiceRef = useRef();
 
@@ -41,32 +40,46 @@ const Preview = () => {
     window.print();
   };
 
-  // Generate PDF and center content on the page
   const generatePdf = async () => {
     const input = invoiceRef.current;
-
-    // Create a new jsPDF document in A4 format
     const pdf = new jsPDF("p", "mm", "a4");
-
-    // Get the page dimensions
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
 
-    // Capture the HTML content and generate the canvas
-    const canvas = await html2canvas(input, { scale: 3 });
-    const imgData = canvas.toDataURL("image/png");
-
-    // Calculate the image dimensions to fit the content in the center of the page
-    const imgWidth = pageWidth - 80; // Set width with margin
+    const canvas = await html2canvas(input, { scale: 2 });
+    const imgWidth = pageWidth;
     const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    let yPosition = 0;
+    const rowHeight = 25; // Approximate row height in pixels
 
-    const marginLeft = (pageWidth - imgWidth) / 2; // Center the image horizontally
-    const marginTop = (pageHeight - imgHeight) / 2; // Center the image vertically if needed
+    while (yPosition < canvas.height) {
+      const remainingHeight = canvas.height - yPosition;
+      const pageSliceHeight = Math.min(
+        pageHeight * (canvas.width / pageWidth) - rowHeight, // Adjust to fit full rows
+        remainingHeight
+      );
 
-    // Add the image to the PDF at the calculated position
-    pdf.addImage(imgData, "PNG", marginLeft, marginTop, imgWidth, imgHeight);
+      const adjustedCanvas = document.createElement("canvas");
+      adjustedCanvas.width = canvas.width;
+      adjustedCanvas.height = pageSliceHeight;
+      const adjustedContext = adjustedCanvas.getContext("2d");
+      adjustedContext.drawImage(
+        canvas,
+        0,
+        yPosition,
+        canvas.width,
+        pageSliceHeight,
+        0,
+        0,
+        adjustedCanvas.width,
+        adjustedCanvas.height
+      );
 
-    // Save the generated PDF
+      const pageImgData = adjustedCanvas.toDataURL("image/png");
+      if (yPosition > 0) pdf.addPage();
+      pdf.addImage(pageImgData, "PNG", 0, 0, imgWidth, pageHeight);
+      yPosition += pageSliceHeight;
+    }
     pdf.save("invoice.pdf");
   };
 
@@ -219,7 +232,6 @@ const Preview = () => {
         </div>
       </div>
 
-      
       <div className="flex justify-center mt-6 space-x-4">
         <button
           onClick={handlePrint}
@@ -233,12 +245,9 @@ const Preview = () => {
         >
           Download PDF
         </button>
-
       </div>
     </div>
   );
 };
 
 export default Preview;
-
-

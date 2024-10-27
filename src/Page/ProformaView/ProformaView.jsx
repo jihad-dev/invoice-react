@@ -1,5 +1,3 @@
-
-
 import React, { useRef } from "react";
 import logopro from "../../assets/logopro-removebg-preview.png";
 import sidelogopro from "../../assets/sidelogo-removebg-preview.png";
@@ -169,6 +167,51 @@ const ProformaView = () => {
               info@spd-technical.com
             </p>
           </footer>
+          {/*  */}
+
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-4 md:p-8 border border-gray-200 shadow-md max-w-2xl mx-auto space-y-4 md:space-y-0">
+            <div>
+              <p className="text-red-500 font-semibold">
+                This is not a Tax Invoice
+              </p>
+              <p className="mt-2">Thanks & Regards</p>
+              <div className="mt-2 space-y-1">
+                <p className="font-bold">
+                  Md. Sazedur Rahman{" "}
+                  <span className="font-normal">(Manager)</span>
+                </p>
+                <p>SPD Technical Works LLC</p>
+                <p>+971-50-889 4701</p>
+                <p>
+                  E mail:{" "}
+                  <a
+                    href="mailto:info@spd-technical.com"
+                    className="text-blue-500 underline"
+                  >
+                    info@spd-technical.com
+                  </a>
+                </p>
+                <p>
+                  <a
+                    href="https://spd-technical.com/"
+                    className="text-blue-500 underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    https://spd-technical.com/
+                  </a>
+                </p>
+                <p>Licence No - 819627</p>
+              </div>
+            </div>
+            <div className="flex justify-center md:justify-end w-full md:w-auto">
+              <img
+                src="path_to_stamp_image.png" // Replace with the correct path to the stamp image
+                alt="Company Stamp"
+                className="w-24 h-24 md:w-32 md:h-32"
+              />
+            </div>
+          </div>
         </div>
       </div>
 
