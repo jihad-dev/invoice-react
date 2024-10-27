@@ -193,9 +193,9 @@ const InvoiceDetails = () => {
         </div>
 
         {/* Amount Due */}
-        <div className="bg-gray-800 text-white text-center p-4 mt-4 rounded-lg">
-          <span>tax: {taxAmount}</span>
-          <span className="text-lg font-bold">
+        <div className="bg-gray-800 text-white flex justify-around items-center text-center p-4 mt-4 rounded-lg ">
+          <span>Tax: {taxAmount.toFixed(2)}</span>
+          <span className="text-lg font-bold ">
             Total Amount : {totalAmountDue}
           </span>
         </div>
