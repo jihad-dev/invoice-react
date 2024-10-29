@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const InvoiceUpdate = ({ update }) => {
-  console.log(update);
+
   const [items, setItems] = useState(
     update?.items || [
       { title: "", description: "", rate: 0, qty: 1, tax: true },
@@ -52,7 +52,7 @@ const InvoiceUpdate = ({ update }) => {
       grandTotal,
     };
 
-    fetch(`http://localhost:5000/information/${update?._id}`, {
+    fetch(`https://invoice-server-beta.vercel.app/information/${update?._id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -62,7 +62,7 @@ const InvoiceUpdate = ({ update }) => {
       .then((res) => res.json())
       .then((data) => {
         navigate("/list");
-        console.log(data);
+       
       });
   };
 

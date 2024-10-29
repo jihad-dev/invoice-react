@@ -18,7 +18,7 @@ const Preview = () => {
     email
   } = useLoaderData();
   const data = useLoaderData();
-  console.log(data);
+
 
   const invoiceRef = useRef();
 
@@ -85,7 +85,12 @@ const Preview = () => {
 
   return (
     <div>
-      <Link to="/list">Back</Link>
+    
+      <Link className="" to="/list">
+        <button className="bg-blue-500 my-12 lg:my-10 ml-12 lg:ml-14 text-white font-bold py-2 px-4 rounded transition-transform transform hover:scale-105 hover:bg-blue-600">
+          Back
+        </button>
+      </Link>
       <div id="pdf-content">
         <div
           ref={invoiceRef}
@@ -232,7 +237,7 @@ const Preview = () => {
         </div>
       </div>
 
-      <div className="flex justify-center mt-6 space-x-4">
+      <div className="flex justify-center mt-6 space-x-4 mb-5">
         <button
           onClick={handlePrint}
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
@@ -251,5 +256,3 @@ const Preview = () => {
 };
 
 export default Preview;
-
-

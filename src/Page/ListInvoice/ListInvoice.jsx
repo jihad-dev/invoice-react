@@ -3,7 +3,7 @@ import { Link, useLoaderData } from "react-router-dom";
 
 const ListInvoice = () => {
   const informations = useLoaderData();
-  console.log(informations)
+
 
   return (
     <div>

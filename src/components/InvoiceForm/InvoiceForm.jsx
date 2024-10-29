@@ -5,7 +5,7 @@ const InvoiceForm = () => {
   const [data, setData] = useState([]);
   // Fetch data from the server to calculate invoice number based on existing invoices
   useEffect(() => {
-    fetch("http://localhost:5000/information")
+    fetch("https://invoice-server-beta.vercel.app/information")
       .then((res) => res.json())
       .then((data) => {
         setData(data);
@@ -74,9 +74,9 @@ const InvoiceForm = () => {
       grandTotal,
     };
     // Log form data and items
-    console.log("Form Data:", data);
+ 
 
-    fetch("http://localhost:5000/information", {
+    fetch("https://invoice-server-beta.vercel.app/information", {
       method: "POST",
       headers: {
         "content-type": "application/json",
