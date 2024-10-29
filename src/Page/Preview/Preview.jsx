@@ -15,7 +15,7 @@ const Preview = () => {
     street2,
     phone,
     subject,
-    email,
+    email
   } = useLoaderData();
   const data = useLoaderData();
   console.log(data);
@@ -199,7 +199,7 @@ const Preview = () => {
                 {grandTotalInWords} dirhams only
               </span>
             </p>
-            <p className="mt-1">
+            <div className="mt-1">
               Only bank transfers or cheques as payment methods available (No
               cash payment accepted)
               <p> Cheque should be sent to SPD TECHNICAL WORKS LLC</p>
@@ -208,7 +208,7 @@ const Preview = () => {
                 no:11353811820001,
               </p>
               <p> IBAN: AE270030011353811820001, Bank: ADCB, Dubai, UAE</p>
-            </p>
+            </div>
             <p className="mt-3 font-semibold">Thanks & Regards</p>
             <div className="mt-7 mb-3">
               <p>SPD Technical Works LLC </p>
@@ -251,4 +251,5 @@ const Preview = () => {
 };
 
 export default Preview;
+
 
