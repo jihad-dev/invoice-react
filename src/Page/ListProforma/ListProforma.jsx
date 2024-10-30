@@ -126,8 +126,8 @@ const ListProforma = () => {
 
       {/* Container for horizontal scrolling */}
       <div className=" h-96 overflow-x-auto">
-        <div className="flex space-x-4">
-          {" "}
+        <div>
+          
           {/* Added space between items */}
           {listData.map((information) => (
             <Link key={information?._id} to={`/view/${information?._id}`}>
