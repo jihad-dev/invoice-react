@@ -90,8 +90,8 @@ const ListProforma = () => {
       </Link>
 
       {listData.map((information) => (
-        <Link key={information?._id} to={`/view/${information?._id}`}>
-          <div className="flex justify-center items-center lg:p-4 p-3 h-96 overflow-x-auto">
+        <Link className="h-96 overflow-x-auto" key={information?._id} to={`/view/${information?._id}`}>
+          <div className="flex justify-center items-center lg:p-4 p-3 ">
             <div className="w-full max-w-[800px] mx-auto bg-white rounded-lg shadow-md p-6 flex justify-between items-center">
               <div>
                 <span className="text-blue-500 lg:p-2 p-1 font-medium">
