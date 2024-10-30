@@ -253,6 +253,7 @@
 // export default Proforma;
 
 import React, { useEffect, useState } from "react";
+import { LifeLine } from "react-loading-indicators";
 import { useNavigate } from "react-router-dom";
 
 const Proforma = () => {
@@ -354,7 +355,9 @@ const Proforma = () => {
   return (
     <div className="p-10 bg-gray-100 min-h-screen">
       {loading ? (
-        <p>Loading...</p>
+        <div className="grid place-items-center h-screen">
+          <LifeLine color="#65c949" size="medium" text="" textColor="" />
+        </div>
       ) : (
         <form onSubmit={handleFormSubmit}>
           <div className="max-w-4xl mx-auto bg-white p-10 rounded shadow">
