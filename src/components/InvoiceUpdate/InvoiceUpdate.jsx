@@ -52,7 +52,7 @@ const InvoiceUpdate = ({ update }) => {
       grandTotal,
     };
 
-    fetch(`https://invoice-server-beta.vercel.app/information/${update?._id}`, {
+    fetch(`https://invoice-server-sigma.vercel.app/information/${update?._id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",

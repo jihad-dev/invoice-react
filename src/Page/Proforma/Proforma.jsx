@@ -9,7 +9,7 @@ const Proforma = () => {
   const [data, setData] = useState([]);
   // Fetch data from the server to calculate invoice number based on existing invoices
   useEffect(() => {
-    fetch("https://invoice-server-beta.vercel.app/proforma")
+    fetch("https://invoice-server-sigma.vercel.app/proforma")
       .then((res) => res.json())
       .then((data) => {
         setData(data);
@@ -60,7 +60,7 @@ const Proforma = () => {
 
     try {
       const response = await fetch(
-        "https://invoice-server-beta.vercel.app/proforma",
+        "https://invoice-server-sigma.vercel.app/proforma",
         {
           method: "POST",
           headers: {
