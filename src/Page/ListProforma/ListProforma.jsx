@@ -125,7 +125,7 @@ const ListProforma = () => {
       </Link>
 
       {/* Container for horizontal scrolling */}
-      <div className="overflow-x-auto">
+      <div className=" h-96 overflow-x-auto">
         <div className="flex space-x-4">
           {" "}
           {/* Added space between items */}
