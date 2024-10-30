@@ -14,7 +14,7 @@ const Proforma = () => {
       .then((data) => {
         setData(data);
       });
-  }, []);
+  }, [setData]);
 
   // Generate a new invoice number
   const generateInvoiceNumber = () => {
