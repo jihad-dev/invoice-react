@@ -53,7 +53,7 @@ const ListProforma = () => {
     const fetchData = async () => {
       try {
         // Assuming you have a fetch URL
-        const response = await fetch("/api/proforma"); // Replace with your actual API endpoint
+        const response = await fetch('https://invoice-server-sigma.vercel.app/proforma'); // Replace with your actual API endpoint
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
