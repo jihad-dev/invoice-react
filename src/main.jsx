@@ -40,7 +40,6 @@ const router = createBrowserRouter([
   {
     path: "/listproforma",
     element: <ListProforma />,
-    loader: () => fetch("https://invoice-server-sigma.vercel.app/proforma"),
   },
   {
     path: "/view/:id",
