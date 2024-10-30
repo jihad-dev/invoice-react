@@ -131,7 +131,7 @@ const ListProforma = () => {
           {/* Added space between items */}
           {listData.map((information) => (
             <Link key={information?._id} to={`/view/${information?._id}`}>
-              <div className="h-96 w-72 flex-shrink-0 bg-white rounded-lg shadow-md p-6 flex justify-between items-center">
+              <div className=" flex-shrink-0 bg-white rounded-lg shadow-md p-6 flex justify-between items-center">
                 {" "}
                 {/* Set a fixed width */}
                 <div>
