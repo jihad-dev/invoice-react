@@ -7,7 +7,7 @@ const InvoiceDetails = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [update, setUpdate] = useState([]);
   useEffect(() => {
-    fetch(`https://invoice-server-sigma.vercel.app/information/${_id}`)
+    fetch(`https://invoice-final-server.vercel.app/information/${_id}`)
       .then((res) => res.json())
       .then((data) => setUpdate(data));
   }, []);
@@ -57,7 +57,7 @@ const InvoiceDetails = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://invoice-server-sigma.vercel.app/information/${_id}`, {
+        fetch(`https://invoice-final-server.vercel.app/information/${_id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())

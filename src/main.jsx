@@ -18,19 +18,19 @@ const router = createBrowserRouter([
   {
     path: "/list",
     element: <ListInvoice />,
-    loader: () => fetch("https://invoice-server-sigma.vercel.app/information"),
+    loader: () => fetch("https://invoice-final-server.vercel.app/information"),
   },
   {
     path: "/details/:id",
     element: <InvoiceDetails></InvoiceDetails>,
     loader: ({ params }) =>
-      fetch(`https://invoice-server-sigma.vercel.app/information/${params.id}`),
+      fetch(`https://invoice-final-server.vercel.app/information/${params.id}`),
   },
   {
     path: "/preview/:id",
     element: <Preview />,
     loader: ({ params }) =>
-      fetch(`https://invoice-server-sigma.vercel.app/information/${params.id}`),
+      fetch(`https://invoice-final-server.vercel.app/information/${params.id}`),
   },
   // proforma invoice //
   {
@@ -44,7 +44,7 @@ const router = createBrowserRouter([
   {
     path: "/view/:id",
     element: <ProformaView />,
-    loader: ({params}) => fetch(`https://invoice-server-sigma.vercel.app/proforma/${params.id}`),
+    loader: ({params}) => fetch(`https://invoice-final-server.vercel.app/proforma/${params.id}`),
   },
 ]);
 
