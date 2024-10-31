@@ -207,8 +207,8 @@ const ProformaView = () => {
               <p>Licence No - 819627</p>
             </div>
           </div>
-          <div className="flex justify-center md:justify-start hidden lg:block ">
-            <img src={stamp_image} alt="Stamp" className="h-[208px]" />
+          <div className="flex justify-center md:justify-start ">
+            <img src={stamp_image} alt="Stamp" className="h-[208px]" loading="lazy" />
           </div>
         </div>
       </div>
