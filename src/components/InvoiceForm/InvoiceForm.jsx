@@ -11,7 +11,7 @@ const InvoiceForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5001/information");
+        const response = await fetch("https://invoice-final-server.vercel.app/information");
         if (!response.ok) throw new Error("Network response was not ok");
         const data = await response.json();
         setData(data);
@@ -75,7 +75,7 @@ const InvoiceForm = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:5001/information", {
+      const response = await fetch("https://invoice-final-server.vercel.app/information", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
