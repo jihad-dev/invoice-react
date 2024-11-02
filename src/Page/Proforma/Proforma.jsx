@@ -16,7 +16,7 @@ const Proforma = () => {
       setLoading(true);
       try {
         const response = await fetch(
-          "https://invoice-final-server.vercel.app/proforma"
+          "http://localhost:5001/proforma"
         );
         if (!response.ok) throw new Error("Failed to fetch data.");
         const fetchedData = await response.json();
@@ -75,7 +75,7 @@ const Proforma = () => {
 
     try {
       const response = await fetch(
-        "https://invoice-final-server.vercel.app/proforma",
+        "http://localhost:5001/proforma",
         {
           method: "POST",
           headers: {

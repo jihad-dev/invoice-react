@@ -1,21 +1,31 @@
 import React, { useEffect, useState } from "react";
+import { LifeLine } from "react-loading-indicators";
 import { useNavigate } from "react-router-dom";
 
 const InvoiceForm = () => {
   const [data, setData] = useState([]);
-  // Fetch data from the server to calculate invoice number based on existing invoices
+  const [loading, setLoading] = useState(true); // Loading state
+  const navigate = useNavigate();
+
+  // Fetch data with async/await and set loading
   useEffect(() => {
-    fetch("https://invoice-final-server.vercel.app/information")
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:5001/information");
+        if (!response.ok) throw new Error("Network response was not ok");
+        const data = await response.json();
         setData(data);
-      });
+      } catch (error) {
+        console.error("Fetch error:", error);
+      } finally {
+        setLoading(false); // Set loading to false after data fetch
+      }
+    };
+    fetchData();
   }, []);
 
   // Generate a new invoice number
-  const generateInvoiceNumber = () => {
-    return `INV-${data.length + 1}`;
-  };
+  const generateInvoiceNumber = () => `INV-${data?.length + 1}`;
   const invoiceNumber = generateInvoiceNumber();
 
   const [items, setItems] = useState([
@@ -42,208 +52,176 @@ const InvoiceForm = () => {
     (acc, item) => acc + calculateAmount(item.rate, item.qty),
     0
   );
-  const tax = subTotal.toFixed(2); // 5% tax fixed
-  // const tax = (subTotal * 0.05).toFixed(2); // 5% tax fixed
-  const grandTotal = parseFloat(subTotal).toFixed(2);
-  // const grandTotal = (parseFloat(subTotal) + parseFloat(tax)).toFixed(2);
-  const navigate = useNavigate();
-  // Handle form submission
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
+  const tax = (subTotal * 0.05).toFixed(2);
+  const grandTotal = (parseFloat(subTotal) + parseFloat(tax)).toFixed(2);
 
+  // Handle form submission
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
     const formData = new FormData(e.target);
     const data = {
       name: formData.get("name"),
       email: formData.get("email"),
       street1: formData.get("street1"),
       street2: formData.get("street2"),
-      // zip: formData.get("zip"),
       phone: formData.get("phone"),
       subject: formData.get("subject"),
       items,
-      // billName: formData.get("billName"),
-      // billEmail: formData.get("billEmail"),
-      // billStreet: formData.get("billStreet"),
-      // billCity: formData.get("billCity"),
-      // billZip: formData.get("billZip"),
-      // billPhone: formData.get("billPhone"),
-      // billMobile: formData.get("billMobile"),
       billNumber: formData.get("billNumber"),
       dateStart: formData.get("dateStart"),
-      // dueDate: formData.get("dueDate"),
       grandTotal,
     };
-    // Log form data and items
- 
 
-    fetch("https://invoice-final-server.vercel.app/information", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        navigate("/list");
-      })
-      .catch((error) => {
-        console.error("There was a problem with the fetch operation:", error);
+    try {
+      const response = await fetch("http://localhost:5001/information", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
+      if (!response.ok) throw new Error("Network response was not ok");
+      await response.json();
+      navigate("/list");
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+    }
   };
 
   return (
     <div className="p-10 bg-gray-100 min-h-screen">
-      <form onSubmit={handleFormSubmit}>
-        <div className="max-w-4xl mx-auto bg-white p-8 rounded shadow">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-3xl font-bold">Invoice</h1>
-          </div>
-
-          <div>
-            {/* Bill To Information */}
-            <div>
-              <h2 className="font-semibold mb-4">To</h2>
-              {/* Business Information */}
-              <div className="mb-4">
-                <label className="block font-medium">Company Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  className="input input-bordered w-full mt-2"
-                  placeholder="Company Name"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block font-medium">Email</label>
-                <input
-                  name="email"
-                  type="email"
-                  className="input input-bordered w-full mt-2"
-                  placeholder="name@business.com"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block font-medium">Address</label>
-                <input
-                  type="text"
-                  name="street1"
-                  className="input input-bordered w-full mt-2"
-                  placeholder="Street1"
-                />
-                <input
-                  type="text"
-                  name="street2"
-                  className="input input-bordered w-full mt-2"
-                  placeholder="State2"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block font-medium">Phone</label>
-                <input
-                  type="text"
-                  name="phone"
-                  className="input input-bordered w-full mt-2"
-                  placeholder="(123) 456 789"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block font-medium">Subject</label>
-                <input
-                  type="text"
-                  required
-                  name="subject"
-                  className="input input-bordered w-full"
-                  placeholder="Enter your subject"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div className="p-10 rounded-md  ">
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-1">
-                  Invoice Number
-                </label>
-                <input
-                  type="text"
-                  name="billNumber"
-                  readOnly
-                  value={invoiceNumber}
-                  className="w-full  px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="INV000"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-1">
-                  Date
-                </label>
-                <input
-                  required
-                  type="date"
-                  name="dateStart"
-                  className="w-full  px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              {/* <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-1">
-                  Terms
-                </label>
-                <select className="w-full  px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option>Days</option>
-                  <option>Weeks</option>
-                  <option>Months</option>
-                </select>
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-1">
-                  Due
-                </label>
-                <input
-                  required
-                  type="date"
-                  name="dueDate"
-                  className="w-full  px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div> */}
-            </div>
-          </div>
+      {loading ? (
+        <div className="grid place-items-center h-screen">
+          <LifeLine color="#65c949" size="medium" text="" textColor="" />
         </div>
+      ) : (
+        <form onSubmit={handleFormSubmit}>
+          <div className="max-w-4xl mx-auto bg-white p-8 rounded shadow">
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-3xl font-bold">Invoice</h1>
+            </div>
 
-        {/* Invoice Items */}
-        <>
-          {items.map((item, index) => (
-            <div
-              key={index}
-              className="w-full border border-gray-300 p-4 rounded-lg"
-            >
-              <div className="lg:flex ">
-                <button
-                  onClick={() => setItems(items.filter((_, i) => i !== index))}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    aria-hidden="true"
-                    className="text-gray-500 hover:text-red-500 cursor-pointer mr-1 mt-0 h-7 w-7 "
+            <div>
+              {/* Bill To Information */}
+              <div>
+                <h2 className="font-semibold mb-4">To</h2>
+                {/* Business Information */}
+                <div className="mb-4">
+                  <label className="block font-medium">Company Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    className="input input-bordered w-full mt-2"
+                    placeholder="Company Name"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block font-medium">Email</label>
+                  <input
+                    name="email"
+                    type="email"
+                    className="input input-bordered w-full mt-2"
+                    placeholder="name@business.com"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block font-medium">Address</label>
+                  <input
+                    type="text"
+                    name="street1"
+                    className="input input-bordered w-full mt-2"
+                    placeholder="Street1"
+                  />
+                  <input
+                    type="text"
+                    name="street2"
+                    className="input input-bordered w-full mt-2"
+                    placeholder="State2"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block font-medium">Phone</label>
+                  <input
+                    type="text"
+                    name="phone"
+                    className="input input-bordered w-full mt-2"
+                    placeholder="(123) 456 789"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block font-medium">Subject</label>
+                  <input
+                    type="text"
+                    required
+                    name="subject"
+                    className="input input-bordered w-full"
+                    placeholder="Enter your subject"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div className="p-10 rounded-md  ">
+                <div className="mb-4">
+                  <label className="block text-gray-700 font-medium mb-1">
+                    Invoice Number
+                  </label>
+                  <input
+                    type="text"
+                    name="billNumber"
+                    readOnly
+                    value={invoiceNumber}
+                    className="w-full  px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="INV000"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700 font-medium mb-1">
+                    Date
+                  </label>
+                  <input
+                    required
+                    type="date"
+                    name="dateStart"
+                    className="w-full  px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+
+        
+              </div>
+            </div>
+          </div>
+
+          {/* Invoice Items */}
+          <>
+            {items.map((item, index) => (
+              <div
+                key={index}
+                className="w-full border border-gray-300 p-4 rounded-lg"
+              >
+                <div className="lg:flex ">
+                  <button
+                    onClick={() =>
+                      setItems(items.filter((_, i) => i !== index))
+                    }
                   >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.256 1.478l-.209-.035-1.005 13.07a3 3 0 01-2.991 2.77H8.084a3 3 0 01-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 01-.256-1.478A48.567 48.567 0 017.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 013.369 0c1.603.051 2.815 1.387 2.815 2.951zm-6.136-1.452a51.196 51.196 0 013.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 00-6 0v-.113c0-.794.609-1.428 1.364-1.452zm-.355 5.945a.75.75 0 10-1.5.058l.347 9a.75.75 0 101.499-.058l-.346-9zm5.48.058a.75.75 0 10-1.498-.058l-.347 9a.75.75 0 001.5.058l.345-9z"
-                      clipRule="evenodd"
-                    ></path>
-                  </svg>
-                </button>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      aria-hidden="true"
+                      className="text-gray-500 hover:text-red-500 cursor-pointer mr-1 mt-0 h-7 w-7 "
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.256 1.478l-.209-.035-1.005 13.07a3 3 0 01-2.991 2.77H8.084a3 3 0 01-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 01-.256-1.478A48.567 48.567 0 017.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 013.369 0c1.603.051 2.815 1.387 2.815 2.951zm-6.136-1.452a51.196 51.196 0 013.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 00-6 0v-.113c0-.794.609-1.428 1.364-1.452zm-.355 5.945a.75.75 0 10-1.5.058l.347 9a.75.75 0 101.499-.058l-.346-9zm5.48.058a.75.75 0 10-1.498-.058l-.347 9a.75.75 0 001.5.058l.345-9z"
+                        clipRule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
 
-                {/* <input
+                  {/* <input
                   type="text"
                   value={item.title}
                   onChange={(e) =>
@@ -252,49 +230,49 @@ const InvoiceForm = () => {
                   placeholder="Item title"
                   className="border border-gray-300 rounded px-4 py-2 "
                 /> */}
-                <textarea
-                  type="text"
-                  value={item.description}
-                  onChange={(e) =>
-                    handleInputChange(index, "description", e.target.value)
-                  }
-                  placeholder="Additional details"
-                  className="mt-2 border border-gray-300 rounded px-4 py-2 w-full"
-                ></textarea>
-                <div>
-                  <span>Price</span>
-                  <input
-                    type="number"
-                    value={item.rate}
+                  <textarea
+                    type="text"
+                    value={item.description}
                     onChange={(e) =>
-                      handleInputChange(index, "rate", Number(e.target.value))
+                      handleInputChange(index, "description", e.target.value)
                     }
-                    placeholder="0.00"
-                    className="border border-gray-300 rounded px-4 py-2 lg:w-[14rem] text-right"
-                  />
-                </div>
-              </div>
-
-              <div className="flex">
-                <div>
-                  <span>Qty</span>
-                  <input
-                    type="number"
-                    value={item.qty}
-                    onChange={(e) =>
-                      handleInputChange(index, "qty", Number(e.target.value))
-                    }
-                    placeholder="1"
-                    className="border border-gray-300 rounded px-4 my-3 py-2 lg:w-[14rem] w-44 text-right "
-                  />
+                    placeholder="Additional details"
+                    className="mt-2 border border-gray-300 rounded px-4 py-2 w-full"
+                  ></textarea>
+                  <div>
+                    <span>Price</span>
+                    <input
+                      type="number"
+                      value={item.rate}
+                      onChange={(e) =>
+                        handleInputChange(index, "rate", Number(e.target.value))
+                      }
+                      placeholder="0.00"
+                      className="border border-gray-300 rounded px-4 py-2 lg:w-[14rem] text-right"
+                    />
+                  </div>
                 </div>
 
-                <div className="lg:w-44 my-7 text-right">
-                  ${calculateAmount(item.rate, item.qty).toFixed(2)}
-                </div>
-              </div>
+                <div className="flex">
+                  <div>
+                    <span>Qty</span>
+                    <input
+                      type="number"
+                      value={item.qty}
+                      onChange={(e) =>
+                        handleInputChange(index, "qty", Number(e.target.value))
+                      }
+                      placeholder="1"
+                      className="border border-gray-300 rounded px-4 my-3 py-2 lg:w-[14rem] w-44 text-right "
+                    />
+                  </div>
 
-              {/* <textarea
+                  <div className="lg:w-44 my-7 text-right">
+                    ${calculateAmount(item.rate, item.qty).toFixed(2)}
+                  </div>
+                </div>
+
+                {/* <textarea
                 type="text"
                 value={item.description}
                 onChange={(e) =>
@@ -303,35 +281,36 @@ const InvoiceForm = () => {
                 placeholder="Additional details"
                 className="mt-2 border border-gray-300 rounded px-4 py-2 w-full"
               ></textarea> */}
-            </div>
-          ))}
+              </div>
+            ))}
 
-          <div className="mt-4">
-            <button
-              type="button"
-              onClick={handleAddItem}
-              className="text-white bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg"
-            >
-              +
-            </button>
-          </div>
-
-          <div className="mt-4 flex justify-between">
-            <button
-              className="text-white bg-blue-600 hover:bg-blue-500 px-8 py-2 rounded-lg"
-              type="submit" // Added type="submit" for the button
-            >
-              Submit
-            </button>
-            <div>
-              <h2>Tax: 5%</h2>
-              <h2>SubTotal: ${subTotal.toFixed(2)}</h2>
-              {/* Formatting to fixed 2 decimals */}
-              <h3>GrandTotal: ${grandTotal}</h3>
+            <div className="mt-4">
+              <button
+                type="button"
+                onClick={handleAddItem}
+                className="text-white bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg"
+              >
+                +
+              </button>
             </div>
-          </div>
-        </>
-      </form>
+
+            <div className="mt-4 flex justify-between">
+              <button
+                className="text-white bg-blue-600 hover:bg-blue-500 px-8 py-2 rounded-lg"
+                type="submit" // Added type="submit" for the button
+              >
+                Submit
+              </button>
+              <div>
+                <h2>Tax: 5%</h2>
+                <h2>SubTotal: ${subTotal.toFixed(2)}</h2>
+                {/* Formatting to fixed 2 decimals */}
+                <h3>GrandTotal: ${grandTotal}</h3>
+              </div>
+            </div>
+          </>
+        </form>
+      )}
     </div>
   );
 };
