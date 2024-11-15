@@ -6,7 +6,7 @@ import SignatureCanvas from "react-signature-canvas";
 
 const InvoiceForm = () => {
   const [data, setData] = useState([]);
-  
+
   const sigCanvas = useRef(null); // Ref for the signature canvas
 
   const [loading, setLoading] = useState(true); // Loading state
@@ -16,9 +16,7 @@ const InvoiceForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:5001/information"
-        );
+        const response = await fetch("http://localhost:5001/information");
         if (!response.ok) throw new Error("Network response was not ok");
         const data = await response.json();
         setData(data);
@@ -40,10 +38,7 @@ const InvoiceForm = () => {
   ]);
 
   const handleAddItem = () => {
-    setItems([
-      ...items,
-      { title: "", rate: 0, qty: 1, tax: true }
-    ]);
+    setItems([...items, { title: "", rate: 0, qty: 1, tax: true }]);
   };
 
   const handleInputChange = (index, field, value) => {
@@ -248,21 +243,6 @@ const InvoiceForm = () => {
                       placeholder="Item Title"
                     />
                   </div>
-
-                  {/* <div className="mb-4 lg:mr-5 lg:w-[400px]">
-                    <label className="block text-gray-700 font-medium mb-1">
-                      Description
-                    </label>
-                    <input
-                      type="text"
-                      value={item.description}
-                      onChange={(e) =>
-                        handleInputChange(index, "description", e.target.value)
-                      }
-                      className="input input-bordered w-full"
-                      placeholder="Item Description"
-                    />
-                  </div> */}
                 </div>
 
                 <div className="mb-4 lg:flex lg:justify-between">
@@ -326,7 +306,7 @@ const InvoiceForm = () => {
             </div>
 
             {/* Signature Component */}
-                 {/* Signature Canvas */}
+            {/* Signature Canvas */}
             <div className="mb-6">
               <h2 className="font-medium mb-2">Signature</h2>
               <SignatureCanvas
@@ -345,7 +325,6 @@ const InvoiceForm = () => {
                 Clear
               </button>
             </div>
-            
 
             <div className="mt-6 flex justify-end">
               <button type="submit" className="btn btn-primary">
@@ -360,264 +339,3 @@ const InvoiceForm = () => {
 };
 
 export default InvoiceForm;
-
-
-
-
-
-// import React, { useEffect, useState, useRef } from "react";
-// import { LifeLine } from "react-loading-indicators";
-// import { useNavigate } from "react-router-dom";
-// import SignatureCanvas from "react-signature-canvas";
-
-// const InvoiceForm = () => {
-//   const [data, setData] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [items, setItems] = useState([
-//     { title: "", description: "", rate: 0, qty: 1, tax: true }
-//   ]);
-//   const sigCanvas = useRef(null); // Ref for the signature canvas
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const response = await fetch(
-//           "http://localhost:5001/information"
-//         );
-//         if (!response.ok) throw new Error("Network response was not ok");
-//         const data = await response.json();
-//         setData(data);
-//       } catch (error) {
-//         console.error("Fetch error:", error);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-//     fetchData();
-//   }, []);
-
-//   const generateInvoiceNumber = () => `INV-${data?.length + 1}`;
-//   const invoiceNumber = generateInvoiceNumber();
-
-//   const calculateAmount = (rate, qty) => rate * qty;
-//   const subTotal = items.reduce(
-//     (acc, item) => acc + calculateAmount(item.rate, item.qty),
-//     0
-//   );
-//   const tax = (subTotal * 0.05).toFixed(2);
-//   const grandTotal = (parseFloat(subTotal) + parseFloat(tax)).toFixed(2);
-
-//   const handleAddItem = () => {
-//     setItems([
-//       ...items,
-//       { title: "", description: "", rate: 0, qty: 1, tax: true }
-//     ]);
-//   };
-
-//   const handleInputChange = (index, field, value) => {
-//     const newItems = items.map((item, i) =>
-//       i === index ? { ...item, [field]: value } : item
-//     );
-//     setItems(newItems);
-//   };
-
-//   const handleFormSubmit = async (e) => {
-//     e.preventDefault();
-//     setLoading(true);
-
-//     try {
-//       // Capture the signature as a base64 image
-//       const signatureData = sigCanvas.current.toDataURL();
-
-//       const formData = new FormData(e.target);
-//       const invoiceData = {
-//         name: formData.get("name"),
-//         email: formData.get("email"),
-//         street1: formData.get("street1"),
-//         street2: formData.get("street2"),
-//         phone: formData.get("phone"),
-//         subject: formData.get("subject"),
-//         items,
-//         billNumber: formData.get("billNumber"),
-//         dateStart: formData.get("dateStart"),
-//         grandTotal,
-//         signature: signatureData // Include signature in the payload
-//       };
-
-//       const response = await fetch(
-//         "https://invoice-final-server.vercel.app/information",
-//         {
-//           method: "POST",
-//           headers: { "Content-Type": "application/json" },
-//           body: JSON.stringify(invoiceData)
-//         }
-//       );
-//       if (!response.ok) throw new Error("Network response was not ok");
-//       await response.json();
-//       navigate("/list");
-//     } catch (error) {
-//       console.error("Error submitting the invoice:", error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const clearSignature = () => {
-//     sigCanvas.current.clear();
-//   };
-
-//   return (
-//     <div className="p-10 bg-gray-100 min-h-screen">
-//       {loading ? (
-//         <div className="grid place-items-center h-screen">
-//           <LifeLine color="#65c949" size="medium" text="" textColor="" />
-//         </div>
-//       ) : (
-//         <form onSubmit={handleFormSubmit}>
-//           <div className="max-w-4xl mx-auto bg-white p-8 rounded shadow">
-//             <h1 className="text-3xl font-bold mb-6">Invoice</h1>
-
-//             {/* Form Fields */}
-//             <div>
-//               <label className="block font-medium">Company Name</label>
-//               <input
-//                 type="text"
-//                 name="name"
-//                 className="input input-bordered w-full mb-4"
-//                 placeholder="Company Name"
-//               />
-
-//               <label className="block font-medium">Email</label>
-//               <input
-//                 name="email"
-//                 type="email"
-//                 className="input input-bordered w-full mb-4"
-//                 placeholder="name@business.com"
-//               />
-
-//               <label className="block font-medium">Address</label>
-//               <input
-//                 type="text"
-//                 name="street1"
-//                 className="input input-bordered w-full mb-2"
-//                 placeholder="Street 1"
-//               />
-//               <input
-//                 type="text"
-//                 name="street2"
-//                 className="input input-bordered w-full mb-4"
-//                 placeholder="Street 2"
-//               />
-
-//               <label className="block font-medium">Phone</label>
-//               <input
-//                 type="text"
-//                 name="phone"
-//                 className="input input-bordered w-full mb-4"
-//                 placeholder="(123) 456-7890"
-//               />
-
-//               <label className="block font-medium">Subject</label>
-//               <input
-//                 type="text"
-//                 required
-//                 name="subject"
-//                 className="input input-bordered w-full mb-4"
-//                 placeholder="Enter your subject"
-//               />
-//             </div>
-
-//             {/* Items */}
-//             <h2 className="text-xl font-semibold mb-4">Items</h2>
-//             {items.map((item, index) => (
-//               <div
-//                 key={index}
-//                 className="flex items-center mb-4 gap-4 border p-4 rounded-md"
-//               >
-//                 <input
-//                   type="text"
-//                   placeholder="Title"
-//                   value={item.title}
-//                   onChange={(e) =>
-//                     handleInputChange(index, "title", e.target.value)
-//                   }
-//                   className="input input-bordered w-full"
-//                 />
-//                 <textarea
-//                   placeholder="Description"
-//                   value={item.description}
-//                   onChange={(e) =>
-//                     handleInputChange(index, "description", e.target.value)
-//                   }
-//                   className="input input-bordered w-full"
-//                 />
-//                 <input
-//                   type="number"
-//                   placeholder="Rate"
-//                   value={item.rate}
-//                   onChange={(e) =>
-//                     handleInputChange(index, "rate", parseFloat(e.target.value))
-//                   }
-//                   className="input input-bordered w-24"
-//                 />
-//                 <input
-//                   type="number"
-//                   placeholder="Qty"
-//                   value={item.qty}
-//                   onChange={(e) =>
-//                     handleInputChange(index, "qty", parseInt(e.target.value))
-//                   }
-//                   className="input input-bordered w-24"
-//                 />
-//                 <button
-//                   type="button"
-//                   onClick={() =>
-//                     setItems(items.filter((_, i) => i !== index))
-//                   }
-//                   className="text-red-500"
-//                 >
-//                   Remove
-//                 </button>
-//               </div>
-//             ))}
-//             <button
-//               type="button"
-//               onClick={handleAddItem}
-//               className="btn btn-primary mb-6"
-//             >
-//               Add Item
-//             </button>
-
-//             {/* Signature Canvas */}
-//             <div className="mb-6">
-//               <h2 className="font-medium mb-2">Signature</h2>
-//               <SignatureCanvas
-//                 ref={sigCanvas}
-//                 canvasProps={{
-//                   width: 500,
-//                   height: 200,
-//                   className: "border rounded-md"
-//                 }}
-//               />
-//               <button
-//                 type="button"
-//                 onClick={clearSignature}
-//                 className="btn btn-secondary mt-2"
-//               >
-//                 Clear
-//               </button>
-//             </div>
-
-//             {/* Submit */}
-//             <button type="submit" className="btn btn-primary">
-//               Submit Invoice
-//             </button>
-//           </div>
-//         </form>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default InvoiceForm;

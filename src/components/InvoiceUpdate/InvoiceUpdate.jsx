@@ -2,18 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const InvoiceUpdate = ({ update }) => {
-
   const [items, setItems] = useState(
-    update?.items || [
-      { title: "", description: "", rate: 0, qty: 1, tax: true },
-    ]
+    update?.items || [{ title: "", rate: 0, qty: 1, tax: true }]
   );
 
   const handleAddItem = () => {
-    setItems([
-      ...items,
-      { title: "", description: "", rate: 0, qty: 1, tax: true },
-    ]);
+    setItems([...items, { title: "", rate: 0, qty: 1, tax: true }]);
   };
 
   const handleInputChange = (index, field, value) => {
@@ -49,20 +43,19 @@ const InvoiceUpdate = ({ update }) => {
       subject: formData.get("subject"),
       items,
       dateStart: formData.get("dateStart"),
-      grandTotal,
+      grandTotal
     };
 
     fetch(`http://localhost:5001/information/${update?._id}`, {
       method: "PUT",
       headers: {
-        "content-type": "application/json",
+        "content-type": "application/json"
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     })
       .then((res) => res.json())
       .then((data) => {
         navigate("/list");
-       
       });
   };
 
@@ -199,9 +192,9 @@ const InvoiceUpdate = ({ update }) => {
 
                 <textarea
                   type="text"
-                  value={item.description}
+                  value={item.title}
                   onChange={(e) =>
-                    handleInputChange(index, "description", e.target.value)
+                    handleInputChange(index, "title", e.target.value)
                   }
                   placeholder="Additional details"
                   className="mt-2 border border-gray-300 rounded px-4 py-2 w-full"

@@ -19,8 +19,6 @@ const Preview = () => {
     signature,
     title
   } = useLoaderData();
-  const data = useLoaderData()
-console.log(data)
   const invoiceRef = useRef();
 
   // Calculate the subtotal
@@ -98,10 +96,14 @@ console.log(data)
         >
           <div>
             <div id="pdf-header">
-              <img className="w-full cursor-pointer" src={logo} alt="logo" />
+              <img
+                className="w-full h-[82px] cursor-pointer"
+                src={logo}
+                alt="logo"
+              />
             </div>
             <center>
-              <h2 className="underline text-3xl font-bold text-black">
+              <h2 className="underline text-xl font-bold text-black">
                 TAX-INVOICE
               </h2>
               <p className="p-1 text-black font-semibold">
@@ -109,22 +111,25 @@ console.log(data)
               </p>
             </center>
           </div>
-          <div className="mt-4">
-            <p>
-              Invoice Number: <span className="font-bold">{billNumber}</span>
-            </p>
-            <p>
-              Date: <span className="font-bold">{dateStart}</span>
-            </p>
+          <div className="flex justify-between">
+            <div className="mt-1">
+              <p>
+                Invoice Number:
+                <span className="font-semibold">{billNumber}</span>
+              </p>
+              <p>
+                Date: <span className="font-bold">{dateStart}</span>
+              </p>
+              <h2 className="text-xl font-bold">Name: {name}</h2>
+            </div>
+            <div>
+              <p>Address: {street1}</p>
+              <p>g:{street2}</p>
+              <p>Email: {email}</p>
+              <p>Tel: {phone}</p>
+            </div>
           </div>
-          <div>
-            <h2 className="text-xl font-bold font-serif"> {name}</h2>
-            <p>Address: {street1}</p>
-            <p>{street2}</p>
-            <p>Email: {email}</p>
-            <p>Tel: {phone}</p>
-          </div>
-          <div className="mt-5 mb-3">
+          <div className=" mb-3">
             <p>
               Tax invoice for <span className="font-bold">{subject}</span>
             </p>
@@ -199,11 +204,11 @@ console.log(data)
                 </tbody>
               </table>
             </div>
-            <p className="text-sm mt-4 mb-4 font-bold">
+            <p className="text-sm font-bold">
               Total in words:
               <span className="uppercase">{grandTotalInWords} AED Only</span>
             </p>
-            <div className="mt-1">
+            {/* <div className="mt-1">
               Only bank transfers or cheques as payment methods available (No
               cash payment accepted)
               <p> Cheque should be sent to SPD TECHNICAL WORKS LLC</p>
@@ -212,28 +217,47 @@ console.log(data)
                 no:11353811820001,
               </p>
               <p> IBAN: AE270030011353811820001, Bank: ADCB, Dubai, UAE</p>
-            </div>
-            <p className="mt-3 font-semibold">Thanks & Regards</p>
+            </div> */}
+            {/* <p className="mt-3 font-semibold">Thanks & Regards</p>
             <div className="mt-7 mb-3">
               <p>SPD Technical Works LLC </p>
               <p>Md. Sazedur Rahman</p>
               <p>+971-50-889 4701</p>
               <p>E mail: info@spd-technical.com</p>
+            </div> */}
+            <div className=" text-sm text-gray-600 space-y-4 flex">
+              <div className="p-2 rounded-lg">
+                <ul className="space-y-2">
+                  <li>
+                    • Only bank transfers or cheques as payment methods
+                    available (No cash payment accepted)
+                  </li>
+                  <li>• Cheque should be sent to SPD TECHNICAL WORKS LLC</li>
+                  <li>
+                    • Bank Transfer Details:
+                    <ul className="ml-4 mt-1">
+                      <li>Account Name: SPD TECHNICAL WORKS LLC</li>
+                      <li>Account No: 11353811820001</li>
+                      <li>IBAN: AE270030011353811820001</li>
+                      <li>Bank: ADCB, Dubai, UAE</li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <img className="w-full h-[100px]" src={signature} alt="" />
+              </div>
             </div>
           </div>
-          <footer className="px-4 py-0.5 border border-black border-r-0 border-l-0">
+          <center className="px-4 py-0.5 border border-black border-r-0 border-l-0">
             <p>
               Mob: +971 50 889 4701+971 55 479 7551, Jabel Ali lndustrial First,
-              P.O.Box: 112037, Dubai - U.A.E
-            </p>
-            <p className="text-center">
-              E-mail: info@spd-technical.com,
+              P.O.Box: 112037, Dubai - U.A.E E-mail: info@spd-technical.com,
               <a target="_blank" href="https://www.spd-technical.com/">
                 https://www.spd-technical.com/
               </a>
             </p>
-            <img src={signature} alt="" />
-          </footer>
+          </center>
         </div>
       </div>
 
@@ -256,3 +280,5 @@ console.log(data)
 };
 
 export default Preview;
+
+
