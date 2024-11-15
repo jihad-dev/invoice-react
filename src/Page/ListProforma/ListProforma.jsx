@@ -12,7 +12,7 @@ const ListProforma = () => {
       try {
         // Assuming you have a fetch URL
         const response = await fetch(
-          "https://invoice-final-server.vercel.app/proforma"
+          "http://localhost:5001/proforma"
         ); // Replace with your actual API endpoint
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -91,7 +91,7 @@ export default ListProforma;
 //     const fetchData = async () => {
 //       try {
 //         const response = await fetch(
-//           "https://invoice-final-server.vercel.app/proforma"
+//           "http://localhost:5001/proforma"
 //         );
 //         if (!response.ok) {
 //           throw new Error("Network response was not ok");

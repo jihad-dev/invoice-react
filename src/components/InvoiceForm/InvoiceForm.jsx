@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import SignatureCanvasComponent from "../SignatureCanvas/SignatureCanvas";
 
 const InvoiceForm = () => {
   const [data, setData] = useState([]);
+  const [signature, setSignature] = useState(""); // Store the signature data
   // Fetch data from the server to calculate invoice number based on existing invoices
   useEffect(() => {
-    fetch("https://invoice-final-server.vercel.app/information")
+    fetch("http://localhost:5001/information")
       .then((res) => res.json())
       .then((data) => {
         setData(data);
@@ -19,13 +21,13 @@ const InvoiceForm = () => {
   const invoiceNumber = generateInvoiceNumber();
 
   const [items, setItems] = useState([
-    { title: "", description: "", rate: 0, qty: 1, tax: true },
+    { title: "", description: "", rate: 0, qty: 1, tax: true }
   ]);
 
   const handleAddItem = () => {
     setItems([
       ...items,
-      { title: "", description: "", rate: 0, qty: 1, tax: true },
+      { title: "", description: "", rate: 0, qty: 1, tax: true }
     ]);
   };
 
@@ -57,31 +59,22 @@ const InvoiceForm = () => {
       email: formData.get("email"),
       street1: formData.get("street1"),
       street2: formData.get("street2"),
-      // zip: formData.get("zip"),
       phone: formData.get("phone"),
       subject: formData.get("subject"),
       items,
-      // billName: formData.get("billName"),
-      // billEmail: formData.get("billEmail"),
-      // billStreet: formData.get("billStreet"),
-      // billCity: formData.get("billCity"),
-      // billZip: formData.get("billZip"),
-      // billPhone: formData.get("billPhone"),
-      // billMobile: formData.get("billMobile"),
       billNumber: formData.get("billNumber"),
       dateStart: formData.get("dateStart"),
-      // dueDate: formData.get("dueDate"),
       grandTotal,
+      signature: signature
     };
     // Log form data and items
- 
 
-    fetch("https://invoice-final-server.vercel.app/information", {
+    fetch("http://localhost:5001/information", {
       method: "POST",
       headers: {
-        "content-type": "application/json",
+        "content-type": "application/json"
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     })
       .then((res) => {
         if (!res.ok) {
@@ -191,28 +184,6 @@ const InvoiceForm = () => {
                   className="w-full  px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-
-              {/* <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-1">
-                  Terms
-                </label>
-                <select className="w-full  px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option>Days</option>
-                  <option>Weeks</option>
-                  <option>Months</option>
-                </select>
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-1">
-                  Due
-                </label>
-                <input
-                  required
-                  type="date"
-                  name="dueDate"
-                  className="w-full  px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div> */}
             </div>
           </div>
         </div>
@@ -242,16 +213,6 @@ const InvoiceForm = () => {
                     ></path>
                   </svg>
                 </button>
-
-                {/* <input
-                  type="text"
-                  value={item.title}
-                  onChange={(e) =>
-                    handleInputChange(index, "title", e.target.value)
-                  }
-                  placeholder="Item title"
-                  className="border border-gray-300 rounded px-4 py-2 "
-                /> */}
                 <textarea
                   type="text"
                   value={item.description}
@@ -293,19 +254,8 @@ const InvoiceForm = () => {
                   ${calculateAmount(item.rate, item.qty).toFixed(2)}
                 </div>
               </div>
-
-              {/* <textarea
-                type="text"
-                value={item.description}
-                onChange={(e) =>
-                  handleInputChange(index, "description", e.target.value)
-                }
-                placeholder="Additional details"
-                className="mt-2 border border-gray-300 rounded px-4 py-2 w-full"
-              ></textarea> */}
             </div>
           ))}
-
           <div className="mt-4">
             <button
               type="button"
@@ -315,7 +265,10 @@ const InvoiceForm = () => {
               +
             </button>
           </div>
-
+          {/* signature field start  */}
+          <SignatureCanvasComponent onSaveSignature={setSignature} />{" "}
+          {/* Pass the callback here */}
+          {/* signature field end  */}
           <div className="mt-4 flex justify-between">
             <button
               className="text-white bg-blue-600 hover:bg-blue-500 px-8 py-2 rounded-lg"
@@ -337,3 +290,11 @@ const InvoiceForm = () => {
 };
 
 export default InvoiceForm;
+
+
+
+
+
+
+
+

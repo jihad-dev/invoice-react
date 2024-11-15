@@ -18,19 +18,19 @@ const router = createBrowserRouter([
   {
     path: "/list",
     element: <ListInvoice />,
-    loader: () => fetch("https://invoice-final-server.vercel.app/information"),
+    loader: () => fetch("http://localhost:5001/information"),
   },
   {
     path: "/details/:id",
     element: <InvoiceDetails></InvoiceDetails>,
     loader: ({ params }) =>
-      fetch(`https://invoice-final-server.vercel.app/information/${params.id}`),
+      fetch(`http://localhost:5001/information/${params.id}`),
   },
   {
     path: "/preview/:id",
     element: <Preview />,
     loader: ({ params }) =>
-      fetch(`https://invoice-final-server.vercel.app/information/${params.id}`),
+      fetch(`http://localhost:5001/information/${params.id}`),
   },
   // proforma invoice //
   {
@@ -44,7 +44,7 @@ const router = createBrowserRouter([
   {
     path: "/view/:id",
     element: <ProformaView />,
-    loader: ({params}) => fetch(`https://invoice-final-server.vercel.app/proforma/${params.id}`),
+    loader: ({params}) => fetch(`http://localhost:5001/proforma/${params.id}`),
   },
 ]);
 

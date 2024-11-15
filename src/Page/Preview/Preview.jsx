@@ -15,10 +15,11 @@ const Preview = () => {
     street2,
     phone,
     subject,
-    email
+    email,
+    signature
   } = useLoaderData();
   const data = useLoaderData();
-
+  console.log(data);
 
   const invoiceRef = useRef();
 
@@ -85,7 +86,6 @@ const Preview = () => {
 
   return (
     <div>
-    
       <Link className="" to="/list">
         <button className="bg-blue-500 my-12 lg:my-10 ml-12 lg:ml-14 text-white font-bold py-2 px-4 rounded transition-transform transform hover:scale-105 hover:bg-blue-600">
           Back
@@ -200,9 +200,7 @@ const Preview = () => {
             </div>
             <p className="text-sm mt-4 mb-4 font-bold">
               Total in words:
-              <span className="uppercase">
-                {grandTotalInWords} dirhams only
-              </span>
+              <span className="uppercase">{grandTotalInWords} AED Only</span>
             </p>
             <div className="mt-1">
               Only bank transfers or cheques as payment methods available (No
@@ -233,6 +231,7 @@ const Preview = () => {
                 https://www.spd-technical.com/
               </a>
             </p>
+            <img src={signature} alt="" />
           </footer>
         </div>
       </div>
