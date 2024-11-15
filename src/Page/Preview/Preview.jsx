@@ -18,7 +18,7 @@ const Preview = () => {
     email,
     signature
   } = useLoaderData();
-
+console.log(signature)
   const invoiceRef = useRef();
 
   // Calculate the subtotal
