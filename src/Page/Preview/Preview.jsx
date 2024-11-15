@@ -16,10 +16,15 @@ const Preview = () => {
     phone,
     subject,
     email,
+<<<<<<< HEAD
     signature
   } = useLoaderData();
   const data = useLoaderData();
   console.log(data);
+=======
+  } = useLoaderData();
+  const data = useLoaderData();
+>>>>>>> 4f0e184e35c2ad21bcca0e89098733676ff00acb
 
   const invoiceRef = useRef();
 
@@ -144,22 +149,23 @@ const Preview = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {items?.map((item, idx) => (
-                    <tr key={idx}>
-                      <td className="px-4 py-2 border border-black">
-                        {item?.description}
-                      </td>
-                      <td className="px-4 py-2 border border-black">
-                        {item?.qty}
-                      </td>
-                      <td className="px-4 py-2 border border-black">
-                        {item?.rate}
-                      </td>
-                      <td className="px-4 py-2 border border-black">
-                        {(item?.qty * item?.rate).toFixed(2)}
-                      </td>
-                    </tr>
-                  ))}
+                  {items &&
+                    items?.map((item, idx) => (
+                      <tr key={idx}>
+                        <td className="px-4 py-2 border border-black">
+                          {item?.description}
+                        </td>
+                        <td className="px-4 py-2 border border-black">
+                          {item?.qty}
+                        </td>
+                        <td className="px-4 py-2 border border-black">
+                          {item?.rate}
+                        </td>
+                        <td className="px-4 py-2 border border-black">
+                          {(item?.qty * item?.rate).toFixed(2)}
+                        </td>
+                      </tr>
+                    ))}
                   <>
                     <tr>
                       <td
@@ -180,7 +186,7 @@ const Preview = () => {
                         5% VAT
                       </td>
                       <td className="px-4 py-2 border font-bold border-black">
-                        {taxAmount.toFixed(2)}
+                        {taxAmount?.toFixed(2)}
                       </td>
                     </tr>
                     <tr>
@@ -191,7 +197,7 @@ const Preview = () => {
                         Total Amount
                       </td>
                       <td className="px-4 py-2 border font-bold border-black">
-                        {grandTotal.toFixed(2)}
+                        {grandTotal?.toFixed(2)}
                       </td>
                     </tr>
                   </>
