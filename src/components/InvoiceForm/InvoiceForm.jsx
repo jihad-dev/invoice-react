@@ -1,431 +1,14 @@
-// import React, { useEffect, useState } from "react";
-// import { LifeLine } from "react-loading-indicators";
-// import { useNavigate } from "react-router-dom";
-// import SignatureCanvasComponent from "../SignatureCanvas/SignatureCanvas";
-
-// const InvoiceForm = () => {
-//   const [data, setData] = useState([]);
-//   const [signature, setSignature] = useState(""); // Store the signature data
-//   // Fetch data from the server to calculate invoice number based on existing invoices
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const res = await fetch("http://localhost:5001/information");
-//         if (!res.ok) {
-//           throw new Error("Network response was not ok");
-//         }
-//         const data = await res.json();
-//         setData(data);
-//       } catch (error) {
-//         console.error("Fetch error:", error);
-//       } finally {
-//         setLoading(false); // Set loading to false after data fetch
-//       }
-//     };
-
-//     fetchData();
-//   }, []); 
-//   // Generate a new invoice number
-//   const generateInvoiceNumber = () => `INV-${data?.length + 1}`;
-//   const invoiceNumber = generateInvoiceNumber();
-
-//   const [items, setItems] = useState([
-//     { title: "", description: "", rate: 0, qty: 1, tax: true }
-//   ]);
-
-//   const handleAddItem = () => {
-//     setItems([
-//       ...items,
-//       { title: "", description: "", rate: 0, qty: 1, tax: true }
-//     ]);
-//   };
-
-//   const handleInputChange = (index, field, value) => {
-//     const newItems = items.map((item, i) =>
-//       i === index ? { ...item, [field]: value } : item
-//     );
-//     setItems(newItems);
-//   };
-
-//   // Calculate total amounts
-//   const calculateAmount = (rate, qty) => rate * qty;
-//   const subTotal = items.reduce(
-//     (acc, item) => acc + calculateAmount(item.rate, item.qty),
-//     0
-//   );
-//   const tax = (subTotal * 0.05).toFixed(2);
-//   const grandTotal = (parseFloat(subTotal) + parseFloat(tax)).toFixed(2);
-
-//   // Handle form submission
-//   const handleFormSubmit = async (e) => {
-//     e.preventDefault();
-//     setLoading(true);
-    
-//     const formData = new FormData(e.target);
-//     const data = {
-//       name: formData.get("name"),
-//       email: formData.get("email"),
-//       street1: formData.get("street1"),
-//       street2: formData.get("street2"),
-//       phone: formData.get("phone"),
-//       subject: formData.get("subject"),
-//       items,
-//       billNumber: formData.get("billNumber"),
-//       dateStart: formData.get("dateStart"),
-//       grandTotal,
-//       signature: signature
-//     };
-//     // Log form data and items
-
-//     fetch("http://localhost:5001/information", {
-//       method: "POST",
-//       headers: {
-//         "content-type": "application/json"
-//       },
-//       body: JSON.stringify(data)
-//     })
-//       .then((res) => {
-//         if (!res.ok) {
-//           throw new Error("Network response was not ok");
-//         }
-//         return res.json();
-//       })
-//       .then((data) => {
-//         navigate("/list");
-//       })
-//       .catch((error) => {
-//         console.error("There was a problem with the fetch operation:", error);
-//       });
-//       if (!response.ok) throw new Error("Network response was not ok");
-//       await response.json();
-//       navigate("/list");
-//     }
-//   };
-
-//   return (
-//     <div className="p-10 bg-gray-100 min-h-screen">
-//       <form onSubmit={handleFormSubmit}>
-//         <div className="max-w-4xl mx-auto bg-white p-8 rounded shadow">
-//           <div className="flex justify-between items-center mb-6">
-//             <h1 className="text-3xl font-bold">Invoice</h1>
-//           </div>
-
-//           <div>
-//             {/* Bill To Information */}
-//             <div>
-//               <h2 className="font-semibold mb-4">To</h2>
-//               {/* Business Information */}
-//               <div className="mb-4">
-//                 <label className="block font-medium">Company Name</label>
-//                 <input
-//                   type="text"
-//                   name="name"
-//                   className="input input-bordered w-full mt-2"
-//                   placeholder="Company Name"
-//                 />
-//               </div>
-//               <div className="mb-4">
-//                 <label className="block font-medium">Email</label>
-//                 <input
-//                   name="email"
-//                   type="email"
-//                   className="input input-bordered w-full mt-2"
-//                   placeholder="name@business.com"
-//                 />
-//               </div>
-//               <div className="mb-4">
-//                 <label className="block font-medium">Address</label>
-//                 <input
-//                   type="text"
-//                   name="street1"
-//                   className="input input-bordered w-full mt-2"
-//                   placeholder="Street1"
-//                 />
-//                 <input
-//                   type="text"
-//                   name="street2"
-//                   className="input input-bordered w-full mt-2"
-//                   placeholder="State2"
-//                 />
-//               </div>
-//               <div className="mb-4">
-//                 <label className="block font-medium">Phone</label>
-//                 <input
-//                   type="text"
-//                   name="phone"
-//                   className="input input-bordered w-full mt-2"
-//                   placeholder="(123) 456 789"
-//                 />
-//               </div>
-//               <div className="mb-4">
-//                 <label className="block font-medium">Subject</label>
-//                 <input
-//                   type="text"
-//                   required
-//                   name="subject"
-//                   className="input input-bordered w-full"
-//                   placeholder="Enter your subject"
-//                 />
-//               </div>
-//             </div>
-//           </div>
-
-//           <div>
-//             <div className="p-10 rounded-md  ">
-//               <div className="mb-4">
-//                 <label className="block text-gray-700 font-medium mb-1">
-//                   Invoice Number
-//                 </label>
-//                 <input
-//                   type="text"
-//                   name="billNumber"
-//                   readOnly
-//                   value={invoiceNumber}
-//                   className="w-full  px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-//                   placeholder="INV000"
-//                 />
-//               </div>
-//               <div className="mb-4">
-//                 <label className="block text-gray-700 font-medium mb-1">
-//                   Date
-//                 </label>
-//                 <input
-//                   required
-//                   type="date"
-//                   name="dateStart"
-//                   className="w-full  px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-//                 />
-//               </div>
-//             </div>
-//           </div>
-//       {loading ? (
-//         <div className="grid place-items-center h-screen">
-//           <LifeLine color="#65c949" size="medium" text="" textColor="" />
-
-//         </div>
-//       ) : 
-//         <form onSubmit={handleFormSubmit}>
-//           <div className="max-w-4xl mx-auto bg-white p-8 rounded shadow">
-//             <div className="flex justify-between items-center mb-6">
-//               <h1 className="text-3xl font-bold">Invoice</h1>
-//             </div>
-
-//             <div>
-//               {/* Bill To Information */}
-//               <div>
-//                 <h2 className="font-semibold mb-4">To</h2>
-//                 {/* Business Information */}
-//                 <div className="mb-4">
-//                   <label className="block font-medium">Company Name</label>
-//                   <input
-//                     type="text"
-//                     name="name"
-//                     className="input input-bordered w-full mt-2"
-//                     placeholder="Company Name"
-//                   />
-//                 </div>
-//                 <div className="mb-4">
-//                   <label className="block font-medium">Email</label>
-//                   <input
-//                     name="email"
-//                     type="email"
-//                     className="input input-bordered w-full mt-2"
-//                     placeholder="name@business.com"
-//                   />
-//                 </div>
-//                 <div className="mb-4">
-//                   <label className="block font-medium">Address</label>
-//                   <input
-//                     type="text"
-//                     name="street1"
-//                     className="input input-bordered w-full mt-2"
-//                     placeholder="Street1"
-//                   />
-//                   <input
-//                     type="text"
-//                     name="street2"
-//                     className="input input-bordered w-full mt-2"
-//                     placeholder="State2"
-//                   />
-//                 </div>
-//                 <div className="mb-4">
-//                   <label className="block font-medium">Phone</label>
-//                   <input
-//                     type="text"
-//                     name="phone"
-//                     className="input input-bordered w-full mt-2"
-//                     placeholder="(123) 456 789"
-//                   />
-//                 </div>
-//                 <div className="mb-4">
-//                   <label className="block font-medium">Subject</label>
-//                   <input
-//                     type="text"
-//                     required
-//                     name="subject"
-//                     className="input input-bordered w-full"
-//                     placeholder="Enter your subject"
-//                   />
-//                 </div>
-//               </div>
-//             </div>
-
-//             <div>
-//               <div className="p-10 rounded-md  ">
-//                 <div className="mb-4">
-//                   <label className="block text-gray-700 font-medium mb-1">
-//                     Invoice Number
-//                   </label>
-//                   <input
-//                     type="text"
-//                     name="billNumber"
-//                     readOnly
-//                     value={invoiceNumber}
-//                     className="w-full  px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-//                     placeholder="INV000"
-//                   />
-//                 </div>
-//                 <div className="mb-4">
-//                   <label className="block text-gray-700 font-medium mb-1">
-//                     Date
-//                   </label>
-//                   <input
-//                     required
-//                     type="date"
-//                     name="dateStart"
-//                     className="w-full  px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-//                   />
-//                 </div>
-
-        
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Invoice Items */}
-//           <>
-//             {items.map((item, index) => (
-//               <div
-//                 key={index}
-//                 className="w-full border border-gray-300 p-4 rounded-lg"
-//               >
-//                 <div className="lg:flex ">
-//                   <svg
-//                     onClick={() =>
-//                       setItems(items.filter((_, i) => i !== index))
-//                     }
-//                   >
-//                     <path
-//                       fillRule="evenodd"
-//                       d="M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.256 1.478l-.209-.035-1.005 13.07a3 3 0 01-2.991 2.77H8.084a3 3 0 01-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 01-.256-1.478A48.567 48.567 0 017.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 013.369 0c1.603.051 2.815 1.387 2.815 2.951zm-6.136-1.452a51.196 51.196 0 013.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 00-6 0v-.113c0-.794.609-1.428 1.364-1.452zm-.355 5.945a.75.75 0 10-1.5.058l.347 9a.75.75 0 101.499-.058l-.346-9zm5.48.058a.75.75 0 10-1.498-.058l-.347 9a.75.75 0 001.5.058l.345-9z"
-//                       clipRule="evenodd"
-//                     ></path>
-//                   </svg>
-//                 </div>
-//                 <textarea
-//                   type="text"
-//                   value={item.description}
-//                   onChange={(e) =>
-//                     handleInputChange(index, "description", e.target.value)
-//                   }
-//                   placeholder="Additional details"
-//                   className="mt-2 border border-gray-300 rounded px-4 py-2 w-full"
-//                 ></textarea>
-//                 <div>
-//                   <span>Price</span>
-//                   <input
-//                     type="number"
-//                     value={item.rate}
-//                     onChange={(e) =>
-//                       handleInputChange(index, "description", e.target.value)
-//                     }
-//                     placeholder="Additional details"
-//                     className="mt-2 border border-gray-300 rounded px-4 py-2 w-full"
-//                   />
-//                   <div>
-//                     <span>Price</span>
-//                     <input
-//                       type="number"
-//                       value={item.rate}
-//                       onChange={(e) =>
-//                         handleInputChange(index, "rate", Number(e.target.value))
-//                       }
-//                       placeholder="0.00"
-//                       className="border border-gray-300 rounded px-4 py-2 lg:w-[14rem] text-right"
-//                     />
-//                   </div>
-//                 </div>
-
-//                 <div className="lg:w-44 my-7 text-right">
-//                   ${calculateAmount(item.rate, item.qty).toFixed(2)}
-//                 </div>
-//               </div>
-           
-//           ))}
-//           <div className="mt-4">
-//             <button
-//               type="button"
-//               onClick={handleAddItem}
-//               className="text-white bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg"
-//             >
-//               +
-//             </button>
-//           </div>
-//           {/* signature field start  */}
-//           <SignatureCanvasComponent onSaveSignature={setSignature} />{" "}
-//           {/* Pass the callback here */}
-//           {/* signature field end  */}
-//           <div className="mt-4 flex justify-between">
-//             <button
-//               className="text-white bg-blue-600 hover:bg-blue-500 px-8 py-2 rounded-lg"
-//               type="submit" // Added type="submit" for the button
-//             >
-//               Submit
-//             </button>
-//             <div>
-//               <h2>Tax: 5%</h2>
-//               <h2>SubTotal: ${subTotal.toFixed(2)}</h2>
-//               {/* Formatting to fixed 2 decimals */}
-//               <h3>GrandTotal: ${grandTotal}</h3>
-//             </div>
-
-//             <div className="mt-4 flex justify-between">
-//               <button
-//                 className="text-white bg-blue-600 hover:bg-blue-500 px-8 py-2 rounded-lg"
-//                 type="submit" // Added type="submit" for the button
-//               >
-//                 Submit
-//               </button>
-//               <div>
-//                 <h2>Tax: 5%</h2>
-//                 <h2>SubTotal: ${subTotal.toFixed(2)}</h2>
-//                 {/* Formatting to fixed 2 decimals */}
-//                 <h3>GrandTotal: ${grandTotal}</h3>
-//               </div>
-//             </div>
-//           </>
-//         </form>
-      
-//     </div>
-  
-// }
-
-// export default InvoiceForm;
-
-
-
-
-
-
-
 import React, { useEffect, useState } from "react";
+import { useRef } from "react";
 import { LifeLine } from "react-loading-indicators";
 import { useNavigate } from "react-router-dom";
-import SignatureCanvasComponent from "../SignatureCanvas/SignatureCanvas";
+import SignatureCanvas from "react-signature-canvas";
 
 const InvoiceForm = () => {
   const [data, setData] = useState([]);
-  const [signature, setSignature] = useState(""); // Store the signature data
+  
+  const sigCanvas = useRef(null); // Ref for the signature canvas
+
   const [loading, setLoading] = useState(true); // Loading state
   const navigate = useNavigate();
 
@@ -433,7 +16,9 @@ const InvoiceForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://invoice-final-server.vercel.app/information");
+        const response = await fetch(
+          "http://localhost:5001/information"
+        );
         if (!response.ok) throw new Error("Network response was not ok");
         const data = await response.json();
         setData(data);
@@ -451,13 +36,13 @@ const InvoiceForm = () => {
   const invoiceNumber = generateInvoiceNumber();
 
   const [items, setItems] = useState([
-    { title: "", description: "", rate: 0, qty: 1, tax: true }
+    { title: "", rate: 0, qty: 1, tax: true }
   ]);
 
   const handleAddItem = () => {
     setItems([
       ...items,
-      { title: "", description: "", rate: 0, qty: 1, tax: true }
+      { title: "", rate: 0, qty: 1, tax: true }
     ]);
   };
 
@@ -477,42 +62,50 @@ const InvoiceForm = () => {
   const tax = (subTotal * 0.05).toFixed(2);
   const grandTotal = (parseFloat(subTotal) + parseFloat(tax)).toFixed(2);
 
-
-
-  // Handle form submission
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    const formData = new FormData(e.target);
-    const data = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      street1: formData.get("street1"),
-      street2: formData.get("street2"),
-      phone: formData.get("phone"),
-      subject: formData.get("subject"),
-      items,
-      billNumber: formData.get("billNumber"),
-      dateStart: formData.get("dateStart"),
-      grandTotal,
-      signature: signature
-    };
-
     try {
-      const response = await fetch("https://invoice-final-server.vercel.app/information", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      // Capture the signature as a base64 image
+      const signatureData = sigCanvas.current.toDataURL();
+
+      const formData = new FormData(e.target);
+      const invoiceData = {
+        name: formData.get("name"),
+        email: formData.get("email"),
+        street1: formData.get("street1"),
+        street2: formData.get("street2"),
+        phone: formData.get("phone"),
+        subject: formData.get("subject"),
+        items,
+        billNumber: formData.get("billNumber"),
+        dateStart: formData.get("dateStart"),
+        grandTotal,
+        signature: signatureData // Include signature in the payload
+      };
+
+      const response = await fetch(
+        "https://invoice-final-server.vercel.app/information",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(invoiceData)
+        }
+      );
       if (!response.ok) throw new Error("Network response was not ok");
       await response.json();
       navigate("/list");
     } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
+      console.error("Error submitting the invoice:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
+  const clearSignature = () => {
+    sigCanvas.current.clear();
+  };
   return (
     <div className="p-10 bg-gray-100 min-h-screen">
       {loading ? (
@@ -616,10 +209,15 @@ const InvoiceForm = () => {
 
             {/* Invoice Items */}
             {items.map((item, index) => (
-              <div key={index} className="w-full border border-gray-300 p-4 rounded-lg">
+              <div
+                key={index}
+                className="w-full border border-gray-300 p-4 rounded-lg"
+              >
                 <div className="lg:flex">
                   <button
-                    onClick={() => setItems(items.filter((_, i) => i !== index))}
+                    onClick={() =>
+                      setItems(items.filter((_, i) => i !== index))
+                    }
                     type="button"
                   >
                     <svg
@@ -643,44 +241,64 @@ const InvoiceForm = () => {
                     <input
                       type="text"
                       value={item.title}
-                      onChange={(e) => handleInputChange(index, "title", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange(index, "title", e.target.value)
+                      }
                       className="input input-bordered w-full"
                       placeholder="Item Title"
                     />
                   </div>
 
-                  <div className="mb-4 lg:mr-5 lg:w-[400px]">
+                  {/* <div className="mb-4 lg:mr-5 lg:w-[400px]">
                     <label className="block text-gray-700 font-medium mb-1">
                       Description
                     </label>
                     <input
                       type="text"
                       value={item.description}
-                      onChange={(e) => handleInputChange(index, "description", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange(index, "description", e.target.value)
+                      }
                       className="input input-bordered w-full"
                       placeholder="Item Description"
                     />
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="mb-4 lg:flex lg:justify-between">
                   <div className="lg:w-[180px]">
-                    <label className="block text-gray-700 font-medium mb-1">Rate</label>
+                    <label className="block text-gray-700 font-medium mb-1">
+                      Rate
+                    </label>
                     <input
                       type="number"
                       value={item.rate}
-                      onChange={(e) => handleInputChange(index, "rate", parseFloat(e.target.value))}
+                      onChange={(e) =>
+                        handleInputChange(
+                          index,
+                          "rate",
+                          parseFloat(e.target.value)
+                        )
+                      }
                       className="input input-bordered w-full"
                       placeholder="Item Rate"
                     />
                   </div>
 
                   <div className="lg:w-[180px]">
-                    <label className="block text-gray-700 font-medium mb-1">Qty</label>
+                    <label className="block text-gray-700 font-medium mb-1">
+                      Qty
+                    </label>
                     <input
                       type="number"
                       value={item.qty}
-                      onChange={(e) => handleInputChange(index, "qty", parseInt(e.target.value))}
+                      onChange={(e) =>
+                        handleInputChange(
+                          index,
+                          "qty",
+                          parseInt(e.target.value)
+                        )
+                      }
                       className="input input-bordered w-full"
                       placeholder="Qty"
                     />
@@ -708,16 +326,29 @@ const InvoiceForm = () => {
             </div>
 
             {/* Signature Component */}
-            <div className="mt-6">
-              <h3 className="font-medium">Signature</h3>
-              <SignatureCanvasComponent setSignature={setSignature} />
+                 {/* Signature Canvas */}
+            <div className="mb-6">
+              <h2 className="font-medium mb-2">Signature</h2>
+              <SignatureCanvas
+                ref={sigCanvas}
+                canvasProps={{
+                  width: 500,
+                  height: 200,
+                  className: "border rounded-md"
+                }}
+              />
+              <button
+                type="button"
+                onClick={clearSignature}
+                className="btn btn-secondary mt-2"
+              >
+                Clear
+              </button>
             </div>
+            
 
             <div className="mt-6 flex justify-end">
-              <button
-                type="submit"
-                className="btn btn-primary"
-              >
+              <button type="submit" className="btn btn-primary">
                 Submit Invoice
               </button>
             </div>
@@ -729,3 +360,264 @@ const InvoiceForm = () => {
 };
 
 export default InvoiceForm;
+
+
+
+
+
+// import React, { useEffect, useState, useRef } from "react";
+// import { LifeLine } from "react-loading-indicators";
+// import { useNavigate } from "react-router-dom";
+// import SignatureCanvas from "react-signature-canvas";
+
+// const InvoiceForm = () => {
+//   const [data, setData] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [items, setItems] = useState([
+//     { title: "", description: "", rate: 0, qty: 1, tax: true }
+//   ]);
+//   const sigCanvas = useRef(null); // Ref for the signature canvas
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const response = await fetch(
+//           "http://localhost:5001/information"
+//         );
+//         if (!response.ok) throw new Error("Network response was not ok");
+//         const data = await response.json();
+//         setData(data);
+//       } catch (error) {
+//         console.error("Fetch error:", error);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+//     fetchData();
+//   }, []);
+
+//   const generateInvoiceNumber = () => `INV-${data?.length + 1}`;
+//   const invoiceNumber = generateInvoiceNumber();
+
+//   const calculateAmount = (rate, qty) => rate * qty;
+//   const subTotal = items.reduce(
+//     (acc, item) => acc + calculateAmount(item.rate, item.qty),
+//     0
+//   );
+//   const tax = (subTotal * 0.05).toFixed(2);
+//   const grandTotal = (parseFloat(subTotal) + parseFloat(tax)).toFixed(2);
+
+//   const handleAddItem = () => {
+//     setItems([
+//       ...items,
+//       { title: "", description: "", rate: 0, qty: 1, tax: true }
+//     ]);
+//   };
+
+//   const handleInputChange = (index, field, value) => {
+//     const newItems = items.map((item, i) =>
+//       i === index ? { ...item, [field]: value } : item
+//     );
+//     setItems(newItems);
+//   };
+
+//   const handleFormSubmit = async (e) => {
+//     e.preventDefault();
+//     setLoading(true);
+
+//     try {
+//       // Capture the signature as a base64 image
+//       const signatureData = sigCanvas.current.toDataURL();
+
+//       const formData = new FormData(e.target);
+//       const invoiceData = {
+//         name: formData.get("name"),
+//         email: formData.get("email"),
+//         street1: formData.get("street1"),
+//         street2: formData.get("street2"),
+//         phone: formData.get("phone"),
+//         subject: formData.get("subject"),
+//         items,
+//         billNumber: formData.get("billNumber"),
+//         dateStart: formData.get("dateStart"),
+//         grandTotal,
+//         signature: signatureData // Include signature in the payload
+//       };
+
+//       const response = await fetch(
+//         "https://invoice-final-server.vercel.app/information",
+//         {
+//           method: "POST",
+//           headers: { "Content-Type": "application/json" },
+//           body: JSON.stringify(invoiceData)
+//         }
+//       );
+//       if (!response.ok) throw new Error("Network response was not ok");
+//       await response.json();
+//       navigate("/list");
+//     } catch (error) {
+//       console.error("Error submitting the invoice:", error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const clearSignature = () => {
+//     sigCanvas.current.clear();
+//   };
+
+//   return (
+//     <div className="p-10 bg-gray-100 min-h-screen">
+//       {loading ? (
+//         <div className="grid place-items-center h-screen">
+//           <LifeLine color="#65c949" size="medium" text="" textColor="" />
+//         </div>
+//       ) : (
+//         <form onSubmit={handleFormSubmit}>
+//           <div className="max-w-4xl mx-auto bg-white p-8 rounded shadow">
+//             <h1 className="text-3xl font-bold mb-6">Invoice</h1>
+
+//             {/* Form Fields */}
+//             <div>
+//               <label className="block font-medium">Company Name</label>
+//               <input
+//                 type="text"
+//                 name="name"
+//                 className="input input-bordered w-full mb-4"
+//                 placeholder="Company Name"
+//               />
+
+//               <label className="block font-medium">Email</label>
+//               <input
+//                 name="email"
+//                 type="email"
+//                 className="input input-bordered w-full mb-4"
+//                 placeholder="name@business.com"
+//               />
+
+//               <label className="block font-medium">Address</label>
+//               <input
+//                 type="text"
+//                 name="street1"
+//                 className="input input-bordered w-full mb-2"
+//                 placeholder="Street 1"
+//               />
+//               <input
+//                 type="text"
+//                 name="street2"
+//                 className="input input-bordered w-full mb-4"
+//                 placeholder="Street 2"
+//               />
+
+//               <label className="block font-medium">Phone</label>
+//               <input
+//                 type="text"
+//                 name="phone"
+//                 className="input input-bordered w-full mb-4"
+//                 placeholder="(123) 456-7890"
+//               />
+
+//               <label className="block font-medium">Subject</label>
+//               <input
+//                 type="text"
+//                 required
+//                 name="subject"
+//                 className="input input-bordered w-full mb-4"
+//                 placeholder="Enter your subject"
+//               />
+//             </div>
+
+//             {/* Items */}
+//             <h2 className="text-xl font-semibold mb-4">Items</h2>
+//             {items.map((item, index) => (
+//               <div
+//                 key={index}
+//                 className="flex items-center mb-4 gap-4 border p-4 rounded-md"
+//               >
+//                 <input
+//                   type="text"
+//                   placeholder="Title"
+//                   value={item.title}
+//                   onChange={(e) =>
+//                     handleInputChange(index, "title", e.target.value)
+//                   }
+//                   className="input input-bordered w-full"
+//                 />
+//                 <textarea
+//                   placeholder="Description"
+//                   value={item.description}
+//                   onChange={(e) =>
+//                     handleInputChange(index, "description", e.target.value)
+//                   }
+//                   className="input input-bordered w-full"
+//                 />
+//                 <input
+//                   type="number"
+//                   placeholder="Rate"
+//                   value={item.rate}
+//                   onChange={(e) =>
+//                     handleInputChange(index, "rate", parseFloat(e.target.value))
+//                   }
+//                   className="input input-bordered w-24"
+//                 />
+//                 <input
+//                   type="number"
+//                   placeholder="Qty"
+//                   value={item.qty}
+//                   onChange={(e) =>
+//                     handleInputChange(index, "qty", parseInt(e.target.value))
+//                   }
+//                   className="input input-bordered w-24"
+//                 />
+//                 <button
+//                   type="button"
+//                   onClick={() =>
+//                     setItems(items.filter((_, i) => i !== index))
+//                   }
+//                   className="text-red-500"
+//                 >
+//                   Remove
+//                 </button>
+//               </div>
+//             ))}
+//             <button
+//               type="button"
+//               onClick={handleAddItem}
+//               className="btn btn-primary mb-6"
+//             >
+//               Add Item
+//             </button>
+
+//             {/* Signature Canvas */}
+//             <div className="mb-6">
+//               <h2 className="font-medium mb-2">Signature</h2>
+//               <SignatureCanvas
+//                 ref={sigCanvas}
+//                 canvasProps={{
+//                   width: 500,
+//                   height: 200,
+//                   className: "border rounded-md"
+//                 }}
+//               />
+//               <button
+//                 type="button"
+//                 onClick={clearSignature}
+//                 className="btn btn-secondary mt-2"
+//               >
+//                 Clear
+//               </button>
+//             </div>
+
+//             {/* Submit */}
+//             <button type="submit" className="btn btn-primary">
+//               Submit Invoice
+//             </button>
+//           </div>
+//         </form>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default InvoiceForm;

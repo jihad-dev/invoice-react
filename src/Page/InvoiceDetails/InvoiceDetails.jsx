@@ -18,7 +18,7 @@ const InvoiceDetails = () => {
   const {
     _id,
     name,
-    billName,
+    title,
     billNumber,
     grandTotal,
     items,
@@ -182,7 +182,7 @@ const InvoiceDetails = () => {
             {items.map((item, idx) => (
               <tbody key={idx}>
                 <tr className="border-b ">
-                  <td className="py-3 px-5">{item?.description}</td>
+                  <td className="py-3 px-5">{item?.title}</td>
                   <td className="py-3 px-5">{item?.qty}</td>
                   <td className="py-3 px-5">{item?.rate}</td>
                   <td className="py-3 px-5">{item?.rate * item?.qty}</td>

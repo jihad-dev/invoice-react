@@ -16,9 +16,11 @@ const Preview = () => {
     phone,
     subject,
     email,
-    signature
+    signature,
+    title
   } = useLoaderData();
-console.log(signature)
+  const data = useLoaderData()
+console.log(data)
   const invoiceRef = useRef();
 
   // Calculate the subtotal
@@ -146,7 +148,7 @@ console.log(signature)
                     items?.map((item, idx) => (
                       <tr key={idx}>
                         <td className="px-4 py-2 border border-black">
-                          {item?.description}
+                          {item?.title}
                         </td>
                         <td className="px-4 py-2 border border-black">
                           {item?.qty}
