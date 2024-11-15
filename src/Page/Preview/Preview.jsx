@@ -16,15 +16,8 @@ const Preview = () => {
     phone,
     subject,
     email,
-<<<<<<< HEAD
     signature
   } = useLoaderData();
-  const data = useLoaderData();
-  console.log(data);
-=======
-  } = useLoaderData();
-  const data = useLoaderData();
->>>>>>> 4f0e184e35c2ad21bcca0e89098733676ff00acb
 
   const invoiceRef = useRef();
 
