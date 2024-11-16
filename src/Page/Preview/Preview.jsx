@@ -123,7 +123,9 @@ const Preview = () => {
               <h2 className="text-xl font-bold">Name: {name}</h2>
             </div>
             <div>
-            <p>Address: {street1},{street2}</p>
+              <p>
+                Address: {street1},{street2}
+              </p>
               <p>Email: {email}</p>
               <p>Tel: {phone}</p>
             </div>
@@ -217,13 +219,7 @@ const Preview = () => {
               </p>
               <p> IBAN: AE270030011353811820001, Bank: ADCB, Dubai, UAE</p>
             </div> */}
-            {/* <p className="mt-3 font-semibold">Thanks & Regards</p>
-            <div className="mt-7 mb-3">
-              <p>SPD Technical Works LLC </p>
-              <p>Md. Sazedur Rahman</p>
-              <p>+971-50-889 4701</p>
-              <p>E mail: info@spd-technical.com</p>
-            </div> */}
+
             <div className=" text-sm text-gray-600 space-y-4 flex">
               <div className="p-2 rounded-lg">
                 <ul className="space-y-2">
@@ -239,6 +235,12 @@ const Preview = () => {
                       <li>Account No: 11353811820001</li>
                       <li>IBAN: AE270030011353811820001</li>
                       <li>Bank: ADCB, Dubai, UAE</li>
+                      <p className="my-1 font-semibold">Thanks & Regards</p>
+                      <div className=" mb-2">
+                      
+                        <p>Md. Sazedur Rahman</p>
+                      
+                      </div>
                     </ul>
                   </li>
                 </ul>
@@ -250,7 +252,7 @@ const Preview = () => {
           </div>
           <center className="px-4 py-0.5 border border-black border-r-0 border-l-0">
             <p>
-              Mob: +971 50 889 4701+971 55 479 7551, Jabel Ali lndustrial First,
+              Mob: +971 50 889 4701, Jabel Ali lndustrial First,
               P.O.Box: 112037, Dubai - U.A.E E-mail: info@spd-technical.com,
               <a target="_blank" href="https://www.spd-technical.com/">
                 https://www.spd-technical.com/
