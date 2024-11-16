@@ -80,14 +80,11 @@ const InvoiceForm = () => {
         signature: signatureData // Include signature in the payload
       };
 
-      const response = await fetch(
-        "https://invoice-final-server.vercel.app/information",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(invoiceData)
-        }
-      );
+      const response = await fetch("http://localhost:5001/information", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(invoiceData)
+      });
       if (!response.ok) throw new Error("Network response was not ok");
       await response.json();
       navigate("/list");

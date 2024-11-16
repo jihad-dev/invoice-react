@@ -111,8 +111,8 @@ const Preview = () => {
               </p>
             </center>
           </div>
-          <div className="flex justify-between">
-            <div className="mt-1">
+          <div className="flex justify-between items-center">
+            <div className="">
               <p>
                 Invoice Number:
                 <span className="font-semibold">{billNumber}</span>
@@ -123,14 +123,13 @@ const Preview = () => {
               <h2 className="text-xl font-bold">Name: {name}</h2>
             </div>
             <div>
-              <p>Address: {street1}</p>
-              <p>g:{street2}</p>
+            <p>Address: {street1},{street2}</p>
               <p>Email: {email}</p>
               <p>Tel: {phone}</p>
             </div>
           </div>
-          <div className=" mb-3">
-            <p>
+          <div>
+            <p className="mb-2">
               Tax invoice for <span className="font-bold">{subject}</span>
             </p>
           </div>
@@ -280,5 +279,3 @@ const Preview = () => {
 };
 
 export default Preview;
-
-
