@@ -99,7 +99,7 @@ const InvoiceForm = () => {
     sigCanvas.current.clear();
   };
   return (
-    <div className="p-10 bg-gray-100 min-h-screen">
+    <div className="lg:p-10 bg-gray-100 min-h-screen">
       {loading ? (
         <div className="grid place-items-center h-screen">
           <LifeLine color="#65c949" size="medium" text="" textColor="" />
@@ -171,7 +171,7 @@ const InvoiceForm = () => {
             </div>
 
             <div>
-              <div className="p-10 rounded-md">
+              <div className=" rounded-md">
                 <div className="mb-4">
                   <label className="block text-gray-700 font-medium mb-1">
                     Invoice Number
@@ -306,14 +306,22 @@ const InvoiceForm = () => {
             {/* Signature Canvas */}
             <div className="mb-6">
               <h2 className="font-medium mb-2">Signature</h2>
-              <SignatureCanvas
+              {/* <SignatureCanvas
                 ref={sigCanvas}
                 canvasProps={{
-                  width: 500,
+                  width: 250,
                   height: 200,
                   className: "border rounded-md"
                 }}
+              /> */}
+              <SignatureCanvas
+                ref={sigCanvas}
+                canvasProps={{
+                  className:
+                    "border rounded-md w-full h-[200px] max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg aspect-[5/4]"
+                }}
               />
+
               <button
                 type="button"
                 onClick={clearSignature}
